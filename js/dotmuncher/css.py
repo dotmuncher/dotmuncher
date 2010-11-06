@@ -88,15 +88,24 @@ CSS = '''
     left: 0px;
     width: 100%;
     height: 100%;
+    display: none;
+    z-index: 20;
+}
+.MapDefiner_overlay_lightbox_CSS {
+    width: 100%;
+    height: 100%;
     
     background: black;
     opacity: 0.2;
     filter: alpha(opacity=20);
     -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=20);
-    
-    display: none;
-    z-index: 20;
 }
-
+.MapDefiner_overlay_dot_CSS {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: red;
+    z-index: 30;
+}
 
 '''
