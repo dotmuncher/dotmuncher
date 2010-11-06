@@ -1,6 +1,7 @@
 .DS_Store
 *.pyc
-*/bin/*
+android/test/bin/*
+android/test/gen/*
 *.class
 *~
 .*
