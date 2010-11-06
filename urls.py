@@ -21,14 +21,22 @@ urlpatterns = patterns('dotmuncher.views',
 )
 
 urlpatterns += patterns('dotmuncher.views_api',
-    url(r'/api/v0/submit-and-get-events\.json$',
+    url(r'^api/v0/debug\.json$',
+                'api_debug', name='api_debug'),
+    url(r'^api/v0/submit-and-get-events\.json$',
                 'api_events', name='api_events'),
 )
 
 
-#### Mocks (for dev mode)
-if settings.DEBUG:
+
+
+#### Dev views
+#if settings.DEBUG:
+if True:#TEMP
     urlpatterns += patterns('dotmuncher.views_dev',
+        
+        url(r'^dev/events/$', 'dev_events', name='dev_events'),
+        
         url(r'^all-mocks/$', 'all_mocks', name='all_mocks'),
         url(r'^mock/(.+)$', 'mock', name='mock'),
     )
@@ -41,7 +49,7 @@ if settings.DEBUG:
             {
               'main': 'dotmuncher.main',
               'jsPrefix': '''
-                            var G = window.dotmuncher;
+                            var G = {};
                             var EXTERNAL_MOUNT = "dotmuncher";'''},
             name='dotmuncher_js'),
     )

@@ -1,6 +1,19 @@
 
 from a_app.decorators import view
 
+from dotmuncher.models import Event
+
+
+@view('dotmuncher/dev/dev_events.html')
+def dev_events(r):
+    
+    events = (Event.objects
+                    .order_by('-id'))[:20]
+    
+    return {
+        'events': events,
+    }
+
 
 
 @view('dotmuncher/dev/all_mocks.html')
