@@ -1,0 +1,24 @@
+<html>
+<head>
+    <style type="text/css">
+        
+        .name {
+            font-weight: bold;
+        }
+        .value {
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <table>
+        {% for e in events %}
+            <tr>
+                <td class="name">{{ e.name }}</td>
+                <td class="value">{{ e.eventJson }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
