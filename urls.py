@@ -4,8 +4,10 @@ from django.conf import settings
 
 
 #### Pages
+
 handler404 = "dotmuncher.views.handler404"
 handler500 = "dotmuncher.views.handler500"
+
 urlpatterns = patterns('dotmuncher.views',
     
     url(r'^$', 'index', name='index'),
@@ -16,6 +18,11 @@ urlpatterns = patterns('dotmuncher.views',
     url(r'^define-map/$', 'define_map', name='define_map'),
     
     url(r'^game/$', 'game', name='game'),
+)
+
+urlpatterns += patterns('dotmuncher.views_api',
+    url(r'/api/v0/submit-and-get-events\.json$',
+                'api_events', name='api_events'),
 )
 
 
