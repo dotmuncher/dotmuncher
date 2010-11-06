@@ -14,9 +14,10 @@ POSITION_EVENT = 1
 }]
 
 
-POST /api/v0/submit-and-get-events.json
+GET /api/v0/submit-and-get-events.json?json=(...)
     
-    POST: json = {
+    Input
+    {
         "i__gte": 0, // request events with id >= this
         "events": [
             [

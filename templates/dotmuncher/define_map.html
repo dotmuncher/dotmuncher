@@ -1,16 +1,53 @@
 {% extends "dotmuncher/base.html" %}
 {% block title %}TODO title{% endblock %}
 {% block head %}
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.1&amp;sensor=false"></script>
+
+<script type="text/javascript" src="{% url dotmuncher_js %}"></script>
+
+<script type="text/javascript">
+    
+    var $ = function(s) {
+        return document.getElementById(s);
+    }
+    
+    var init = function() {
+        
+        dotmuncher.init();
+        
+        createMap();
+        
+        new dotmuncher.MapDefiner(
+                            $('toolbar_container'),
+                            $('overlay_container'));
+        
+    }
+    
+    var createMap = function() {
+        var latlng = new google.maps.LatLng(40.730958,-73.997008);
+        var myOptions = {
+          zoom: 16,
+          center: latlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("mapcanvas"),
+            myOptions);
+        dotmuncher.map = map;
+    }
+    
+</script>
 <style type="text/css">
-    
-    
     
 </style>
 {% endblock %}
+{% block onload %} onload="init();"{% endblock %}
 {% block content %}
-
-
-<h2>TODO define_map</h2>
+    
+    <div id="toolbar_container"></div>
+    <div id="overlay_container">
+        <div id="mapcanvas"></div>
+    </div>
 
 
 {% endblock %}
