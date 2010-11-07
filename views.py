@@ -1,6 +1,8 @@
 
 from a_app.decorators import view
 
+from dotmuncher.models import Map
+
 
 @view('dotmuncher/404.html')
 def handler404(r):
@@ -34,6 +36,19 @@ def games(r):
 def define_map(r):
     pass
 
+
+@view('dotmuncher/map.html')
+def map(r):
+    
+    if 'id' not in r.GET:
+        return HttpResponse('Invalid URL')#HANDLE
+    token = r.GET['id']
+    
+    map = Map.objects.get(token=token)
+    
+    return {
+        'map': map,
+    }
 
 
 @view('dotmuncher/game.html')

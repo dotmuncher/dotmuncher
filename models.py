@@ -47,7 +47,18 @@ class Map(models.Model):
     
     @property
     def info(self):
-        return json.loads(self.infoJson)
+        return json.loads(self.infoJson) if self.infoJson else {}
+    
+    @classmethod
+    def create(cls):
+        m = cls(
+                token=randomToken(8),
+                createdAtUtc=datetime.datetime.utcnow(),
+                infoJson=json.dumps({
+                    'points': [],
+                }))
+        m.save()
+        return m
 
 
 class Game(models.Model):
@@ -64,7 +75,7 @@ class Game(models.Model):
     
     @property
     def info(self):
-        return json.loads(self.infoJson)
+        return json.loads(self.infoJson) if self.infoJson else {}
 
 
 class Event(models.Model):
