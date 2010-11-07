@@ -181,7 +181,7 @@ def api_join_game(r):
 def api_submit_and_get_events(r):
     
     info = json.loads(r.REQUEST['json'])
-    i__gte = json.loads(r.REQUEST['i__gte'])
+    i__gte = json.loads(info['i__gte'])
     
     gameId = info.get('game', None)
     
