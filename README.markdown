@@ -83,6 +83,7 @@
 
 <pre>{
     "events": [...],
+    "min_i": int id of last event in events. (-1 if events == [])
     "max_i": int id of last event in events. (-1 if events == [])
 }</pre>
 
