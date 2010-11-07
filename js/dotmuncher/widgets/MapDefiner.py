@@ -9,6 +9,8 @@ from core.json import json_encode
 
 from dotmuncher.widgets.Button import Button
 
+from dotmuncher.misc import GMOverlayViewSubclass
+
 
 MAPDENIFER_SAMPLE_MINDIST = 5
 MD_MAX_BATCH_SIZE = 120
@@ -67,16 +69,6 @@ class MapSaver:
         else:
             self._completionCallback(mapToken)
 
-
-
-def GMOverlayViewSubclass(map):
-    self.setMap(map)
-    self.set('visible', False)
-
-GMOverlayViewSubclass.prototype = google.maps.OverlayView()
-GMOverlayViewSubclass.prototype.onAdd = lambda: None
-GMOverlayViewSubclass.prototype.draw = lambda: None
-GMOverlayViewSubclass.prototype.onRemove = lambda: None
 
 class MapDefinerOverlay(Element):
     
