@@ -49,9 +49,23 @@
 }</pre>
 
 <pre>{
+    "game": int id,
+    "mapInfo": {
+        "pathPoints": [["...lat...", "...lng..."], ...],
+        "basePoints": [...],
+        "dotPoints": [...],
+        "powerPelletPoints": [...],
+    },
+}</pre>
+
+### join_game
+<pre>{
     "game": int id
 }</pre>
 
+<pre>{
+    "mapInfo": ...see new_game...
+}</pre>
 
 ### submit\_and\_get\_events
 
@@ -94,4 +108,26 @@ Each phone sends this repeatedly.
     
     "lat": string
     "lng": string
+    
+    "hacc": number, in meters
+    "vacc": number, in meters
+}]</pre>
+
+### POWER\_PELLET\_EVENT
+
+<pre>[3, {
+    "active": boolean
+}]</pre>
+
+### COLLISION_EVENT
+
+<pre>[4, {
+    "eater": int phone id,
+    "eatee": int phone id,
+}]</pre>
+
+### DOT\_EATEN\_EVENT
+
+<pre>[5, {
+    "point": ["...lat...", "...lng..."]
 }]</pre>
