@@ -46,6 +46,14 @@ class Phone(models.Model):
         return m
 
 
+BLANK_MAP_INFO = {
+    "pathPoints": [],
+    "basePoints": [],
+    "dotPoints": [],
+    "powerPelletPoints": [],
+}
+
+
 class Map(models.Model):
     
     class Meta:
@@ -64,16 +72,16 @@ class Map(models.Model):
     
     @property
     def info(self):
-        return json.loads(self.infoJson) if self.infoJson else {}
+        info = copy.deepcopy(BLANK_MAP_INFO)
+        info.update(json.loads(self.infoJson) if self.infoJson else {})
+        return info
     
     @classmethod
     def create(cls):
         m = cls(
                 token=randomToken(8),
                 createdAtUtc=datetime.datetime.utcnow(),
-                infoJson=json.dumps({
-                    'points': [],
-                }))
+                infoJson=json.dumps(BLANK_MAP_INFO))
         m.save()
         return m
 

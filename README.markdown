@@ -115,11 +115,15 @@ Each phone sends this repeatedly.
 
 ### POWER\_PELLET\_EVENT
 
+Sent by server.
+
 <pre>[3, {
     "active": boolean
 }]</pre>
 
 ### COLLISION_EVENT
+
+Sent by server.
 
 <pre>[4, {
     "eater": int phone id,
@@ -127,6 +131,8 @@ Each phone sends this repeatedly.
 }]</pre>
 
 ### DOT\_EATEN\_EVENT
+
+Sent by server.
 
 <pre>[5, {
     "point": ["...lat...", "...lng..."]

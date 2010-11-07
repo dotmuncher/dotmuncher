@@ -113,6 +113,22 @@ def api_new_game(r):
     return {
         'game': game.id,
         'gameToken': game.token,
+        'mapInfo': map.info,
+    }
+
+
+@jsonView()
+@logRequest('new_game')
+def api_join_game(r):
+    
+    info = json.loads(r.REQUEST['json'])
+    
+    game = Game.objects.get(id=info['game'])
+    
+    return {
+        'game': game.id,
+        'gameToken': game.token,
+        'mapInfo': game.map.info,
     }
 
 
@@ -158,16 +174,21 @@ def api_map_add_points(r):
     newInfo = json.loads(r.REQUEST['json'])
     
     # Validate points:
-    for ll in newInfo['points']:
-        assert isinstance(ll, basestring)
-        (lat, lng) = ll.split(',')
-        float(lat)
-        float(lng)
+    for k in newInfo.keys():
+        if k.endswith('Points'):
+            for ll in newInfo[k]:
+                assert isinstance(ll, basestring)
+                (lat, lng) = ll.split(',')
+                float(lat)
+                float(lng)
     
     map = Map.objects.get(token=newInfo['token'])
     
     mapInfo = map.info
-    mapInfo['points'] += [ll.split(',') for ll in newInfo['points']]
+    
+    for k in newInfo.keys():
+        if k.endswith('Points'):
+            mapInfo[k] += [ll.split(',') for ll in newInfo[k]]
     map.infoJson = json.dumps(mapInfo)
     
     if newInfo.get('done'):
