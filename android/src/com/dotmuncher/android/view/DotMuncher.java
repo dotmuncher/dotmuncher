@@ -69,6 +69,9 @@ import javax.microedition.khronos.opengles.GL;
  */
 public class DotMuncher extends MapActivity {
 
+	private DMEventControler dmEventControler;
+    private DMAppControler dmAppControler; // DMAppControler
+    
     private LocationManager lm;
     private LocationListener locationListener;
     
@@ -77,8 +80,6 @@ public class DotMuncher extends MapActivity {
     private RotateView mRotateView;
     private MapView mMapView;
     private MyLocationOverlay mMyLocationOverlay;
-
-    private DMAppControler dmc; // DMAppControler
     
     private class RotateView extends ViewGroup implements SensorListener {
         private static final float SQ2 = 1.414213562373095f;
@@ -170,9 +171,9 @@ public class DotMuncher extends MapActivity {
         mMapView.setEnabled(true);
         
         
-        // GSON TwitterTrends        
-        DMEventControler sm = new DMEventControler();
-        sm.submit_and_get_events();
+        // Init        
+        dmEventControler = new DMEventControler();
+        dmEventControler.submit_and_get_events();
         
 		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
 		
@@ -186,11 +187,12 @@ public class DotMuncher extends MapActivity {
 	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
 	    String deviceId = deviceUuid.toString();
 	    
-	    dmc = new DMAppControler(deviceId);
+	    dmAppControler = new DMAppControler(deviceId);
 	    
 	    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
         //---use the LocationManager class to obtain GPS locations---
-        lm = (LocationManager) 
+        /*
+	    lm = (LocationManager) 
             getSystemService(Context.LOCATION_SERVICE);    
         
         locationListener = new MyLocationListener();
@@ -199,7 +201,9 @@ public class DotMuncher extends MapActivity {
             LocationManager.GPS_PROVIDER, 
             0, 
             0, 
-            locationListener);     
+            locationListener);
+            
+                 */
     }
 
     @Override
@@ -604,6 +608,8 @@ public class DotMuncher extends MapActivity {
     {
         @Override
         public void onLocationChanged(Location loc) {
+        	dmEventControler.submit_and_get_events();
+        	
             if (loc != null) {
                 Toast.makeText(getBaseContext(), 
                     "Location changed : Lat: " + loc.getLatitude() + 
