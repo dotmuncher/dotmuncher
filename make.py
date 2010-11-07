@@ -25,7 +25,7 @@ def main():
         
         js = pj.api.closureCompile(js, 'simple')
         
-        js = gordian_minifier.minify(js)
+        #js = gordian_minifier.minify(js)
         
         destPath = '%s/%s' % (destDir, filename)
         with open(destPath, 'wb') as f:

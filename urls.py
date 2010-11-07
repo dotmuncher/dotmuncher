@@ -54,16 +54,16 @@ if True:#TEMP
 
 
 #### JavaScript (for dev mode)
-if settings.DEVMODE:
-    urlpatterns += patterns('pj.django',
-        url(r'^static/js/dotmuncher\.js', 'jsView',
-            {
-              'main': 'dotmuncher.main',
-              'jsPrefix': '''
-                            var G = {};
-                            var EXTERNAL_MOUNT = "dotmuncher";'''},
-            name='dotmuncher_js'),
-    )
+# Assumes your deployment system will never let /static/* reach Django
+urlpatterns += patterns('pj.django',
+    url(r'^static/js/dotmuncher\.js', 'jsView',
+        {
+          'main': 'dotmuncher.main',
+          'jsPrefix': '''
+                        var G = {};
+                        var EXTERNAL_MOUNT = "dotmuncher";'''},
+        name='dotmuncher_js'),
+)
 
 
 #### /static/ (for dev mode)
