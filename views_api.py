@@ -42,7 +42,7 @@ def logRequest(callName):
             
         return f2
     return outer
-
+    
     
     callName = models.CharField(max_length=100, null=True)
     callJson = models.CharField(max_length=15000, null=True)
@@ -61,7 +61,12 @@ def api_find_games(r):
     
     phone = Phone.forToken(phoneToken)
     
-    items = []#TODO
+    items = []
+    for game in (Game.objects
+                        .order_by('-id'))[:25]:
+        items.append({
+            'id': game.id,
+        })
     
     return {
         'phoneId': phone.id,
@@ -80,7 +85,12 @@ def api_find_maps(r):
     
     phone = Phone.forToken(phoneToken)
     
-    items = []#TODO
+    items = []
+    for game in (Map.objects
+                        .order_by('-id'))[:25]:
+        items.append({
+            'id': game.id,
+        })
     
     return {
         'phoneId': phone.id,
