@@ -191,7 +191,7 @@ public class DotMuncher extends MapActivity {
 	    
 	    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
         //---use the LocationManager class to obtain GPS locations---
-        /*
+
 	    lm = (LocationManager) 
             getSystemService(Context.LOCATION_SERVICE);    
         
@@ -203,7 +203,6 @@ public class DotMuncher extends MapActivity {
             0, 
             locationListener);
             
-                 */
     }
 
     @Override
