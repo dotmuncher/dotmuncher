@@ -56,9 +56,9 @@ public class DMServiceManager {
 	
 	public void submit_and_get_events(){
         try{
-        Log.i("MY INFO", "Json Parser started.. submit-and-get-events");
+        Log.i("MY INFO", "Json Parser started.. submit_and_get_events");
         Gson gson = new Gson();
-        Reader r = new InputStreamReader(getJSONData("/submit-and-get-events.json"));
+        Reader r = new InputStreamReader(getJSONData("/submit_and_get_events.json"));
         //Reader r = new InputStreamReader(getJSONData("/trends.json"));
         Log.i("MY INFO", r.toString());
         DMEvents objs = gson.fromJson(r, DMEvents.class);

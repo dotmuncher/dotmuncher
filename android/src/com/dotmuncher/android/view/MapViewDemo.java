@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dotmuncher.android.apis.view;
+package com.dotmuncher.android.view;
 
 import com.example.android.google.apis.R;
 import com.google.android.maps.MapActivity;

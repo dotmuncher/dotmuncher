@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package com.dotmuncher.android.apis.view;
+package com.dotmuncher.android.view;
 
+import java.util.UUID;
+
+import com.dotmuncher.android.controler.DMControler;
 import com.dotmuncher.android.events.*;
 
 import com.google.android.maps.MapActivity;
@@ -37,6 +40,7 @@ import android.graphics.Region;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,26 +50,28 @@ import javax.microedition.khronos.opengles.GL;
 /**
  * Example of how to use an {@link com.google.android.maps.MapView}
  * in conjunction with the {@link com.hardware.SensorManager}
- * <h3>MapViewCompassDemo</h3>
+ * <h3>DotMuncher</h3>
 
 <p>This demonstrates creating a Map based Activity.</p>
 
 <h4>Source files</h4>
  * <table class="LinkTable">
  *         <tr>
- *             <td >src/com.dotmuncher.android.apis/view/MapViewCompassDemo.java</td>
+ *             <td >src/com.dotmuncher.android.apis/view/DotMuncher.java</td>
  *             <td >The Alert Dialog Samples implementation</td>
  *         </tr>
  * </table>
  */
-public class MapViewCompassDemo extends MapActivity {
+public class DotMuncher extends MapActivity {
 
-    private static final String TAG = "MapViewCompassDemo";
+    private static final String TAG = "DotMuncher";
     private SensorManager mSensorManager;
     private RotateView mRotateView;
     private MapView mMapView;
     private MyLocationOverlay mMyLocationOverlay;
 
+    private DMControler dmc; // DMControler
+    
     private class RotateView extends ViewGroup implements SensorListener {
         private static final float SQ2 = 1.414213562373095f;
         private final SmoothCanvas mCanvas = new SmoothCanvas();
@@ -159,6 +165,20 @@ public class MapViewCompassDemo extends MapActivity {
         // GSON TwitterTrends        
         DMServiceManager sm = new DMServiceManager();
         sm.submit_and_get_events();
+        
+		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
+		
+	    final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+	
+	    final String tmDevice, tmSerial, tmPhone, androidId;
+	    tmDevice = "" + tm.getDeviceId();
+	    tmSerial = "" + tm.getSimSerialNumber();
+	    androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+	
+	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+	    String deviceId = deviceUuid.toString();
+	    
+	    dmc = new DMControler(deviceId);
     }
 
     @Override

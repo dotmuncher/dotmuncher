@@ -41,14 +41,14 @@
         <!--      VIEW/WIDGET PACKAGE SAMPLES      -->
         <!-- ************************************* -->
 
-        <activity android:name="com.dotmuncher.android.apis.view.MapViewDemo" android:label="MapView">
+        <activity android:name="com.dotmuncher.android.view.MapViewDemo" android:label="MapView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.dotmuncher.android.apis.view.MapViewCompassDemo" android:label="MapView and Compass">
+        <activity android:name="com.dotmuncher.android.view.DotMuncher" android:label="DotMuncher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
