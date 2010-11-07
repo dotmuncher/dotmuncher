@@ -1,3 +1,4 @@
+// http://www.softwarepassion.com/android-series-parsing-json-data-with-gson/
 package com.dotmuncher.android.events;
 import java.util.Date;
 import java.util.List;

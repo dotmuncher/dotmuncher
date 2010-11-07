@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 
-public class Event {
+public class DMEvent {
 
 	public InputStream getJSONData(String url){
         DefaultHttpClient httpClient = new DefaultHttpClient();

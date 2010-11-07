@@ -16,6 +16,8 @@
 
 package com.dotmuncher.android.apis.view;
 
+import com.dotmuncher.android.events.*;
+
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
@@ -154,7 +156,9 @@ public class MapViewCompassDemo extends MapActivity {
         mMapView.setEnabled(true);
         
         
-        //
+        //        
+        DMEvent e = new DMEvent();
+        e.runJSONParser();
     }
 
     @Override

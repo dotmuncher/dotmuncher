@@ -1,3 +1,5 @@
+//http://www.softwarepassion.com/android-series-parsing-json-data-with-gson/
+
 package com.dotmuncher.android.events;
 public class TwitterTrend {
     private String name;
