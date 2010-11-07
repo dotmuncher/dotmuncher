@@ -14,6 +14,7 @@ import com.dotmuncher.android.events.DMGame;
 import com.dotmuncher.android.events.DMGames;
 import com.dotmuncher.android.events.DMMap;
 import com.dotmuncher.android.events.DMMaps;
+import com.dotmuncher.android.events.DMSubmit;
 import com.dotmuncher.android.events.TwitterTrend;
 import com.dotmuncher.android.events.TwitterTrends;
 import com.google.gson.Gson;
@@ -29,15 +30,15 @@ import java.io.Reader;
 import java.net.URI;
 
 public class DMEventControler {
-	private String server_root_url = "http://urban.pyxc.org/api/v0";
-	//private String server_root_url = "http://search.twitter.com";
+	private String host = "urban.pyxc.org";
+	//private String host = "http://search.twitter.com";
 	
 	public void find_maps(){
         try{
         Log.i("MY INFO", "Json Parser started.. find_maps");
         Gson gson = new Gson();
         //gson.toJson(maps);
-        Reader r = new InputStreamReader(getJSONData("/find_maps.json"));
+        Reader r = new InputStreamReader(getJSONData("/api/v0/find_maps.json",""));
         Log.i("MY INFO", r.toString());
         DMMaps objs = gson.fromJson(r, DMMaps.class);
         Log.i("MY INFO", ""+objs.getMaps().size());
@@ -54,7 +55,7 @@ public class DMEventControler {
         Log.i("MY INFO", "Json Parser started.. find_games");
         Gson gson = new Gson();
         //gson.toJson(games);
-        Reader r = new InputStreamReader(getJSONData("/find_games.json"));
+        Reader r = new InputStreamReader(getJSONData("/api/v0/find_games.json",""));
         Log.i("MY INFO", r.toString());
         DMGames objs = gson.fromJson(r, DMGames.class);
         Log.i("MY INFO", ""+objs.getGames().size());
@@ -71,19 +72,20 @@ public class DMEventControler {
         Log.i("MY INFO", "Json Parser started.. submit_and_get_events");
         Gson gson = new Gson();
         
-        InputStream instream = getJSONData("/submit_and_get_events.json");
+        DMSubmit s = new DMSubmit();
+        String request = gson.toJson(s); 
+        
+        //String request = '{"game":1,"i__gte":4,"events":[]}';
+        InputStream instream = getJSONData( "/api/v0/submit_and_get_events.json","json=" + request);
+        
         String result= convertStreamToString(instream);
         
         // A Simple JSONObject Creation
         JSONObject json=new JSONObject(result);
         JSONArray json_events_array = json.getJSONArray("events");
         
-        /*
-        Log.i("MY INFO", ""+objs.getEvents().size());
-        for(DMEvent e : objs.getEvents()){
-            Log.i("EVENT", e.getLat() + " - " + e.getLgn());
-        }
-        */
+        int min_i = json.getInt ("min_i");
+        int max_i = json.getInt ("max_i");
         
         }catch(Exception ex){
             ex.printStackTrace();
@@ -119,12 +121,12 @@ public class DMEventControler {
     }
 
 	// http://www.softwarepassion.com/android-series-parsing-json-data-with-gson/
-	public InputStream getJSONData(String url){
+	public InputStream getJSONData(String path, String query){
         DefaultHttpClient httpClient = new DefaultHttpClient();
         java.net.URI uri;
         InputStream data = null;
         try {
-            uri = new URI(server_root_url + url);
+            uri = new URI("http", "", host, 80, path, query, "");
             HttpGet method = new HttpGet(uri);
             HttpResponse response = httpClient.execute(method);
             data = response.getEntity().getContent();
@@ -134,7 +136,7 @@ public class DMEventControler {
        
         return data;
     }
-	
+	/*
 	public void runJSONParser(){
         try{
         Log.i("MY INFO", "Json Parser started..");
@@ -150,4 +152,5 @@ public class DMEventControler {
             ex.printStackTrace();
         }
     }
+    */
 }
