@@ -70,6 +70,7 @@
 ### submit\_and\_get\_events
 
 <pre>{
+    "game": int id,
     "i__gte": int, // request events with id >= this
     "events": [
         [
