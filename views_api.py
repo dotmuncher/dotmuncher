@@ -432,5 +432,6 @@ def _handlePossiblePowerModeExpiration(gameId):
                         'active': False,
                     }))
             e.save()
+            v = redisConn.delete('g-powerModeUntil:%d' % gameId)
 
 
