@@ -9,7 +9,7 @@ from base64 import b64encode, b64decode
 
 from util.random import randomToken
 
-from dotmuncher.util import invertedDict
+from dotmuncher.dm_util import invertedDict
 
 
 TABLE_PREFIX = 'dotmuncher_'
