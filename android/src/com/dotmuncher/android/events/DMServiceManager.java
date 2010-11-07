@@ -16,13 +16,47 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 
-public class DMEventManager {
+public class DMServiceManager {
 	private String server_root_url = "http://urban.pyxc.org/api/v0";
 	//private String server_root_url = "http://search.twitter.com";
-		
-	public void sage(){
+	
+	public void find_maps(){
         try{
-        Log.i("MY INFO", "sage Json Parser started..");
+        Log.i("MY INFO", "Json Parser started.. find_maps");
+        Gson gson = new Gson();
+        //gson.toJson(maps);
+        Reader r = new InputStreamReader(getJSONData("/find_maps.json"));
+        Log.i("MY INFO", r.toString());
+        DMMaps objs = gson.fromJson(r, DMMaps.class);
+        Log.i("MY INFO", ""+objs.getMaps().size());
+        for(DMMap m : objs.getMaps()){
+            Log.i("MAP", m.getId());
+        }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+	public void find_games(){
+        try{
+        Log.i("MY INFO", "Json Parser started.. find_games");
+        Gson gson = new Gson();
+        //gson.toJson(games);
+        Reader r = new InputStreamReader(getJSONData("/find_games.json"));
+        Log.i("MY INFO", r.toString());
+        DMGames objs = gson.fromJson(r, DMGames.class);
+        Log.i("MY INFO", ""+objs.getGames().size());
+        for(DMGame g : objs.getGames()){
+            Log.i("GAME", g.getId());
+        }
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+    }
+	
+	public void submit_and_get_events(){
+        try{
+        Log.i("MY INFO", "Json Parser started.. submit-and-get-events");
         Gson gson = new Gson();
         Reader r = new InputStreamReader(getJSONData("/submit-and-get-events.json"));
         //Reader r = new InputStreamReader(getJSONData("/trends.json"));
@@ -30,7 +64,7 @@ public class DMEventManager {
         DMEvents objs = gson.fromJson(r, DMEvents.class);
         Log.i("MY INFO", ""+objs.getEvents().size());
         for(DMEvent e : objs.getEvents()){
-            Log.i("TRENDS", e.getLat() + " - " + e.getLgn());
+            Log.i("EVENT", e.getLat() + " - " + e.getLgn());
         }
         }catch(Exception ex){
             ex.printStackTrace();
