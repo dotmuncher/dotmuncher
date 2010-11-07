@@ -138,20 +138,42 @@ def api_submit_and_get_events(r):
     
     info = json.loads(r.REQUEST['json'])
     
+    gameId = info.get('game', None)
+    
     # Save events
     for eventType, eventInfo in info['events']:
+        
         e = Event(
+            gameId=gameId or -1,
             eventType=eventType,
             eventJson=json.dumps(eventInfo))
         e.save()
+        
+        #TODO event implications
     
     #### Get events
     
-    #TODO
+    events = []
+    min_i = -1
+    max_i = -1
+    
+    ids = []
+    
+    if gameId:
+        for e in (Event.objects
+                            .filter(gameId=gameId)):
+            events.append([
+                e.eventType,
+                json.loads(e.eventJson),
+            ])
+            ids.append(e.id)
+    
+    #TODO: remove extra position_events
     
     return {
-        'events': [],
-        'max_i': -1,
+        'events': events,
+        'min_i': min(ids) if len(ids) > 0 else -1,
+        'max_i': max(ids) if len(ids) > 0 else -1,
     }
 
 
