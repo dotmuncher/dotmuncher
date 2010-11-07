@@ -2,10 +2,10 @@ package com.dotmuncher.android.events;
 
 
 public class DMEvent {	
-	private String lat = "-lat";
-	private String lgn = "-lgn";
-	private String phone = "-phone";
-	private String game = "-game";
+	private String lat;
+	private String lgn;
+	private String phone;
+	private String game;
 	
 	public String getLat() {
 		return lat;

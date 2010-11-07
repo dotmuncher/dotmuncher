@@ -157,8 +157,8 @@ public class MapViewCompassDemo extends MapActivity {
         
         
         // GSON TwitterTrends        
-        DMEventManager em = new DMEventManager();
-        em.sage();
+        DMServiceManager sm = new DMServiceManager();
+        sm.submit_and_get_events();
     }
 
     @Override
