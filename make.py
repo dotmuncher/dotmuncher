@@ -5,11 +5,7 @@ from subprocess import check_call
 
 import pj.api
 
-#LATER: generalize
-sys.path.append('/Users/a/repos/gordian-minifier')
-import gordian_minifier
-
-from util.slurp import simpleGet
+from dotmuncher.dm_util import simpleGet
 
 
 def main():
@@ -23,8 +19,11 @@ def main():
         
         js = simpleGet('http://localhost:8000/static/js/dotmuncher.js')
         
-        js = pj.api.closureCompile(js, 'simple')
+        #js = pj.api.closureCompile(js, 'simple')
+        #js = pj.api.closureCompile(js, 'pretty')
         
+        #sys.path.append('TODO/gordian-minifier')
+        #import gordian_minifier
         #js = gordian_minifier.minify(js)
         
         destPath = '%s/%s' % (destDir, filename)

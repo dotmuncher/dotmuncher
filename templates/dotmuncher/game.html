@@ -20,6 +20,7 @@
         createMap();
         
         new dotmuncher.GameViewer(
+                            {{ game.id }},
                             $('game_toolbar_container'),
                             $('game_overlay_container'),
                             {{ map.infoJson|safe }});
