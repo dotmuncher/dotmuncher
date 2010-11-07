@@ -141,9 +141,6 @@ def api_new_game(r):
     
     redisConn.set('demomagic_gameId', str(game.id))
     
-    until = int(time.time() * 1000) + POWER_MODE_DURATION_MS
-    redisConn.set('g-powerModeUntil:%d' % game.id, str(until))
-    
     mapInfo = map.info
     
     for prefix, lls in (
@@ -190,10 +187,11 @@ def api_join_game(r):
 def api_submit_and_get_events(r):
     
     info = json.loads(r.REQUEST['json'])
-    i__gte = info['i__gte']
+    i__gte = int(info['i__gte'])
+    gameId = int(info['game'])
     
     # See if power mode has expired
-    # TODO
+    _handlePossiblePowerModeExpiration(gameId)
     
     # Save events
     for eventType, eventInfo in info['events']:
@@ -208,11 +206,11 @@ def api_submit_and_get_events(r):
         e.save()
         
         
-        if eventType == EVENTNAME_EVENTNUM_MAP['OHHAI_EVENT']:
+        if eventType == TYPENAME_TYPENUM_MAP['OHHAI_EVENT']:
             # The first kitteh to say hai can be teh protagonist
             redisConn.setnx('g-protagonistPhone:%d' % gameId, str(phoneId))
         
-        elif eventType == EVENTNAME_EVENTNUM_MAP['POSITION_EVENT']:
+        elif eventType == TYPENAME_TYPENUM_MAP['POSITION_EVENT']:
             
             latKey = 'gp-lat:%d' % eventInfo['game']
             lngKey = 'gp-lng:%d' % eventInfo['game']
@@ -231,14 +229,19 @@ def api_submit_and_get_events(r):
             
             matches = latMatches & lngMatches
             
-            for member in matches:
-                f = {
-                    'u': _handleCollisionWithPhone,
-                    'd': _handleCollisionWithDot,
-                    'p': _handleCollisionWithPowerPellet,
-                }.get(member[0])
-                if f:
-                    f(gameId, phoneId, member[1:])
+            if len(matches) > 0:
+                v = redisConn.get('g-protagonistPhone:%d' % gameId)
+                # Has an OHHAI_EVENT been processed yet?
+                if v:
+                    protagonistPhone = int(v)
+                    for member in matches:
+                        f = {
+                            'u': _handleCollisionWithPhone,
+                            'd': _handleCollisionWithDot,
+                            'p': _handleCollisionWithPowerPellet,
+                        }.get(member[0])
+                        if f:
+                            f(gameId, phoneId, member[1:])
             
             # Update this phone's position
             redisConn.zadd(
@@ -260,7 +263,7 @@ def api_submit_and_get_events(r):
     
     for e in (Event.objects
                         .filter(
-                            gameId=gameId,
+                            gameId=int(info['game']),
                             id__gte=i__gte)):
         events.append([
             e.eventType,
@@ -275,7 +278,6 @@ def api_submit_and_get_events(r):
         'min_i': min(ids) if len(ids) > 0 else -1,
         'max_i': max(ids) if len(ids) > 0 else -1,
     }
-
 
 
 @jsonView()
@@ -366,51 +368,72 @@ def api_temp(r):
 
 
 
-def _handleCollisionWithPhone(gameId, phoneId, data):
-    return#TEMP
+def _handleCollisionWithPhone(gameId, phoneId, data, protagonistPhone):
     phoneIdOfMatch = int(data)
-    # Are the phones distinct?
-    if phoneId != phoneIdOfMatch:
-        v = redisConn.get('g-protagonistPhone:%d' % gameId)
-        # Has an OHHAI_EVENT been processed yet?
+    # Is one of the phones the protagonist?
+    if protagonistPhone in set([phoneId, phoneIdOfMatch]):
+        
+        nonProtagonistPhone = (
+                                    phoneId
+                                    if phoneId != protagonistPhone else
+                                    phoneIdOfMatch)
+        
+        v = redisConn.get('g-powerModeUntil:%d' % gameId)
         if v:
-            protagonistPhone = int(v)
-            # Is one of the phones the protagonist?
-            if protagonistPhone in set([phoneId, phoneIdOfMatch]):
-                
-                nonProtagonistPhone = (
-                                            phoneId
-                                            if phoneId != protagonistPhone else
-                                            phoneIdOfMatch)
-                
-                v = redisConn.get('g-powerModeUntil:%d' % gameId)
-                if v:
-                    powerMode = int(time.time() * 1000) < int(v)
-                else:
-                    powerMode = False
-                
-                if powerMode:
-                    eater, eatee = protagonistPhone, nonProtagonistPhone
-                else:
-                    eater, eatee = nonProtagonistPhone, protagonistPhone
-                
-                e = Event(
-                        gameId=gameId,
-                        eventType=EVENTNAME_EVENTNUM_MAP['COLLISION_EVENT'],
-                        eventJson=json.dumps({
-                            'eater': eater,
-                            'eatee': eatee,
-                        }))
-                e.save()
+            powerMode = int(time.time() * 1000) < int(v)
+        else:
+            powerMode = False
+        
+        if powerMode:
+            eater, eatee = protagonistPhone, nonProtagonistPhone
+        else:
+            eater, eatee = nonProtagonistPhone, protagonistPhone
+        
+        e = Event(
+                gameId=gameId,
+                eventType=TYPENAME_TYPENUM_MAP['COLLISION_EVENT'],
+                eventJson=json.dumps({
+                    'eater': eater,
+                    'eatee': eatee,
+                }))
+        e.save()
 
 
-def _handleCollisionWithDot(gameId, phoneId, data):
-    pass
+def _handleCollisionWithDot(gameId, phoneId, data, protagonistPhone):
+    if phoneId == protagonistPhone:
+        e = Event(
+                gameId=gameId,
+                eventType=TYPENAME_TYPENUM_MAP['POWER_PELLET_EVENT'],
+                eventJson=json.dumps({
+                    'point': json.loads(data),
+                }))
+        e.save()
 
 
+def _handleCollisionWithPowerPellet(gameId, phoneId, data, protagonistPhone):
+    if phoneId == protagonistPhone:
+        
+        until = int(time.time() * 1000) + POWER_MODE_DURATION_MS
+        redisConn.set('g-powerModeUntil:%d' % game.id, str(until))
+        
+        e = Event(
+                gameId=gameId,
+                eventType=TYPENAME_TYPENUM_MAP['COLLISION_EVENT'],
+                eventJson=json.dumps({
+                    'active': True,
+                }))
+        e.save()
 
-def _handleCollisionWithPowerPellet(gameId, phoneId, data):
-    pass
 
-
+def _handlePossiblePowerModeExpiration(gameId):
+    v = redisConn.get('g-powerModeUntil:%d' % gameId)
+    if v:
+        if int(time.time() * 1000) >= int(v):
+            e = Event(
+                    gameId=gameId,
+                    eventType=TYPENAME_TYPENUM_MAP['COLLISION_EVENT'],
+                    eventJson=json.dumps({
+                        'active': False,
+                    }))
+            e.save()
 
