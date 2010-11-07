@@ -40,11 +40,15 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import javax.microedition.khronos.opengles.GL;
 
@@ -65,6 +69,9 @@ import javax.microedition.khronos.opengles.GL;
  */
 public class DotMuncher extends MapActivity {
 
+    private LocationManager lm;
+    private LocationListener locationListener;
+    
     private static final String TAG = "DotMuncher";
     private SensorManager mSensorManager;
     private RotateView mRotateView;
@@ -180,6 +187,19 @@ public class DotMuncher extends MapActivity {
 	    String deviceId = deviceUuid.toString();
 	    
 	    dmc = new DMAppControler(deviceId);
+	    
+	    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
+        //---use the LocationManager class to obtain GPS locations---
+        lm = (LocationManager) 
+            getSystemService(Context.LOCATION_SERVICE);    
+        
+        locationListener = new MyLocationListener();
+        
+        lm.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER, 
+            0, 
+            0, 
+            locationListener);     
     }
 
     @Override
@@ -577,4 +597,35 @@ public class DotMuncher extends MapActivity {
             delegate.drawPicture(picture, dst);
         }
     }
+    
+    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
+    
+    private class MyLocationListener implements LocationListener 
+    {
+        @Override
+        public void onLocationChanged(Location loc) {
+            if (loc != null) {
+                Toast.makeText(getBaseContext(), 
+                    "Location changed : Lat: " + loc.getLatitude() + 
+                    " Lng: " + loc.getLongitude(), 
+                    Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, 
+            Bundle extras) {
+            // TODO Auto-generated method stub
+        }
+    }        
 }

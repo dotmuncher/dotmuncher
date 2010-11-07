@@ -76,7 +76,7 @@ public class DMEventControler {
         String request = gson.toJson(s); 
         
         //String request = '{"game":1,"i__gte":4,"events":[]}';
-        InputStream instream = getJSONData( "/api/v0/submit_and_get_events.json","json=" + request);
+        InputStream instream = getJSONData( "/api/v0/submit_and_get_events.json","json=" + request +"&phone=13");
         
         String result= convertStreamToString(instream);
         
@@ -86,6 +86,7 @@ public class DMEventControler {
         
         int min_i = json.getInt ("min_i");
         int max_i = json.getInt ("max_i");
+                
         
         }catch(Exception ex){
             ex.printStackTrace();
