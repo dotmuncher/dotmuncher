@@ -23,7 +23,7 @@ import android.os.Bundle;
 
 /**
  * Example of how to use an {@link com.google.android.maps.MapView}.
- * <h3>MapViewDemo</h3>
+ * <h3>DotMuncherDemo</h3>
 
 <p>This demonstrates creating a Map based Activity.</p>
 
@@ -33,7 +33,7 @@ Views/MapView
 <h4>Source files</h4>
  * <table class="LinkTable">
  *         <tr>
- *             <td >src/com.dotmuncher.android.apis/view/MapViewDemo.java</td>
+ *             <td >src/com.dotmuncher.android.apis/view/DotMuncherDemo.java</td>
  *             <td >The Alert Dialog Samples implementation</td>
  *         </tr>
  *         <tr>
@@ -42,7 +42,7 @@ Views/MapView
  *         </tr>
  * </table>
  */
-public class MapViewDemo extends MapActivity {
+public class DotMuncherDemo extends MapActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

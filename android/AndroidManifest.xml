@@ -41,7 +41,7 @@
         <!--      VIEW/WIDGET PACKAGE SAMPLES      -->
         <!-- ************************************* -->
 
-        <activity android:name="com.dotmuncher.android.view.MapViewDemo" android:label="MapView">
+        <activity android:name="com.dotmuncher.android.view.DotMuncherDemo" android:label="MapView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />

@@ -18,7 +18,8 @@ package com.dotmuncher.android.view;
 
 import java.util.UUID;
 
-import com.dotmuncher.android.controler.DMControler;
+import com.dotmuncher.android.controler.DMAppControler;
+import com.dotmuncher.android.controler.DMEventControler;
 import com.dotmuncher.android.events.*;
 
 import com.google.android.maps.MapActivity;
@@ -39,11 +40,15 @@ import android.graphics.RectF;
 import android.graphics.Region;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import javax.microedition.khronos.opengles.GL;
 
@@ -64,13 +69,17 @@ import javax.microedition.khronos.opengles.GL;
  */
 public class DotMuncher extends MapActivity {
 
+	private DMEventControler dmEventControler;
+    private DMAppControler dmAppControler; // DMAppControler
+    
+    private LocationManager lm;
+    private LocationListener locationListener;
+    
     private static final String TAG = "DotMuncher";
     private SensorManager mSensorManager;
     private RotateView mRotateView;
     private MapView mMapView;
     private MyLocationOverlay mMyLocationOverlay;
-
-    private DMControler dmc; // DMControler
     
     private class RotateView extends ViewGroup implements SensorListener {
         private static final float SQ2 = 1.414213562373095f;
@@ -162,9 +171,9 @@ public class DotMuncher extends MapActivity {
         mMapView.setEnabled(true);
         
         
-        // GSON TwitterTrends        
-        DMServiceManager sm = new DMServiceManager();
-        sm.submit_and_get_events();
+        // Init        
+        dmEventControler = new DMEventControler();
+        dmEventControler.submit_and_get_events();
         
 		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
 		
@@ -178,7 +187,23 @@ public class DotMuncher extends MapActivity {
 	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
 	    String deviceId = deviceUuid.toString();
 	    
-	    dmc = new DMControler(deviceId);
+	    dmAppControler = new DMAppControler(deviceId);
+	    
+	    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
+        //---use the LocationManager class to obtain GPS locations---
+        /*
+	    lm = (LocationManager) 
+            getSystemService(Context.LOCATION_SERVICE);    
+        
+        locationListener = new MyLocationListener();
+        
+        lm.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER, 
+            0, 
+            0, 
+            locationListener);
+            
+                 */
     }
 
     @Override
@@ -576,4 +601,37 @@ public class DotMuncher extends MapActivity {
             delegate.drawPicture(picture, dst);
         }
     }
+    
+    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
+    
+    private class MyLocationListener implements LocationListener 
+    {
+        @Override
+        public void onLocationChanged(Location loc) {
+        	dmEventControler.submit_and_get_events();
+        	
+            if (loc != null) {
+                Toast.makeText(getBaseContext(), 
+                    "Location changed : Lat: " + loc.getLatitude() + 
+                    " Lng: " + loc.getLongitude(), 
+                    Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, 
+            Bundle extras) {
+            // TODO Auto-generated method stub
+        }
+    }        
 }
