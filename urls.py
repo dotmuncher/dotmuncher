@@ -41,7 +41,7 @@ urlpatterns += patterns('dotmuncher.views_api',
 
 
 #### Dev views
-#if settings.DEBUG:
+#if settings.DEVMODE:
 if True:#TEMP
     urlpatterns += patterns('dotmuncher.views_dev',
         
@@ -53,7 +53,7 @@ if True:#TEMP
 
 
 #### JavaScript (for dev mode)
-if settings.DEBUG:
+if settings.DEVMODE:
     urlpatterns += patterns('pj.django',
         url(r'^static/js/dotmuncher\.js', 'jsView',
             {
@@ -66,7 +66,7 @@ if settings.DEBUG:
 
 
 #### /static/ (for dev mode)
-if settings.DEBUG:
+if settings.DEVMODE:
     from a_app.common_urls import patternsForUrlconfPath
     urlpatterns += patternsForUrlconfPath(__file__)
 
