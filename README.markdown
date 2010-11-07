@@ -6,6 +6,12 @@
 
 <pre>phoneToken: ("i_" + UDID) if iOS, ("a_" +  Android phone id) if Android</pre>
 
+### demo_magic
+
+<pre>{} --> {"join": pos. int game id} or {"join": 0, "map": int map id}
+
+{"reset": true} --> {}</pre>
+
 ### find_games
 
 <pre>{

@@ -1,5 +1,5 @@
 
-import json, struct
+import json, struct, time
 
 from django.http import HttpResponseRedirect
 
@@ -30,11 +30,16 @@ def logRequest(callName):
                     pass
             
             try:
+                t1 = time.time()
                 x = f(r)
+                duration = time.time() - t1
+                ms = int(duration * 1000)
             except Exception:
                 info['exception'] = exceptionStr()
                 APIRequest.log(info)
                 raise
+            
+            info['ms'] = ms
             
             if isinstance(x, dict):
                 info['responseInfo'] = x
@@ -51,6 +56,24 @@ def logRequest(callName):
     callJson = models.CharField(max_length=15000, null=True)
     exception = models.TextField(null=True)
     responseJson = models.TextField(null=True)
+
+
+
+@jsonView()
+@logRequest('find_games')
+def api_demo_magic(r):
+    info = json.loads(r.REQUEST['json'])
+    
+    if info.get('reset'):
+        redisConn.delete('demomagic_gameId')
+        return {}
+    
+    else:
+        v = redisConn.get('demomagic_gameId')
+        if v:
+            return {"join": int(v)}
+        else:
+            return {"join": 0, "map": int(redisConn.get('demomagic_mapId'))}
 
 
 @jsonView()
@@ -109,6 +132,8 @@ def api_new_game(r):
     
     map = Map.objects.get(id=info['map'])
     game = Game.create(map)
+    
+    redisConn.set('demomagic_gameId', str(game.id))
     
     mapInfo = map.info
     
@@ -205,6 +230,8 @@ def api_submit_and_get_events(r):
 def api_map_create(r):
     
     map = Map.create()
+    
+    redisConn.set('demomagic_mapId', str(map.id))
     
     return {
         'token': map.token,
