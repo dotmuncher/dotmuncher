@@ -3,7 +3,7 @@ import json
 
 from a_app.decorators import jsonView
 
-from dotmuncher.models import Event
+from dotmuncher.models import Event, Map, Phone, Game
 
 
 @jsonView()
@@ -16,6 +16,23 @@ def api_debug(r):
         'method': r.method,
         'POST': r.POST,
         'GET': r.GET,
+    }
+
+@jsonView()
+def api_temp(r):
+    
+    points = []
+    
+    for e in Event.objects.all():
+        if e.eventType == 1:
+            info = json.loads(e.eventJson)
+            points.append([
+                info['lat'].strip(),
+                info['lng'].strip(),
+            ])
+    
+    return {
+        'points': points,
     }
 
 
@@ -46,4 +63,45 @@ def api_events(r):
     return {
         'events': [],
     }
+
+
+
+@jsonView()
+def api_map_create(r):
+    
+    map = Map.create()
+    
+    return {
+        'token': map.token,
+    }
+
+
+@jsonView()
+def api_map_add_points(r):
+    
+    newInfo = json.loads(r.REQUEST['json'])
+    
+    # Validate points:
+    for ll in newInfo['points']:
+        assert isinstance(ll, basestring)
+        (lat, lng) = ll.split(',')
+        float(lat)
+        float(lng)
+    
+    map = Map.objects.get(token=newInfo['token'])
+    
+    mapInfo = map.info
+    mapInfo['points'] += [ll.split(',') for ll in newInfo['points']]
+    map.infoJson = json.dumps(mapInfo)
+    
+    if newInfo.get('done'):
+        map.completed = True
+    
+    map.save()
+    
+    return {
+        'token': map.token,
+    }
+
+
 

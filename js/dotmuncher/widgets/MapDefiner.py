@@ -4,18 +4,69 @@ from goog import bind
 from core.element import *
 from core.event import *
 from core.geom import *
+from core.ajax import jsonp_request
+from core.json import json_encode
 
 from dotmuncher.widgets.Button import Button
 
 
 MAPDENIFER_SAMPLE_MINDIST = 5
+MD_MAX_BATCH_SIZE = 120
 
-'''
-State machine, for now:
+
+class MapSaver:
     
-    INITIAL --> ADD POINTS --> SAVING
+    def __init__(self, points, completionCallback):
+        
+        self._points = points
+        self._completionCallback = completionCallback
+        
+        self._pos = 0
+        self._numPoints = len(points)
+        
+        jsonp_request({
+            '_url': '{% url api_map_create %}',
+            '_GET': {
+                'json': json_encode({
+                    
+                }),
+            },
+            '_success': bind(self._batchCallback, self),
+        })
+    
+    def _batchCallback(self, info):
+        
+        mapToken = info.token
+        
+        if self._pos < self._numPoints:
+            
+            batch = []
+            batchSize = 0
+            while (self._pos < self._numPoints) and batchSize < MD_MAX_BATCH_SIZE:
+                point = self._points[self._pos]
+                batch.push(point)
+                self._pos += 1
+                batchSize += len(point[0]) + len(point[1]) + 3
+            
+            info = {
+                'token': mapToken,
+                'points': batch,
+            }
+            
+            if self._pos == self._numPoints:
+                info.done = True
+            
+            jsonp_request({
+                '_url': '{% url api_map_add_points %}',
+                '_GET': {
+                    'json': json_encode(info),
+                },
+                '_success': bind(self._batchCallback, self),
+            })
+        
+        else:
+            self._completionCallback(mapToken)
 
-'''
 
 
 def GMOverlayViewSubclass(map):
@@ -34,7 +85,7 @@ class MapDefinerOverlay(Element):
         self._map = map
         self._overlayView = GMOverlayViewSubclass(map)
         
-        self._lls = []
+        self._points = []
         
         lightbox = Element('div', 'MapDefiner_overlay_lightbox_CSS')
         
@@ -58,9 +109,9 @@ class MapDefinerOverlay(Element):
         
         if pos_distance(pos, self._lastSamplePos) > MAPDENIFER_SAMPLE_MINDIST:
             
-            # Log the "lat,lng"
+            # Log ["lat","lng"]
             ll = self._canvasProjection.fromContainerPixelToLatLng(point)
-            self._lls.push(ll.toUrlValue(8))
+            self._points.push(ll.toUrlValue(8))
             
             # Show the point
             e = Element('div', 'MapDefiner_overlay_dot_CSS')
@@ -90,12 +141,16 @@ class MapDefinerOverlay(Element):
                 self._dragging = 0
 
 
+# AJDUST MAP --> ADD POINTS --> SAVING
+MD_STATE_ADJUST_MAP = 1
+MD_STATE_ADD_POINTS = 2
+MD_STATE_SAVING = 3
 
 class MapDefiner:
     
     def __init__(self, toolbarContainer, overlayContainer):
         
-        self._editMode = 0
+        self._state = MD_STATE_ADJUST_MAP
         
         editButton = Button('MapDefiner_toolbar_editButton_CSS',
                                 bind(self._editClicked, self))
@@ -113,11 +168,17 @@ class MapDefiner:
         overlayContainer.appendChild(self._overlay._)
     
     def _editClicked(self):
-        # Cannot be undone, for now
-        if not self._editMode:
-            self._editMode = not self._editMode
-            self._overlay._setEnabled(self._editMode)
+        if self._state == MD_STATE_ADJUST_MAP:
+            self._state = MD_STATE_ADD_POINTS
+            self._overlay._setEnabled(1)
     
     def _saveClicked(self):
-        print('TODO save')
+        self._state = MD_STATE_SAVING
+        MapSaver(
+            self._overlay._points,
+            bind(self._saved, self))
+        #TODO saving animation
+    
+    def _saved(self, mapToken):
+        goToUrl('{% url map %}?id=' + mapToken)
 

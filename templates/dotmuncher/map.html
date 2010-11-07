@@ -1,0 +1,18 @@
+{% extends "dotmuncher/base.html" %}
+{% block title %}TODO title{% endblock %}
+{% block head %}
+<style type="text/css">
+    
+    
+    
+</style>
+{% endblock %}
+{% block content %}
+
+
+<h2>Map {{ map.token }}</h2>
+
+<textarea style="width: 500px; height: 400px;">{{ map.infoJson|safe }}</textarea>
+
+
+{% endblock %}
