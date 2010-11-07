@@ -16,6 +16,9 @@
 
 package com.dotmuncher.android.apis.view;
 
+import java.util.UUID;
+
+import com.dotmuncher.android.controler.DMControler;
 import com.dotmuncher.android.events.*;
 
 import com.google.android.maps.MapActivity;
@@ -37,6 +40,7 @@ import android.graphics.Region;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +70,8 @@ public class MapViewCompassDemo extends MapActivity {
     private MapView mMapView;
     private MyLocationOverlay mMyLocationOverlay;
 
+    private DMControler dmc; // DMControler
+    
     private class RotateView extends ViewGroup implements SensorListener {
         private static final float SQ2 = 1.414213562373095f;
         private final SmoothCanvas mCanvas = new SmoothCanvas();
@@ -159,6 +165,20 @@ public class MapViewCompassDemo extends MapActivity {
         // GSON TwitterTrends        
         DMServiceManager sm = new DMServiceManager();
         sm.submit_and_get_events();
+        
+		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
+		
+	    final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
+	
+	    final String tmDevice, tmSerial, tmPhone, androidId;
+	    tmDevice = "" + tm.getDeviceId();
+	    tmSerial = "" + tm.getSimSerialNumber();
+	    androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+	
+	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
+	    String deviceId = deviceUuid.toString();
+	    
+	    dmc = new DMControler(deviceId);
     }
 
     @Override
