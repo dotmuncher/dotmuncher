@@ -13,7 +13,7 @@ from dotmuncher.misc import GMOverlayViewSubclass
 
 
 MAPDENIFER_SAMPLE_MINDIST = 5
-MD_MAX_BATCH_SIZE = 120
+MD_MAX_BATCH_SIZE = 1000
 
 
 class MapSaver:
@@ -172,5 +172,6 @@ class MapDefiner:
         #TODO saving animation
     
     def _saved(self, mapToken):
-        goToUrl('{% url map %}?id=' + mapToken)
+        pass
+        #goToUrl('{% url map %}?id=' + mapToken)
 

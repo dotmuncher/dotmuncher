@@ -8,8 +8,14 @@ import keyjson
 from a_app.decorators import jsonView
 from a.py import exceptionStr
 
-from dotmuncher.models import Event, Map, Phone, Game, APIRequest, redisConn
+from dotmuncher.models import *
+from dotmuncher.constants import *
 from dotmuncher.dm_util import coordScore
+
+# 40008000 / 360 = 111133.333 m / lng deg
+# (6 / 111133.333) = 0.000054
+
+COLLISION_COORD_PLUSORMINUS = 0.000054
 
 
 def logRequest(callName):
@@ -135,6 +141,9 @@ def api_new_game(r):
     
     redisConn.set('demomagic_gameId', str(game.id))
     
+    until = int(time.time() * 1000) + POWER_MODE_DURATION_MS
+    redisConn.set('g-powerModeUntil:%d' % game.id, str(until))
+    
     mapInfo = map.info
     
     for prefix, lls in (
@@ -183,18 +192,63 @@ def api_submit_and_get_events(r):
     info = json.loads(r.REQUEST['json'])
     i__gte = info['i__gte']
     
-    gameId = info.get('game', None)
+    # See if power mode has expired
+    # TODO
     
     # Save events
     for eventType, eventInfo in info['events']:
         
+        gameId = int(eventInfo['game'])
+        phoneId = int(eventInfo['phone'])
+        
         e = Event(
-            gameId=gameId or -1,
+            gameId=gameId,
             eventType=eventType,
             eventJson=json.dumps(eventInfo))
         e.save()
         
-        #TODO event implications
+        
+        if eventType == EVENTNAME_EVENTNUM_MAP['OHHAI_EVENT']:
+            # The first kitteh to say hai can be teh protagonist
+            redisConn.setnx('g-protagonistPhone:%d' % gameId, str(phoneId))
+        
+        elif eventType == EVENTNAME_EVENTNUM_MAP['POSITION_EVENT']:
+            
+            latKey = 'gp-lat:%d' % eventInfo['game']
+            lngKey = 'gp-lng:%d' % eventInfo['game']
+            
+            # Any collisions?
+            
+            latMatches = set(redisConn.zrangebyscore(
+                        latKey,
+                        coordScore(float(eventInfo['lat']) - COLLISION_COORD_PLUSORMINUS),
+                        coordScore(float(eventInfo['lat']) + COLLISION_COORD_PLUSORMINUS)))
+            
+            lngMatches = set(redisConn.zrangebyscore(
+                        lngKey,
+                        coordScore(float(eventInfo['lng']) - COLLISION_COORD_PLUSORMINUS),
+                        coordScore(float(eventInfo['lng']) + COLLISION_COORD_PLUSORMINUS)))
+            
+            matches = latMatches & lngMatches
+            
+            for member in matches:
+                f = {
+                    'u': _handleCollisionWithPhone,
+                    'd': _handleCollisionWithDot,
+                    'p': _handleCollisionWithPowerPellet,
+                }.get(member[0])
+                if f:
+                    f(gameId, phoneId, member[1:])
+            
+            # Update this phone's position
+            redisConn.zadd(
+                            latKey,
+                            coordScore(eventInfo['lat']),
+                            'u' + eventInfo['phone'])
+            redisConn.zadd(
+                            lngKey,
+                            coordScore(eventInfo['lng']),
+                            prefix + eventInfo['phone'])
     
     #### Get events
     
@@ -204,16 +258,15 @@ def api_submit_and_get_events(r):
     
     ids = []
     
-    if gameId:
-        for e in (Event.objects
-                            .filter(
-                                gameId=gameId,
-                                id__gte=i__gte)):
-            events.append([
-                e.eventType,
-                json.loads(e.eventJson),
-            ])
-            ids.append(e.id)
+    for e in (Event.objects
+                        .filter(
+                            gameId=gameId,
+                            id__gte=i__gte)):
+        events.append([
+            e.eventType,
+            json.loads(e.eventJson),
+        ])
+        ids.append(e.id)
     
     #TODO: remove extra position_events
     
@@ -305,4 +358,59 @@ def api_temp(r):
     return {
         'points': points,
     }
+
+
+
+
+
+
+
+
+def _handleCollisionWithPhone(gameId, phoneId, data):
+    return#TEMP
+    phoneIdOfMatch = int(data)
+    # Are the phones distinct?
+    if phoneId != phoneIdOfMatch:
+        v = redisConn.get('g-protagonistPhone:%d' % gameId)
+        # Has an OHHAI_EVENT been processed yet?
+        if v:
+            protagonistPhone = int(v)
+            # Is one of the phones the protagonist?
+            if protagonistPhone in set([phoneId, phoneIdOfMatch]):
+                
+                nonProtagonistPhone = (
+                                            phoneId
+                                            if phoneId != protagonistPhone else
+                                            phoneIdOfMatch)
+                
+                v = redisConn.get('g-powerModeUntil:%d' % gameId)
+                if v:
+                    powerMode = int(time.time() * 1000) < int(v)
+                else:
+                    powerMode = False
+                
+                if powerMode:
+                    eater, eatee = protagonistPhone, nonProtagonistPhone
+                else:
+                    eater, eatee = nonProtagonistPhone, protagonistPhone
+                
+                e = Event(
+                        gameId=gameId,
+                        eventType=EVENTNAME_EVENTNUM_MAP['COLLISION_EVENT'],
+                        eventJson=json.dumps({
+                            'eater': eater,
+                            'eatee': eatee,
+                        }))
+                e.save()
+
+
+def _handleCollisionWithDot(gameId, phoneId, data):
+    pass
+
+
+
+def _handleCollisionWithPowerPellet(gameId, phoneId, data):
+    pass
+
+
 
