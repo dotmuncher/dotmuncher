@@ -23,7 +23,7 @@ def dev_requests(r):
     if 'phone' in r.REQUEST:
         qs = qs.filter(phoneId=int(r.REQUEST['phone']))
     
-    requests = qs[:100]
+    requests = qs[:30]
     
     return {
         'requests': requests,

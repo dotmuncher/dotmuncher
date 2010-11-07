@@ -399,7 +399,7 @@ def _handleCollisionWithDot(gameId, phoneId, data, protagonistPhone):
     if phoneId == protagonistPhone:
         e = Event(
                 gameId=gameId,
-                eventType=TYPENAME_TYPENUM_MAP['POWER_PELLET_EVENT'],
+                eventType=TYPENAME_TYPENUM_MAP['DOT_EATEN_EVENT'],
                 eventJson=json.dumps({
                     'point': json.loads(data),
                 }))
@@ -414,7 +414,7 @@ def _handleCollisionWithPowerPellet(gameId, phoneId, data, protagonistPhone):
         
         e = Event(
                 gameId=gameId,
-                eventType=TYPENAME_TYPENUM_MAP['COLLISION_EVENT'],
+                eventType=TYPENAME_TYPENUM_MAP['POWER_PELLET_EVENT'],
                 eventJson=json.dumps({
                     'active': True,
                 }))
