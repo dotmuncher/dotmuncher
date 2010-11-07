@@ -5,10 +5,10 @@ import java.util.UUID;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
-public class DMControler {
+public class DMAppControler {
 	private String phoneToken;
 	
-	public DMControler(String deviceId) {
+	public DMAppControler(String deviceId) {
 		phoneToken = "a_" + deviceId;
 	}	
 

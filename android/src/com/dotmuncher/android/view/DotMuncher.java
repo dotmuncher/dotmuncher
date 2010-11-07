@@ -18,7 +18,8 @@ package com.dotmuncher.android.view;
 
 import java.util.UUID;
 
-import com.dotmuncher.android.controler.DMControler;
+import com.dotmuncher.android.controler.DMAppControler;
+import com.dotmuncher.android.controler.DMEventControler;
 import com.dotmuncher.android.events.*;
 
 import com.google.android.maps.MapActivity;
@@ -70,7 +71,7 @@ public class DotMuncher extends MapActivity {
     private MapView mMapView;
     private MyLocationOverlay mMyLocationOverlay;
 
-    private DMControler dmc; // DMControler
+    private DMAppControler dmc; // DMAppControler
     
     private class RotateView extends ViewGroup implements SensorListener {
         private static final float SQ2 = 1.414213562373095f;
@@ -163,7 +164,7 @@ public class DotMuncher extends MapActivity {
         
         
         // GSON TwitterTrends        
-        DMServiceManager sm = new DMServiceManager();
+        DMEventControler sm = new DMEventControler();
         sm.submit_and_get_events();
         
 		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
@@ -178,7 +179,7 @@ public class DotMuncher extends MapActivity {
 	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
 	    String deviceId = deviceUuid.toString();
 	    
-	    dmc = new DMControler(deviceId);
+	    dmc = new DMAppControler(deviceId);
     }
 
     @Override
