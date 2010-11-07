@@ -34,14 +34,15 @@ class GameViewer:
         
         setTimeout(
             bind(self._initWhenMapHasCanvasProjection, self),
-            500)
+            1000)#TODO find callback for WhenMapHasCanvasProjection
     
     def _initWhenMapHasCanvasProjection(self):
         
         self._overlayRect = e_getRect(self._overlay)
         self._canvasProjection = self._overlayView.getProjection()
         
-        for p in self._mapInfo.points:
+        for p in self._mapInfo.pathPoints:
+            
             ll = google.maps.LatLng(
                     1 * p[0],
                     1 * p[1])
@@ -50,18 +51,5 @@ class GameViewer:
             e = Element('div', 'overlay_mapDot_CSS')
             e_setPos(e, pos_minus(point, Pos(1, 1)))
             e_appendChild(self._overlay, e)
-        
-        jsonp_request({
-            '_url': '{% url api_temp %}',
-            '_GET': {'json': json_encode({})},
-            '_success': bind(self._pointsCallback, self),
-        })
-    
-    def _pointsCallback(self, info):
-        print('_pointsCallback', info)
-        for p in info.points:
-            ll = google.maps.LatLng(
-                    1 * p[0],
-                    1 * p[1])
-            point = self._canvasProjection.fromLatLngToContainerPixel(ll)
+
 

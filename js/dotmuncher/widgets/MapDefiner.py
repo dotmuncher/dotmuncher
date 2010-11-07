@@ -52,7 +52,7 @@ class MapSaver:
             
             info = {
                 'token': mapToken,
-                'points': batch,
+                'pathPoints': batch,
             }
             
             if self._pos == self._numPoints:

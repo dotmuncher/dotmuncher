@@ -5,6 +5,7 @@ import datetime, time, copy, json, struct, random
 
 from django.db import models
 from django.core.cache import cache
+from django.conf import settings
 from base64 import b64encode, b64decode
 
 from a.prettyprint import ppJsonDumps
@@ -12,6 +13,18 @@ from a.prettyprint import ppJsonDumps
 from util.random import randomToken
 
 from dotmuncher.dm_util import invertedDict
+
+
+redisConn = None
+try:
+    import redis
+    redisConn = redis.Redis(
+                        host=settings.REDIS_HOST,
+                        port=settings.REDIS_PORT,
+                        db=6)
+except Exception:
+    pass
+
 
 
 TABLE_PREFIX = 'dotmuncher_'
@@ -46,6 +59,14 @@ class Phone(models.Model):
         return m
 
 
+BLANK_MAP_INFO = {
+    "pathPoints": [],
+    "basePoints": [],
+    "dotPoints": [],
+    "powerPelletPoints": [],
+}
+
+
 class Map(models.Model):
     
     class Meta:
@@ -64,16 +85,16 @@ class Map(models.Model):
     
     @property
     def info(self):
-        return json.loads(self.infoJson) if self.infoJson else {}
+        info = copy.deepcopy(BLANK_MAP_INFO)
+        info.update(json.loads(self.infoJson) if self.infoJson else {})
+        return info
     
     @classmethod
     def create(cls):
         m = cls(
                 token=randomToken(8),
                 createdAtUtc=datetime.datetime.utcnow(),
-                infoJson=json.dumps({
-                    'points': [],
-                }))
+                infoJson=json.dumps(BLANK_MAP_INFO))
         m.save()
         return m
 

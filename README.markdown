@@ -6,6 +6,12 @@
 
 <pre>phoneToken: ("i_" + UDID) if iOS, ("a_" +  Android phone id) if Android</pre>
 
+### demo_magic
+
+<pre>{} --> {"join": pos. int game id} or {"join": 0, "map": int map id}
+
+{"reset": true} --> {}</pre>
+
 ### find_games
 
 <pre>{
@@ -70,6 +76,7 @@
 ### submit\_and\_get\_events
 
 <pre>{
+    "game": int id,
     "i__gte": int, // request events with id >= this
     "events": [
         [
@@ -82,6 +89,7 @@
 
 <pre>{
     "events": [...],
+    "min_i": int id of last event in events. (-1 if events == [])
     "max_i": int id of last event in events. (-1 if events == [])
 }</pre>
 
@@ -115,11 +123,15 @@ Each phone sends this repeatedly.
 
 ### POWER\_PELLET\_EVENT
 
+Sent by server.
+
 <pre>[3, {
     "active": boolean
 }]</pre>
 
 ### COLLISION_EVENT
+
+Sent by server.
 
 <pre>[4, {
     "eater": int phone id,
@@ -127,6 +139,8 @@ Each phone sends this repeatedly.
 }]</pre>
 
 ### DOT\_EATEN\_EVENT
+
+Sent by server.
 
 <pre>[5, {
     "point": ["...lat...", "...lng..."]

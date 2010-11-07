@@ -1,12 +1,15 @@
 
-import json
+import json, struct, time
 
 from django.http import HttpResponseRedirect
+
+import keyjson
 
 from a_app.decorators import jsonView
 from a.py import exceptionStr
 
-from dotmuncher.models import Event, Map, Phone, Game, APIRequest
+from dotmuncher.models import Event, Map, Phone, Game, APIRequest, redisConn
+from dotmuncher.dm_util import coordScore
 
 
 def logRequest(callName):
@@ -27,11 +30,16 @@ def logRequest(callName):
                     pass
             
             try:
+                t1 = time.time()
                 x = f(r)
+                duration = time.time() - t1
+                ms = int(duration * 1000)
             except Exception:
                 info['exception'] = exceptionStr()
                 APIRequest.log(info)
                 raise
+            
+            info['ms'] = ms
             
             if isinstance(x, dict):
                 info['responseInfo'] = x
@@ -42,12 +50,30 @@ def logRequest(callName):
             
         return f2
     return outer
-
+    
     
     callName = models.CharField(max_length=100, null=True)
     callJson = models.CharField(max_length=15000, null=True)
     exception = models.TextField(null=True)
     responseJson = models.TextField(null=True)
+
+
+
+@jsonView()
+@logRequest('find_games')
+def api_demo_magic(r):
+    info = json.loads(r.REQUEST['json'])
+    
+    if info.get('reset'):
+        redisConn.delete('demomagic_gameId')
+        return {}
+    
+    else:
+        v = redisConn.get('demomagic_gameId')
+        if v:
+            return {"join": int(v)}
+        else:
+            return {"join": 0, "map": int(redisConn.get('demomagic_mapId'))}
 
 
 @jsonView()
@@ -61,7 +87,12 @@ def api_find_games(r):
     
     phone = Phone.forToken(phoneToken)
     
-    items = []#TODO
+    items = []
+    for game in (Game.objects
+                        .order_by('-id'))[:25]:
+        items.append({
+            'id': game.id,
+        })
     
     return {
         'phoneId': phone.id,
@@ -80,7 +111,12 @@ def api_find_maps(r):
     
     phone = Phone.forToken(phoneToken)
     
-    items = []#TODO
+    items = []
+    for game in (Map.objects
+                        .order_by('-id'))[:25]:
+        items.append({
+            'id': game.id,
+        })
     
     return {
         'phoneId': phone.id,
@@ -97,12 +133,46 @@ def api_new_game(r):
     map = Map.objects.get(id=info['map'])
     game = Game.create(map)
     
+    redisConn.set('demomagic_gameId', str(game.id))
+    
+    mapInfo = map.info
+    
+    for prefix, lls in (
+                    ('d', mapInfo['dotPoints']),
+                    ('p', mapInfo['powerPelletPoints'])):
+        for ll in lls:
+            lat, lng = ll
+            redisConn.zadd(
+                            'gp-lat:%d' % game.id,
+                            coordScore(lat),
+                            prefix + json.dumps(ll))
+            redisConn.zadd(
+                            'gp-lng:%d' % game.id,
+                            coordScore(lng),
+                            prefix + json.dumps(ll))
+    
     if info.get('redirect'):
         return HttpResponseRedirect('/watch-game/?id=' + game.token)#DRY
     
     return {
         'game': game.id,
         'gameToken': game.token,
+        'mapInfo': mapInfo,
+    }
+
+
+@jsonView()
+@logRequest('new_game')
+def api_join_game(r):
+    
+    info = json.loads(r.REQUEST['json'])
+    
+    game = Game.objects.get(id=info['game'])
+    
+    return {
+        'game': game.id,
+        'gameToken': game.token,
+        'mapInfo': game.map.info,
     }
 
 
@@ -111,21 +181,46 @@ def api_new_game(r):
 def api_submit_and_get_events(r):
     
     info = json.loads(r.REQUEST['json'])
+    i__gte = json.loads(info['i__gte'])
+    
+    gameId = info.get('game', None)
     
     # Save events
     for eventType, eventInfo in info['events']:
+        
         e = Event(
+            gameId=gameId or -1,
             eventType=eventType,
             eventJson=json.dumps(eventInfo))
         e.save()
+        
+        #TODO event implications
     
     #### Get events
     
-    #TODO
+    events = []
+    min_i = -1
+    max_i = -1
+    
+    ids = []
+    
+    if gameId:
+        for e in (Event.objects
+                            .filter(
+                                gameId=gameId,
+                                id__gte=i__gte)):
+            events.append([
+                e.eventType,
+                json.loads(e.eventJson),
+            ])
+            ids.append(e.id)
+    
+    #TODO: remove extra position_events
     
     return {
-        'events': [],
-        'max_i': -1,
+        'events': events,
+        'min_i': min(ids) if len(ids) > 0 else -1,
+        'max_i': max(ids) if len(ids) > 0 else -1,
     }
 
 
@@ -135,6 +230,8 @@ def api_submit_and_get_events(r):
 def api_map_create(r):
     
     map = Map.create()
+    
+    redisConn.set('demomagic_mapId', str(map.id))
     
     return {
         'token': map.token,
@@ -148,16 +245,21 @@ def api_map_add_points(r):
     newInfo = json.loads(r.REQUEST['json'])
     
     # Validate points:
-    for ll in newInfo['points']:
-        assert isinstance(ll, basestring)
-        (lat, lng) = ll.split(',')
-        float(lat)
-        float(lng)
+    for k in newInfo.keys():
+        if k.endswith('Points'):
+            for ll in newInfo[k]:
+                assert isinstance(ll, basestring)
+                (lat, lng) = ll.split(',')
+                float(lat)
+                float(lng)
     
     map = Map.objects.get(token=newInfo['token'])
     
     mapInfo = map.info
-    mapInfo['points'] += [ll.split(',') for ll in newInfo['points']]
+    
+    for k in newInfo.keys():
+        if k.endswith('Points'):
+            mapInfo[k] += [ll.split(',') for ll in newInfo[k]]
     map.infoJson = json.dumps(mapInfo)
     
     if newInfo.get('done'):
