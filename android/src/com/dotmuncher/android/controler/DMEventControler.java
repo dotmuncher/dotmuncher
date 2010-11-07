@@ -19,6 +19,7 @@ import com.dotmuncher.android.events.TwitterTrend;
 import com.dotmuncher.android.events.TwitterTrends;
 import com.google.gson.Gson;
 
+import android.location.Location;
 import android.util.Log;
 
 
@@ -67,7 +68,7 @@ public class DMEventControler {
         }
     }
 	
-	public void submit_and_get_events(){
+	public void submit_and_get_events(Location loc){
         try{
         Log.i("MY INFO", "Json Parser started.. submit_and_get_events");
         Gson gson = new Gson();
@@ -75,8 +76,11 @@ public class DMEventControler {
         DMSubmit s = new DMSubmit();
         String request = gson.toJson(s); 
         
+        //JSONArray json_array = 
+        
         //String request = '{"game":1,"i__gte":4,"events":[]}';
-        InputStream instream = getJSONData( "/api/v0/submit_and_get_events.json","json=" + request +"&phone=13");
+        
+        InputStream instream = getJSONData( "/api/v0/submit_and_get_events.json","json=" + request +"&phone=123456789");
         
         String result= convertStreamToString(instream);
         
