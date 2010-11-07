@@ -1,12 +1,15 @@
 
-import json
+import json, struct
 
 from django.http import HttpResponseRedirect
+
+import keyjson
 
 from a_app.decorators import jsonView
 from a.py import exceptionStr
 
-from dotmuncher.models import Event, Map, Phone, Game, APIRequest
+from dotmuncher.models import Event, Map, Phone, Game, APIRequest, redisConn
+from dotmuncher.dm_util import coordScore
 
 
 def logRequest(callName):
@@ -107,13 +110,29 @@ def api_new_game(r):
     map = Map.objects.get(id=info['map'])
     game = Game.create(map)
     
+    mapInfo = map.info
+    
+    for prefix, lls in (
+                    ('d', mapInfo['dotPoints']),
+                    ('p', mapInfo['powerPelletPoints'])):
+        for ll in lls:
+            lat, lng = ll
+            redisConn.zadd(
+                            'gp-lat:%d' % game.id,
+                            coordScore(lat),
+                            prefix + json.dumps(ll))
+            redisConn.zadd(
+                            'gp-lng:%d' % game.id,
+                            coordScore(lng),
+                            prefix + json.dumps(ll))
+    
     if info.get('redirect'):
         return HttpResponseRedirect('/watch-game/?id=' + game.token)#DRY
     
     return {
         'game': game.id,
         'gameToken': game.token,
-        'mapInfo': map.info,
+        'mapInfo': mapInfo,
     }
 
 

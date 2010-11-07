@@ -5,6 +5,7 @@ import datetime, time, copy, json, struct, random
 
 from django.db import models
 from django.core.cache import cache
+from django.conf import settings
 from base64 import b64encode, b64decode
 
 from a.prettyprint import ppJsonDumps
@@ -12,6 +13,18 @@ from a.prettyprint import ppJsonDumps
 from util.random import randomToken
 
 from dotmuncher.dm_util import invertedDict
+
+
+redisConn = None
+try:
+    import redis
+    redisConn = redis.Redis(
+                        host=settings.REDIS_HOST,
+                        port=settings.REDIS_PORT,
+                        db=6)
+except Exception:
+    pass
+
 
 
 TABLE_PREFIX = 'dotmuncher_'
