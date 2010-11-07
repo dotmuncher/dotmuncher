@@ -156,9 +156,9 @@ public class MapViewCompassDemo extends MapActivity {
         mMapView.setEnabled(true);
         
         
-        //        
-        DMEvent e = new DMEvent();
-        e.runJSONParser();
+        // GSON TwitterTrends        
+        DMEventManager em = new DMEventManager();
+        em.sage();
     }
 
     @Override
