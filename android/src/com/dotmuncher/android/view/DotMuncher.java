@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dotmuncher.android.apis.view;
+package com.dotmuncher.android.view;
 
 import java.util.UUID;
 
@@ -50,21 +50,21 @@ import javax.microedition.khronos.opengles.GL;
 /**
  * Example of how to use an {@link com.google.android.maps.MapView}
  * in conjunction with the {@link com.hardware.SensorManager}
- * <h3>MapViewCompassDemo</h3>
+ * <h3>DotMuncher</h3>
 
 <p>This demonstrates creating a Map based Activity.</p>
 
 <h4>Source files</h4>
  * <table class="LinkTable">
  *         <tr>
- *             <td >src/com.dotmuncher.android.apis/view/MapViewCompassDemo.java</td>
+ *             <td >src/com.dotmuncher.android.apis/view/DotMuncher.java</td>
  *             <td >The Alert Dialog Samples implementation</td>
  *         </tr>
  * </table>
  */
-public class MapViewCompassDemo extends MapActivity {
+public class DotMuncher extends MapActivity {
 
-    private static final String TAG = "MapViewCompassDemo";
+    private static final String TAG = "DotMuncher";
     private SensorManager mSensorManager;
     private RotateView mRotateView;
     private MapView mMapView;
