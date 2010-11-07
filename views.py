@@ -1,7 +1,9 @@
 
+import json
+
 from a_app.decorators import view
 
-from dotmuncher.models import Map
+from dotmuncher.models import Phone, Map, Game, Event
 
 
 @view('dotmuncher/404.html')
@@ -57,12 +59,23 @@ def map(r):
     
     return {
         'map': map,
+        'newGameJson': json.dumps({'mapId': map.id, 'redirect': True}),
     }
 
 
 @view('dotmuncher/game.html')
 def game(r):
-    pass
+    
+    if 'id' not in r.GET:
+        return HttpResponse('Invalid URL')#HANDLE
+    token = r.GET['id']
+    
+    game = Game.objects.get(token=token)
+    
+    return {
+        'game': game,
+        'map': game.map,
+    }
 
 
 

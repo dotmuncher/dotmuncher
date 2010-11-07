@@ -106,7 +106,7 @@ class MapDefinerOverlay(Element):
             self._points.push(ll.toUrlValue(8))
             
             # Show the point
-            e = Element('div', 'MapDefiner_overlay_dot_CSS')
+            e = Element('div', 'overlay_mapDot_CSS')
             e_setPos(e, pos_minus(pos, Pos(1, 1)))
             e_appendChild(self, e)
             

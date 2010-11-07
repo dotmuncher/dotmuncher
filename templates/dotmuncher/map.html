@@ -12,6 +12,12 @@
 
 <h2>Map {{ map.token }}</h2>
 
+<p>
+    <a href="{% url api_newgame %}?json={{ newGameJson }}">
+        TEMP: new game with this map
+    </a>
+</p>
+
 <textarea style="width: 500px; height: 400px;">{{ map.infoJson|safe }}</textarea>
 
 

@@ -1,6 +1,8 @@
 
 import json
 
+from django.http import HttpResponseRedirect
+
 from a_app.decorators import jsonView
 
 from dotmuncher.models import Event, Map, Phone, Game
@@ -18,6 +20,7 @@ def api_debug(r):
         'GET': r.GET,
     }
 
+
 @jsonView()
 def api_temp(r):
     
@@ -33,6 +36,23 @@ def api_temp(r):
     
     return {
         'points': points,
+    }
+
+
+@jsonView()
+def api_newgame(r):
+    
+    info = json.loads(r.REQUEST['json'])
+    
+    map = Map.objects.get(id=info['mapId'])
+    game = Game.create(map)
+    
+    if info.get('redirect'):
+        return HttpResponseRedirect('/watch-game/?id=' + game.token)#DRY
+    
+    return {
+        'id': game.id,
+        'token': game.token,
     }
 
 

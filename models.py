@@ -73,6 +73,15 @@ class Game(models.Model):
     
     infoJson = models.TextField(null=True)
     
+    @classmethod
+    def create(cls, map):
+        m = cls(
+                token=randomToken(8),
+                createdAtUtc=datetime.datetime.utcnow(),
+                map=map)
+        m.save()
+        return m
+    
     @property
     def info(self):
         return json.loads(self.infoJson) if self.infoJson else {}

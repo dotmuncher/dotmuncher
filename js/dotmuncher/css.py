@@ -47,7 +47,71 @@ CSS = '''
 }
 
 
-{##########/* Containers */##########}
+
+{##########/* GameViewer */##########}
+
+#game_overlay_container {
+    position: absolute;
+    width: 800px;
+    height: 450px;
+}
+#game_mapcanvas {
+    
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    
+    width: 100%;
+    height: 100%;
+    
+    z-index: 10;
+}
+#game_toolbar_container {
+    width: 798px;
+    height: 80px;
+}
+
+.GameViewer_toolbar_CSS {
+    width: 100%;
+    height: 100%;
+    
+    background: #444;
+    border-left: 1px solid #916E2E;
+    border-top: 1px solid #916E2E;
+    border-right: 1px solid #916E2E;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+}
+
+.GameViewer_overlay_CSS {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+}
+.GameViewer_overlay_lightbox_CSS {
+    
+    width: 100%;
+    height: 100%;
+    
+    background: black;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+}
+.GameViewer_overlay_mapDot_CSS {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: red;
+    z-index: 30;
+}
+
+{##########/* MapDefiner */##########}
+
 #overlay_container {
     position: absolute;
     width: 800px;
@@ -69,8 +133,6 @@ CSS = '''
     height: 80px;
 }
 
-
-{##########/* MapDefiner_toolbar */##########}
 .MapDefiner_toolbar_CSS {
     
     width: 100%;
@@ -81,7 +143,6 @@ CSS = '''
     border-right: 1px solid black;
 }
 
-{##########/* MapDefiner_overlay */##########}
 .MapDefiner_overlay_CSS {
     position: absolute;
     top: 0px;
@@ -100,7 +161,7 @@ CSS = '''
     filter: alpha(opacity=20);
     -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=20);
 }
-.MapDefiner_overlay_dot_CSS {
+.overlay_mapDot_CSS {
     position: absolute;
     width: 3px;
     height: 3px;

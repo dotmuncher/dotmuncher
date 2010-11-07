@@ -31,7 +31,7 @@
           center: latlng,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var map = new google.maps.Map(document.getElementById("mapcanvas"),
+        var map = new google.maps.Map($("mapcanvas"),
             myOptions);
         dotmuncher.map = map;
     }
