@@ -3,14 +3,58 @@
 {% block head %}
 <style type="text/css">
     
+    a.map {
+        outline: 0;
+        border: 0;
+    }
     
+    div.map {
+        
+        margin: 20px;
+        
+        border: 1px solid #666;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+    }
+    a.map:hover div.map {
+        background: #444;
+        border: 1px solid #888;
+    }
+    a.map:active div.map {
+        background: #555;
+        border: 1px solid #BBB;
+    }
+    
+    .map_thumbnail {
+        
+        margin: 10px;
+        
+        width: 250px;
+        height: 140px;
+        background: #777;
+    }
     
 </style>
 {% endblock %}
 {% block content %}
 
+<center>
+    <h2>Maps</h2>
+</center>
 
-<h2>TODO maps</h2>
+{% for map in maps %}
+<a class="map" href="{% url map %}?id={{ map.token }}">
+    <div class="map">
+        <div class="map_thumbnail">
+            <center>
+            {{ map.id }}
+            </center>
+        </div>
+    </div>
+</a>
+
+{% endfor %}
 
 
 {% endblock %}

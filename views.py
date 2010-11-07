@@ -21,7 +21,16 @@ def index(r):
 
 @view('dotmuncher/maps.html')
 def maps(r):
-    pass
+    
+    maps = (Map.objects
+                    .filter(
+                        deleted=False,
+                        completed=True)
+                    .order_by('-id'))
+    
+    return {
+        'maps': maps,
+    }
 
 
 @view('dotmuncher/games.html')
