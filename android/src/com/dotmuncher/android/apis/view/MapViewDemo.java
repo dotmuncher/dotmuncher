@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.apis.view;
+package com.dotmuncher.android.apis.view;
 
 import com.example.android.google.apis.R;
 import com.google.android.maps.MapActivity;
@@ -33,7 +33,7 @@ Views/MapView
 <h4>Source files</h4>
  * <table class="LinkTable">
  *         <tr>
- *             <td >src/com.example.android.apis/view/MapViewDemo.java</td>
+ *             <td >src/com.dotmuncher.android.apis/view/MapViewDemo.java</td>
  *             <td >The Alert Dialog Samples implementation</td>
  *         </tr>
  *         <tr>

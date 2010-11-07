@@ -30,7 +30,7 @@
 
         <uses-library android:name="com.google.android.maps" />
 
-       <activity android:name="com.example.android.apis.MapsDemo" android:label="MapsDemo">
+       <activity android:name="com.dotmuncher.android.apis.MapsDemo" android:label="MapsDemo">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
                 <action android:name="android.intent.action.MAIN"></action>
@@ -41,14 +41,14 @@
         <!--      VIEW/WIDGET PACKAGE SAMPLES      -->
         <!-- ************************************* -->
 
-        <activity android:name="com.example.android.apis.view.MapViewDemo" android:label="MapView">
+        <activity android:name="com.dotmuncher.android.apis.view.MapViewDemo" android:label="MapView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.android.apis.view.MapViewCompassDemo" android:label="MapView and Compass">
+        <activity android:name="com.dotmuncher.android.apis.view.MapViewCompassDemo" android:label="MapView and Compass">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />

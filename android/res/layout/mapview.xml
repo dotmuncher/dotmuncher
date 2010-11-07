@@ -15,7 +15,7 @@
 -->
 
 <!-- Demonstrates use of the com.google.android.maps.MapView.
-     See corresponding Java code com.example.android.apis.view.MapViewDemo.java. -->
+     See corresponding Java code com.dotmuncher.android.apis.view.MapViewDemo.java. -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
@@ -26,6 +26,6 @@
         android:layout_height="match_parent"
         android:enabled="true"
         android:clickable="true"
-        android:apiKey="apisamples"
+        android:apiKey="0GS6dsJhZCsmMbF1b4aXpMkwX3bT9MT4J3_BUWg"
         />
 </LinearLayout>

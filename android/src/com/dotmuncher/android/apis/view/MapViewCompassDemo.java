@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.apis.view;
+package com.dotmuncher.android.apis.view;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
@@ -51,7 +51,7 @@ import javax.microedition.khronos.opengles.GL;
 <h4>Source files</h4>
  * <table class="LinkTable">
  *         <tr>
- *             <td >src/com.example.android.apis/view/MapViewCompassDemo.java</td>
+ *             <td >src/com.dotmuncher.android.apis/view/MapViewCompassDemo.java</td>
  *             <td >The Alert Dialog Samples implementation</td>
  *         </tr>
  * </table>

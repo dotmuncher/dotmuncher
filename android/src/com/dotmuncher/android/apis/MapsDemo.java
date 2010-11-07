@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.apis;
+package com.dotmuncher.android.apis;
 
 import android.app.ListActivity;
 import android.content.Intent;
