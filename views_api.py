@@ -364,10 +364,6 @@ def api_temp(r):
 
 
 
-
-
-
-
 def _handleCollisionWithPhone(gameId, phoneId, data, protagonistPhone):
     phoneIdOfMatch = int(data)
     # Is one of the phones the protagonist?
@@ -436,4 +432,5 @@ def _handlePossiblePowerModeExpiration(gameId):
                         'active': False,
                     }))
             e.save()
+
 
