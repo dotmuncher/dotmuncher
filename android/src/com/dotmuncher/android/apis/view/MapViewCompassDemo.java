@@ -152,6 +152,9 @@ public class MapViewCompassDemo extends MapActivity {
         mMapView.getController().setZoom(18);
         mMapView.setClickable(true);
         mMapView.setEnabled(true);
+        
+        
+        //
     }
 
     @Override
