@@ -4,6 +4,8 @@
 
 <pre>GET /api/v0/..name....json?json=...input... ---> JSON response</pre>
 
+<pre>phoneToken: ("i_" + UDID) if iOS, ("a_" +  Android phone id) if Android</pre>
+
 ### find_games
 
 <pre>{
@@ -66,7 +68,7 @@
 
 <pre>{
     "events": [...],
-    "max_i": int id of the latest event
+    "max_i": int id of last event in events. (-1 if events == [])
 }</pre>
 
 

@@ -26,9 +26,11 @@ urlpatterns += patterns('dotmuncher.views_api',
     url(r'^api/v0/debug\.json$', 'api_debug', name='api_debug'),
     url(r'^api/v0/temp\.json$', 'api_temp', name='api_temp'),
     
-    url(r'^api/v0/new_game\.json$', 'api_newgame', name='api_newgame'),
-    url(r'^api/v0/submit_and_get_events\.json$', 'api_events', name='api_events'),
     
+    url(r'^api/v0/find_games\.json$', 'api_find_games', name='api_find_games'),
+    url(r'^api/v0/find_maps\.json$', 'api_find_maps', name='api_find_maps'),
+    url(r'^api/v0/new_game\.json$', 'api_new_game', name='api_new_game'),
+    url(r'^api/v0/submit_and_get_events\.json$', 'api_submit_and_get_events', name='api_submit_and_get_events'),
     
     
     url(r'^api/v0/api_map_create\.json$', 'api_map_create', name='api_map_create'),

@@ -5,6 +5,7 @@ import datetime, time, copy, json, struct, random
 
 from django.db import models
 from django.core.cache import cache
+from base64 import b64encode, b64decode
 
 from util.random import randomToken
 
@@ -27,6 +28,20 @@ class Phone(models.Model):
     
     token = models.CharField(max_length=50, unique=True)
     name_utf8 = models.CharField(max_length=100)
+    # utf8_64
+    
+    @classmethod
+    def forToken(cls, token):
+        
+        try:
+            m = cls.objects.get(token=token)
+        except cls.DoesNotExist:
+            m = cls(
+                    token=token,
+                    name_utf8=b64encode(u''.encode('utf-8')))
+            m.save()
+        
+        return m
 
 
 class Map(models.Model):

@@ -8,56 +8,62 @@ from a_app.decorators import jsonView
 from dotmuncher.models import Event, Map, Phone, Game
 
 
+
 @jsonView()
-def api_debug(r):
+def api_find_games(r):
+    info = json.loads(r.REQUEST['json'])
     
-    if 'raise' in r.REQUEST:
-        raise Exception
+    lat = info['lat']
+    lng = info['lng']
+    phoneToken = info['phoneToken']
+    
+    phone = Phone.forToken(phoneToken)
+    
+    items = []#TODO
     
     return {
-        'method': r.method,
-        'POST': r.POST,
-        'GET': r.GET,
+        'phoneId': phone.id,
+        'items': items,
     }
 
 
 @jsonView()
-def api_temp(r):
+def api_find_maps(r):
+    info = json.loads(r.REQUEST['json'])
     
-    points = []
+    lat = info['lat']
+    lng = info['lng']
+    phoneToken = info['phoneToken']
     
-    for e in Event.objects.all():
-        if e.eventType == 1:
-            info = json.loads(e.eventJson)
-            points.append([
-                info['lat'].strip(),
-                info['lng'].strip(),
-            ])
+    phone = Phone.forToken(phoneToken)
+    
+    items = []#TODO
     
     return {
-        'points': points,
+        'phoneId': phone.id,
+        'items': items,
     }
 
 
 @jsonView()
-def api_newgame(r):
+def api_new_game(r):
     
     info = json.loads(r.REQUEST['json'])
     
-    map = Map.objects.get(id=info['mapId'])
+    map = Map.objects.get(id=info['map'])
     game = Game.create(map)
     
     if info.get('redirect'):
         return HttpResponseRedirect('/watch-game/?id=' + game.token)#DRY
     
     return {
-        'id': game.id,
-        'token': game.token,
+        'game': game.id,
+        'gameToken': game.token,
     }
 
 
 @jsonView()
-def api_events(r):
+def api_submit_and_get_events(r):
     
     #### Save events
     
@@ -79,10 +85,15 @@ def api_events(r):
     
     #### Get events
     
+    #TODO
     
     return {
         'events': [],
+        'max_i': -1,
     }
+
+
+
 
 
 
@@ -124,4 +135,35 @@ def api_map_add_points(r):
     }
 
 
+
+
+@jsonView()
+def api_debug(r):
+    
+    if 'raise' in r.REQUEST:
+        raise Exception
+    
+    return {
+        'method': r.method,
+        'POST': r.POST,
+        'GET': r.GET,
+    }
+
+
+@jsonView()
+def api_temp(r):
+    
+    points = []
+    
+    for e in Event.objects.all():
+        if e.eventType == 1:
+            info = json.loads(e.eventJson)
+            points.append([
+                info['lat'].strip(),
+                info['lng'].strip(),
+            ])
+    
+    return {
+        'points': points,
+    }
 

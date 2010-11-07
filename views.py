@@ -59,7 +59,7 @@ def map(r):
     
     return {
         'map': map,
-        'newGameJson': json.dumps({'mapId': map.id, 'redirect': True}),
+        'newGameJson': json.dumps({'map': map.id, 'redirect': True}),
     }
 
 
