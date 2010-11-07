@@ -4,12 +4,54 @@ import json
 from django.http import HttpResponseRedirect
 
 from a_app.decorators import jsonView
+from a.py import exceptionStr
 
-from dotmuncher.models import Event, Map, Phone, Game
+from dotmuncher.models import Event, Map, Phone, Game, APIRequest
 
+
+def logRequest(callName):
+    def outer(f):
+        def f2(r):
+            
+            callJson = r.REQUEST.get('json', '')
+            
+            info = {
+                'callName': callName,
+                'callJson': callJson,
+            }
+            
+            if 'phone' in r.REQUEST:
+                try:
+                    info['phone'] = int(r.REQUEST['phone'])
+                except Exception:
+                    pass
+            
+            try:
+                x = f(r)
+            except Exception:
+                info['exception'] = exceptionStr()
+                APIRequest.log(info)
+                raise
+            
+            if isinstance(x, dict):
+                info['responseInfo'] = x
+            
+            APIRequest.log(info)
+            
+            return x
+            
+        return f2
+    return outer
+
+    
+    callName = models.CharField(max_length=100, null=True)
+    callJson = models.CharField(max_length=15000, null=True)
+    exception = models.TextField(null=True)
+    responseJson = models.TextField(null=True)
 
 
 @jsonView()
+@logRequest('find_games')
 def api_find_games(r):
     info = json.loads(r.REQUEST['json'])
     
@@ -28,6 +70,7 @@ def api_find_games(r):
 
 
 @jsonView()
+@logRequest('find_maps')
 def api_find_maps(r):
     info = json.loads(r.REQUEST['json'])
     
@@ -46,6 +89,7 @@ def api_find_maps(r):
 
 
 @jsonView()
+@logRequest('new_game')
 def api_new_game(r):
     
     info = json.loads(r.REQUEST['json'])
@@ -63,20 +107,12 @@ def api_new_game(r):
 
 
 @jsonView()
+@logRequest('submit_and_get_events')
 def api_submit_and_get_events(r):
     
-    #### Save events
+    info = json.loads(r.REQUEST['json'])
     
-    if r.method != 'GET':
-        return {'message': 'Request needs to be a GET'}
-    
-    try:
-        info = json.loads(r.REQUEST['json'])
-    except KeyError:
-        return {'message': 'Need REQUEST["json"]'}
-    except ValueError:
-        return {'message': 'JSON invalid: '}
-    
+    # Save events
     for eventType, eventInfo in info['events']:
         e = Event(
             eventType=eventType,
@@ -94,10 +130,8 @@ def api_submit_and_get_events(r):
 
 
 
-
-
-
 @jsonView()
+@logRequest('map_create')
 def api_map_create(r):
     
     map = Map.create()
@@ -108,6 +142,7 @@ def api_map_create(r):
 
 
 @jsonView()
+@logRequest('map_add_points')
 def api_map_add_points(r):
     
     newInfo = json.loads(r.REQUEST['json'])
@@ -138,6 +173,7 @@ def api_map_add_points(r):
 
 
 @jsonView()
+@logRequest('debug')
 def api_debug(r):
     
     if 'raise' in r.REQUEST:
@@ -151,6 +187,7 @@ def api_debug(r):
 
 
 @jsonView()
+@logRequest('temp')
 def api_temp(r):
     
     points = []

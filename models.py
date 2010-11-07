@@ -7,6 +7,8 @@ from django.db import models
 from django.core.cache import cache
 from base64 import b64encode, b64decode
 
+from a.prettyprint import ppJsonDumps
+
 from util.random import randomToken
 
 from dotmuncher.dm_util import invertedDict
@@ -114,4 +116,35 @@ class Event(models.Model):
     @property
     def name(self):
         return TYPENUM_TYPENAM_MAP[self.eventType]
+
+
+# for debugging
+class APIRequest(models.Model):
+    
+    class Meta:
+        db_table = TABLE_PREFIX + 'apirequest'
+    
+    createdAtUtc = models.DateTimeField()
+    phoneId = models.IntegerField()
+    infoJson = models.TextField()
+    
+    @classmethod
+    def log(cls, info):
+        m = cls(
+                createdAtUtc=datetime.datetime.utcnow(),
+                phoneId=int(
+                            info.get('phone', -1)),
+                infoJson=json.dumps(info))
+        m.save()
+        return m
+    
+    @property
+    def datecode(self):
+        return self.createdAtUtc.strftime('%Y-%m-%D %H:%M:%S UTC')
+    
+    @property
+    def prettyJsonHtml(self):
+        info = json.loads(self.infoJson or '{}')
+        return ppJsonDumps(info).replace('\n', '<br>')
+
 

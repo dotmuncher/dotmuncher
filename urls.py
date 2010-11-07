@@ -46,6 +46,7 @@ if True:#TEMP
     urlpatterns += patterns('dotmuncher.views_dev',
         
         url(r'^dev/events/$', 'dev_events', name='dev_events'),
+        url(r'^dev/requests/$', 'dev_requests', name='dev_requests'),
         
         url(r'^all-mocks/$', 'all_mocks', name='all_mocks'),
         url(r'^mock/(.+)$', 'mock', name='mock'),

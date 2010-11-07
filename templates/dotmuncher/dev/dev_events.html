@@ -2,6 +2,14 @@
 <head>
     <style type="text/css">
         
+        table {
+            border-spacing: 0;
+        }
+        
+        tr.odd td {
+            background: #E2F6FB;
+        }
+        
         .name {
             font-weight: bold;
         }
@@ -14,7 +22,7 @@
 <body>
     <table>
         {% for e in events %}
-            <tr>
+            <tr class="{% cycle 'even' 'odd' %}">
                 <td class="name">{{ e.name }}</td>
                 <td class="value">{{ e.eventJson }}</td>
             </tr>
