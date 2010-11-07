@@ -5,12 +5,9 @@ from django.http import HttpResponseRedirect
 
 import keyjson
 
-from a_app.decorators import jsonView
-from a.py import exceptionStr
-
 from dotmuncher.models import *
 from dotmuncher.constants import *
-from dotmuncher.dm_util import coordScore
+from dotmuncher.dm_util import coordScore, exceptionStr, jsonView
 
 # 40008000 / 360 = 111133.333 m / lng deg
 # (6 / 111133.333) = 0.000054
@@ -158,7 +155,7 @@ def api_new_game(r):
                             prefix + json.dumps(ll))
     
     if info.get('redirect'):
-        return HttpResponseRedirect('/watch-game/?id=' + game.token)#DRY
+        return HttpResponseRedirect('/watch-game/?id=' + str(game.id))#DRY
     
     return {
         'game': game.id,

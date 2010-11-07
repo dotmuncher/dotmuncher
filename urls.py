@@ -1,4 +1,6 @@
 
+import os
+
 from django.conf.urls.defaults import *
 from django.conf import settings
 
@@ -69,8 +71,14 @@ urlpatterns += patterns('pj.django',
 
 
 #### /static/ (for dev mode)
+
+def parentOf(path):
+    return '/'.join(path.rstrip('/').split('/')[:-1])
+
 if settings.DEVMODE:
-    from a_app.common_urls import patternsForUrlconfPath
-    urlpatterns += patternsForUrlconfPath(__file__)
+    staticRoot = os.path.join(parentOf(__file__), 'static')
+    if os.path.isdir(staticRoot):
+        urlpatterns += patterns('',
+            url(r'static(?P<path>.+)', 'django.views.static.serve', {'document_root': staticRoot}))
 
 

@@ -1,9 +1,8 @@
 
 import json
 
-from a_app.decorators import view
-
 from dotmuncher.models import Phone, Map, Game, Event
+from dotmuncher.dm_util import view
 
 
 @view('dotmuncher/404.html')
@@ -68,9 +67,9 @@ def game(r):
     
     if 'id' not in r.GET:
         return HttpResponse('Invalid URL')#HANDLE
-    token = r.GET['id']
+    id = r.GET['id']
     
-    game = Game.objects.get(token=token)
+    game = Game.objects.get(id=id)
     
     return {
         'game': game,

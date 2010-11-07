@@ -1,7 +1,6 @@
 
-from a_app.decorators import view
-
 from dotmuncher.models import *
+from dotmuncher.dm_util import view
 
 
 @view('dotmuncher/dev/dev_events.html')
