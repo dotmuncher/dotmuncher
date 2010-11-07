@@ -137,6 +137,7 @@ def api_join_game(r):
 def api_submit_and_get_events(r):
     
     info = json.loads(r.REQUEST['json'])
+    i__gte = json.loads(r.REQUEST['i__gte'])
     
     gameId = info.get('game', None)
     
@@ -161,7 +162,9 @@ def api_submit_and_get_events(r):
     
     if gameId:
         for e in (Event.objects
-                            .filter(gameId=gameId)):
+                            .filter(
+                                gameId=gameId,
+                                id__gte=i__gte)):
             events.append([
                 e.eventType,
                 json.loads(e.eventJson),
