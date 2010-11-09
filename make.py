@@ -1,5 +1,8 @@
 from __future__ import absolute_import
 
+import os
+os.environ['APP'] = 'dotmuncher'
+
 import sys
 from subprocess import check_call
 
@@ -20,7 +23,7 @@ def main():
         js = simpleGet('http://localhost:8000/static/js/dotmuncher.js')
         
         #js = pj.api.closureCompile(js, 'simple')
-        #js = pj.api.closureCompile(js, 'pretty')
+        js = pj.api.closureCompile(js, 'pretty')
         
         #sys.path.append('TODO/gordian-minifier')
         #import gordian_minifier
