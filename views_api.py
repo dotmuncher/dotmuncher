@@ -7,15 +7,15 @@ import keyjson
 
 from dotmuncher.models import *
 from dotmuncher.constants import *
-from dotmuncher.dm_util import coordScore, exceptionStr, jsonView
+from dotmuncher.dm_util import coordScore, exceptionStr, jsonView, jsonReponse
 
-# 40008000 / 360 = 111133.333 m / lng deg
-# (6 / 111133.333) = 0.000054
 
+# 40008000 / 360 = 111133.333 m / deg
+# (6 (m) / 111133.333 (m/deg)) = 0.000054 deg
 COLLISION_COORD_PLUSORMINUS = 0.000054
 
 
-def logRequest(callName):
+def apiRequest(callName):
     def outer(f):
         def f2(r):
             
@@ -34,7 +34,8 @@ def logRequest(callName):
             
             try:
                 t1 = time.time()
-                x = f(r)
+                info = json.loads(callJson)
+                x = f(r, info)
                 duration = time.time() - t1
                 ms = int(duration * 1000)
             except Exception:
@@ -49,23 +50,14 @@ def logRequest(callName):
             
             APIRequest.log(info)
             
-            return x
+            return jsonReponse(r, x)
             
         return f2
     return outer
-    
-    
-    callName = models.CharField(max_length=100, null=True)
-    callJson = models.CharField(max_length=15000, null=True)
-    exception = models.TextField(null=True)
-    responseJson = models.TextField(null=True)
 
 
-
-@jsonView()
-@logRequest('find_games')
-def api_demo_magic(r):
-    info = json.loads(r.REQUEST['json'])
+@apiRequest('find_games')
+def api_demo_magic(r, info):
     
     if info.get('reset'):
         redisConn.delete('demomagic_gameId')
@@ -79,10 +71,8 @@ def api_demo_magic(r):
             return {"join": 0, "map": int(redisConn.get('demomagic_mapId'))}
 
 
-@jsonView()
-@logRequest('find_games')
-def api_find_games(r):
-    info = json.loads(r.REQUEST['json'])
+@apiRequest('find_games')
+def api_find_games(r, info):
     
     lat = info['lat']
     lng = info['lng']
@@ -103,10 +93,8 @@ def api_find_games(r):
     }
 
 
-@jsonView()
-@logRequest('find_maps')
-def api_find_maps(r):
-    info = json.loads(r.REQUEST['json'])
+@apiRequest('find_maps')
+def api_find_maps(r, info):
     
     lat = info['lat']
     lng = info['lng']
@@ -127,11 +115,8 @@ def api_find_maps(r):
     }
 
 
-@jsonView()
-@logRequest('new_game')
-def api_new_game(r):
-    
-    info = json.loads(r.REQUEST['json'])
+@apiRequest('new_game')
+def api_new_game(r, info):
     
     map = Map.objects.get(id=info['map'])
     game = Game.create(map)
@@ -164,11 +149,8 @@ def api_new_game(r):
     }
 
 
-@jsonView()
-@logRequest('new_game')
+@apiRequest('new_game')
 def api_join_game(r):
-    
-    info = json.loads(r.REQUEST['json'])
     
     game = Game.objects.get(id=info['game'])
     
@@ -179,11 +161,9 @@ def api_join_game(r):
     }
 
 
-@jsonView()
-@logRequest('submit_and_get_events')
-def api_submit_and_get_events(r):
+@apiRequest('submit_and_get_events')
+def api_submit_and_get_events(r, info):
     
-    info = json.loads(r.REQUEST['json'])
     i__gte = int(info['i__gte'])
     gameId = int(info['game'])
     
@@ -277,9 +257,8 @@ def api_submit_and_get_events(r):
     }
 
 
-@jsonView()
-@logRequest('map_create')
-def api_map_create(r):
+@apiRequest('map_create')
+def api_map_create(r, info):
     
     map = Map.create()
     
@@ -290,11 +269,8 @@ def api_map_create(r):
     }
 
 
-@jsonView()
-@logRequest('map_add_points')
-def api_map_add_points(r):
-    
-    newInfo = json.loads(r.REQUEST['json'])
+@apiRequest('map_add_points')
+def api_map_add_points(r, newInfo):
     
     # Validate points:
     for k in newInfo.keys():
@@ -324,11 +300,8 @@ def api_map_add_points(r):
     }
 
 
-
-
-@jsonView()
-@logRequest('debug')
-def api_debug(r):
+@apiRequest('debug')
+def api_debug(r, info):
     
     if 'raise' in r.REQUEST:
         raise Exception
@@ -338,27 +311,6 @@ def api_debug(r):
         'POST': r.POST,
         'GET': r.GET,
     }
-
-
-@jsonView()
-@logRequest('temp')
-def api_temp(r):
-    
-    points = []
-    
-    for e in Event.objects.all():
-        if e.eventType == 1:
-            info = json.loads(e.eventJson)
-            points.append([
-                info['lat'].strip(),
-                info['lng'].strip(),
-            ])
-    
-    return {
-        'points': points,
-    }
-
-
 
 
 def _handleCollisionWithPhone(gameId, phoneId, data, protagonistPhone):
@@ -430,5 +382,4 @@ def _handlePossiblePowerModeExpiration(gameId):
                     }))
             e.save()
             v = redisConn.delete('g-powerModeUntil:%d' % gameId)
-
 

@@ -5,15 +5,6 @@ from dotmuncher.models import Phone, Map, Game, Event
 from dotmuncher.dm_util import view
 
 
-@view('dotmuncher/404.html')
-def handler404(r):
-  pass
-
-
-@view('dotmuncher/500.html')
-def handler500(r):
-  pass
-
 
 @view('dotmuncher/index.html')
 def index(r):
@@ -39,9 +30,6 @@ def games(r):
     pass
 
 
-
-
-
 @view('dotmuncher/define_map.html')
 def define_map(r):
     pass
@@ -52,7 +40,7 @@ def map(r):
     
     if 'id' not in r.GET:
         return HttpResponse('Invalid URL')#HANDLE
-    token = r.GET['id']
+    token = r.GET['token']
     
     map = Map.objects.get(token=token)
     
@@ -76,5 +64,14 @@ def game(r):
         'map': game.map,
     }
 
+
+@view('dotmuncher/404.html')
+def handler404(r):
+    pass
+
+
+@view('dotmuncher/500.html')
+def handler500(r):
+    pass
 
 

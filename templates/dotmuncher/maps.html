@@ -44,7 +44,7 @@
 </center>
 
 {% for map in maps %}
-<a class="map" href="{% url map %}?id={{ map.token }}">
+<a class="map" href="{% url map %}?token={{ map.token }}">
     <div class="map">
         <div class="map_thumbnail">
             <center>

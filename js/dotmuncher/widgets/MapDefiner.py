@@ -173,5 +173,5 @@ class MapDefiner:
     
     def _saved(self, mapToken):
         pass
-        #goToUrl('{% url map %}?id=' + mapToken)
+        #goToUrl('{% url map %}?token=' + mapToken)
 

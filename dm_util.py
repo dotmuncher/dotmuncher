@@ -4,6 +4,7 @@ import struct, urllib, urllib2, json, sys, traceback, StringIO, random
 import keyjson
 
 from django.http import HttpResponse
+from django.shortcuts import render_to_response
 
 
 
@@ -25,12 +26,12 @@ def jsonView(**outerKwargs):
             if isinstance(x, HttpResponse):
                 return x
             else:
-                return _jsonReponse(r, x)
+                return jsonReponse(r, x)
         return f2
     return outer
 
 
-def _jsonReponse(r, x):
+def jsonReponse(r, x):
     b = json.dumps(x)
     if 'jsonp' in r.GET:
         b = r.GET['jsonp'] + '(' + b + ')'
@@ -48,7 +49,6 @@ def view(templateName):
                 response = x
             else:
                 x = x or {}
-                x.update(csrf(r))
                 response = render_to_response(templateName, x)
             return response
         return f2

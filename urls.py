@@ -23,12 +23,12 @@ urlpatterns = patterns('dotmuncher.views',
     url(r'^watch-game/$', 'game', name='game'),
 )
 
+#### API views
+
 urlpatterns += patterns('dotmuncher.views_api',
     
     url(r'^api/v0/debug\.json$', 'api_debug', name='api_debug'),
-    #url(r'^api/v0/temp\.json$', 'api_temp', name='api_temp'),
     url(r'^api/v0/demo_magic\.json$', 'api_demo_magic', name='api_demo_magic'),
-    
     
     url(r'^api/v0/find_games\.json$', 'api_find_games', name='api_find_games'),
     url(r'^api/v0/find_maps\.json$', 'api_find_maps', name='api_find_maps'),
@@ -36,29 +36,20 @@ urlpatterns += patterns('dotmuncher.views_api',
     url(r'^api/v0/join_game\.json$', 'api_join_game', name='api_join_game'),
     url(r'^api/v0/submit_and_get_events\.json$', 'api_submit_and_get_events', name='api_submit_and_get_events'),
     
-    
     url(r'^api/v0/api_map_create\.json$', 'api_map_create', name='api_map_create'),
     url(r'^api/v0/api_map_add_points\.json$', 'api_map_add_points', name='api_map_add_points'),
 )
 
-
-
-
 #### Dev views
-#if settings.DEVMODE:
-if True:#TEMP
-    urlpatterns += patterns('dotmuncher.views_dev',
-        
-        url(r'^dev/events/$', 'dev_events', name='dev_events'),
-        url(r'^dev/requests/$', 'dev_requests', name='dev_requests'),
-        
-        url(r'^all-mocks/$', 'all_mocks', name='all_mocks'),
-        url(r'^mock/(.+)$', 'mock', name='mock'),
-    )
 
+urlpatterns += patterns('dotmuncher.views_dev',
+    url(r'^dev/events/$', 'dev_events', name='dev_events'),
+    url(r'^dev/requests/$', 'dev_requests', name='dev_requests'),
+)
 
 #### JavaScript (for dev mode)
 # Assumes your deployment system will never let /static/* reach Django
+
 urlpatterns += patterns('pj.django',
     url(r'^static/js/dotmuncher\.js$', 'jsView',
         {
@@ -69,8 +60,8 @@ urlpatterns += patterns('pj.django',
         name='dotmuncher_js'),
 )
 
-
 #### /static/ (for dev mode)
+# Assumes your deployment system will never let /static/* reach Django
 
 def parentOf(path):
     return '/'.join(path.rstrip('/').split('/')[:-1])
