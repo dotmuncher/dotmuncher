@@ -14,13 +14,48 @@
             
             font-family: Georgia;
         }
+        a {
+            color: #DDD;
+            text-decoration: none;
+        }
+        a:visited {
+            color: #DDD;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .logo {
+            font-size: 18px;
+        }
+        
+        .footer {
+            font-size: 12px;
+        }
         
     </style>
     {% block head %}{% endblock %}
 </head>
 <body{% block onload %}{% endblock %}>
     
+    <div class="logo">
+        <a href="/">
+            dotmuncher
+        </a>
+    </div>
+    <hr width="100%">
+    
     {% block content %}{% endblock %}
     
+    
+    <div class="footer">
+        <hr width="100%">
+        <br>
+        <center>
+            <a href="#TODO">
+                Follow us on Twitter
+            </a>
+        </center>
+    </div>
 </body>
 </html>

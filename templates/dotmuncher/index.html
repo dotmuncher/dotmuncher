@@ -3,14 +3,37 @@
 {% block head %}
 <style type="text/css">
     
-    
+    li {
+        margin: 40px;
+        list-style-type: none;
+        
+        font-size: 200%;
+    }
     
 </style>
 {% endblock %}
 {% block content %}
 
+<center>
 
-<h2>TODO main page</h2>
+<ul>
+    <li>
+        <a href="{% url define_map %}">
+            New Map
+        </a>
+    </li>
+    <li>
+        <a href="{% url maps %}">
+            Maps
+        </a>
+    </li>
+    <li>
+        <a href="{% url games %}">
+            Games
+        </a>
+    </li>
+</ul>
 
+</center>
 
 {% endblock %}
