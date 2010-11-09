@@ -1,6 +1,6 @@
 package com.dotmuncher.android.events;
 
-public class DMGame {
+public class DMMapEvent {
 	public String getId() {
 		return id;
 	}
@@ -10,4 +10,5 @@ public class DMGame {
 	}
 
 	private String id;
+
 }

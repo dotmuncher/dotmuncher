@@ -171,9 +171,9 @@ public class DotMuncher extends MapActivity {
         mMapView.setEnabled(true);
         
         
-        // Init        
+        // Init Controler        
         dmEventControler = new DMEventControler();
-        dmEventControler.submit_and_get_events();
+        //dmEventControler.submit_and_get_events();
         
 		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
 		
@@ -606,14 +606,13 @@ public class DotMuncher extends MapActivity {
     private class MyLocationListener implements LocationListener 
     {
         @Override
-        public void onLocationChanged(Location loc) {
-        	dmEventControler.submit_and_get_events();
-        	
+        public void onLocationChanged(Location loc) {        	
             if (loc != null) {
                 Toast.makeText(getBaseContext(), 
                     "Location changed : Lat: " + loc.getLatitude() + 
                     " Lng: " + loc.getLongitude(), 
                     Toast.LENGTH_SHORT).show();
+                dmEventControler.submit_and_get_events(loc);
             }
         }
 
