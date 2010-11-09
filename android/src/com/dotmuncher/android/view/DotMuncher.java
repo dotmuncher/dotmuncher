@@ -171,7 +171,7 @@ public class DotMuncher extends MapActivity {
         mMapView.setEnabled(true);
         
         
-        // Init        
+        // Init Controler        
         dmEventControler = new DMEventControler();
         //dmEventControler.submit_and_get_events();
         

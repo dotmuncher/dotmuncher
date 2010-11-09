@@ -10,13 +10,13 @@ import org.json.JSONObject;
 
 import com.dotmuncher.android.events.DMEvent;
 import com.dotmuncher.android.events.DMEvents;
-import com.dotmuncher.android.events.DMGame;
-import com.dotmuncher.android.events.DMGames;
-import com.dotmuncher.android.events.DMMap;
-import com.dotmuncher.android.events.DMMaps;
+import com.dotmuncher.android.events.DMGameEvent;
+import com.dotmuncher.android.events.DMMapEvent;
 import com.dotmuncher.android.events.DMSubmit;
 import com.dotmuncher.android.events.TwitterTrend;
 import com.dotmuncher.android.events.TwitterTrends;
+import com.dotmuncher.android.states.DMGame;
+import com.dotmuncher.android.states.DMMap;
 import com.google.gson.Gson;
 
 import android.location.Location;
@@ -41,9 +41,9 @@ public class DMEventControler {
         //gson.toJson(maps);
         Reader r = new InputStreamReader(getJSONData("/api/v0/find_maps.json",""));
         Log.i("MY INFO", r.toString());
-        DMMaps objs = gson.fromJson(r, DMMaps.class);
+        DMMap objs = gson.fromJson(r, DMMap.class);
         Log.i("MY INFO", ""+objs.getMaps().size());
-        for(DMMap m : objs.getMaps()){
+        for(DMMapEvent m : objs.getMaps()){
             Log.i("MAP", m.getId());
         }
         }catch(Exception ex){
@@ -58,9 +58,9 @@ public class DMEventControler {
         //gson.toJson(games);
         Reader r = new InputStreamReader(getJSONData("/api/v0/find_games.json",""));
         Log.i("MY INFO", r.toString());
-        DMGames objs = gson.fromJson(r, DMGames.class);
+        DMGame objs = gson.fromJson(r, DMGame.class);
         Log.i("MY INFO", ""+objs.getGames().size());
-        for(DMGame g : objs.getGames()){
+        for(DMGameEvent g : objs.getGames()){
             Log.i("GAME", g.getId());
         }
         }catch(Exception ex){
