@@ -38,7 +38,7 @@ def define_map(r):
 @view('dotmuncher/map.html')
 def map(r):
     
-    if 'id' not in r.GET:
+    if 'token' not in r.GET:
         return HttpResponse('Invalid URL')#HANDLE
     token = r.GET['token']
     
