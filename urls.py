@@ -60,7 +60,7 @@ if True:#TEMP
 #### JavaScript (for dev mode)
 # Assumes your deployment system will never let /static/* reach Django
 urlpatterns += patterns('pj.django',
-    url(r'^static/js/dotmuncher\.js', 'jsView',
+    url(r'^static/js/dotmuncher\.js$', 'jsView',
         {
           'main': 'dotmuncher.main',
           'jsPrefix': '''
