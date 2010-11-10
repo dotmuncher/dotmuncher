@@ -4,8 +4,8 @@ package com.dotmuncher.android.events;
 public class DMEvent {	
 	private String lat;
 	private String lgn;
-	private String phone;
-	private String game;
+	private int phone;
+	private int game;
 	
 	public String getLat() {
 		return lat;
@@ -19,16 +19,16 @@ public class DMEvent {
 	public void setLgn(String lgn) {
 		this.lgn = lgn;
 	}
-	public String getPhone() {
+	public int getPhone() {
 		return phone;
 	}
-	public void setPhone(String phone) {
+	public void setPhone(int phone) {
 		this.phone = phone;
 	}
-	public String getGame() {
+	public int getGame() {
 		return game;
 	}
-	public void setGame(String game) {
+	public void setGame(int game) {
 		this.game = game;
 	}
 }
