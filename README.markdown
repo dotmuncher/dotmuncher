@@ -118,7 +118,7 @@ phone: an integer assigned by the server</pre>
 
 {
     type: ITEM_EATEN_EVENT = 7
-    k: '["p",lat,lng]' for power pellets, '["d",lat,lng]' for path dots
+    k: '["p","lat","lng"]' for power pellets, '["d","lat","lng"]' for path dots
 }
 
 {
