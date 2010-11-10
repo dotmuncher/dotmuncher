@@ -4,13 +4,19 @@
 
 <pre>GET /api/v0/..name....json?json=...input... ---> JSON response</pre>
 
-<pre>phoneToken: ("i_" + UDID) if iOS, ("a_" +  Android phone id) if Android</pre>
+<pre>phoneToken: ("i_" + UDID) if iOS, ("a_" +  Android phone id) if Android
+phone: an integer assigned by the server</pre>
 
-### demo_magic
 
-<pre>{} --> {"join": pos. int game id} or {"join": 0, "map": int map id}
+### update\_phone\_settings
 
-{"reset": true} --> {}</pre>
+<pre>{
+    phoneToken: 
+    name: 
+}
+{
+    phoneId: phone integer
+}</pre>
 
 ### find_games
 
@@ -18,9 +24,8 @@
     "lat": string
     "lng": string
     "phoneToken": string
-}</pre>
-
-<pre>{
+}
+{
     "phoneId": int
     "items": [
         {
@@ -36,9 +41,8 @@
     "lat": string
     "lng": string
     "phoneToken": string
-}</pre>
-
-<pre>{
+}
+{
     "phoneId": int
     "items": [
         {
@@ -52,9 +56,8 @@
 ### new_game
 <pre>{
     "map": int id
-}</pre>
-
-<pre>{
+}
+{
     "game": int id,
     "mapInfo": {
         "pathPoints": [["...lat...", "...lng..."], ...],
@@ -67,81 +70,60 @@
 ### join_game
 <pre>{
     "game": int id
-}</pre>
-
-<pre>{
+}
+{
     "mapInfo": ...see new_game...
 }</pre>
 
-### submit\_and\_get\_events
+### update
 
 <pre>{
-    "game": int id,
-    "i__gte": int, // request events with id >= this
-    "events": [
-        [
-            POSITION_EVENT,
-            {...}
-        ],
+    'lat': ""
+    'lng': ""
+    
+    'hacc': ""
+    'vacc': ""
+    
+    'game': int
+    'phone': int
+    
+    'id__gte': int
+}
+{
+    phones: [
+        // ordered by the official order in which the phones joined the game
+        [phone, "...lat...", "...lng..."],
+    ],
+    powerMode: bool,
+    events: [
+        [id, {...}],
+        [id, {...}],
         ...
     ]
 }</pre>
 
-<pre>{
-    "events": [...],
-    "min_i": int id of last event in events. (-1 if events == [])
-    "max_i": int id of last event in events. (-1 if events == [])
-}</pre>
+## Events
 
+<pre>{// sent by server when handling {new_game,join_game}
+    type: OHHAI_EVENT = 2
+    phone: phone integer
+    name: string
+}
 
-## EVENTS
+{
+    type: PHONE_EATEN_EVENT = 6
+    eater: phone integer
+    eatee: phone integer
+}
 
+{
+    type: ITEM_EATEN_EVENT = 7
+    k: '["p",lat,lng]' for power pellets, '["d",lat,lng]' for path dots
+}
 
-### OHHAI_EVENT
-
-Each phone sends this when it joins a game.
-
-<pre>[2, {
-    "game": int id
-    "phone": int id
-}]</pre>
-
-### POSITION_EVENT
-
-Each phone sends this repeatedly.
-
-<pre>[1, {
-    "game": int id
-    "phone": int id
-    
-    "lat": string
-    "lng": string
-    
-    "hacc": number, in meters
-    "vacc": number, in meters
-}]</pre>
-
-### POWER\_PELLET\_EVENT
-
-Sent by server.
-
-<pre>[3, {
-    "active": boolean
-}]</pre>
-
-### COLLISION_EVENT
-
-Sent by server.
-
-<pre>[4, {
-    "eater": int phone id,
-    "eatee": int phone id,
-}]</pre>
-
-### DOT\_EATEN\_EVENT
-
-Sent by server.
-
-<pre>[5, {
-    "point": ["...lat...", "...lng..."]
-}]</pre>
+{
+    type: GAME_OVER = 8
+    reason: int
+}
+GAMEOVER_PACMAN_WINS = 1
+GAMEOVER_PACMAN_LOSES = 2</pre>
