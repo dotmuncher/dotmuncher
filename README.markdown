@@ -96,8 +96,8 @@ phone: an integer assigned by the server</pre>
     ],
     powerMode: bool,
     events: [
-        [id, {...}],
-        [id, {...}],
+        {...}, // (i: event id) and (t: ms since epoch) have been added to each event's dictionary
+        {...},
         ...
     ]
 }</pre>
