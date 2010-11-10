@@ -8,7 +8,7 @@ public class POSITION_EVENT {
     private String lat;
     private String lng;
     
-    private int hacc;
-    private int vacc;
+    private float hacc;
+    private float vacc;
     
 }
