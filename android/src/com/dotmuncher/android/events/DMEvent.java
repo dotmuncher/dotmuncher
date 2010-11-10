@@ -3,7 +3,7 @@ package com.dotmuncher.android.events;
 
 public class DMEvent {	
 	private String lat;
-	private String lgn;
+	private String lng;
 	private int phone;
 	private int game;
 	
@@ -14,10 +14,10 @@ public class DMEvent {
 		this.lat = lat;
 	}
 	public String getLgn() {
-		return lgn;
+		return lng;
 	}
 	public void setLgn(String lgn) {
-		this.lgn = lgn;
+		this.lng = lgn;
 	}
 	public int getPhone() {
 		return phone;
