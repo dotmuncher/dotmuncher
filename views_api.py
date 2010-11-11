@@ -105,8 +105,6 @@ def api_new_game(r, info):
     
     redisConn.set('g_mapInfo:%d' % game, mapModel.infoJson)
     
-    redisConn.set('demomagic_gameId', str(game))
-    
     
     redisConn.rpush('g_phones:%d' % game, str(phone))
     Event.appendEvent(game, {
@@ -166,8 +164,6 @@ def api_map_create(r, info):
     
     map = Map.create()
     
-    redisConn.set('demomagic_mapId', str(map.id))
-    
     return {
         'token': map.token,
     }
@@ -217,21 +213,6 @@ def api_debug(r, info):
         'POST': r.POST,
         'GET': r.GET,
     }
-
-
-@apiRequest('demo_magic')
-def api_demo_magic(r, info):
-    
-    if info.get('reset'):
-        redisConn.delete('demomagic_gameId')
-        return {}
-    
-    else:
-        v = redisConn.get('demomagic_gameId')
-        if v:
-            return {"join": int(v)}
-        else:
-            return {"join": 0, "map": int(redisConn.get('demomagic_mapId'))}
 
 
 
