@@ -3,6 +3,7 @@
     <title>{% block title %}{% endblock %}</title>
     <style type="text/css">
         
+        
         body {
             
             margin: 0;
@@ -35,8 +36,13 @@
         
     </style>
     {% block head %}{% endblock %}
+    <script type="text/javascript" charset="utf-8">
+        var byId = function(s) {
+            return document.getElementById(s);
+        };
+    </script>
 </head>
-<body{% block onload %}{% endblock %}>
+<body onload="if (window.init) { init(); }">
     
     <div class="logo">
         <a href="/">

@@ -10,6 +10,10 @@ from base64 import b64encode, b64decode
 
 from dotmuncher.dm_util import invertedDict, ppJsonDumps, randomToken
 
+from django.http import HttpResponseRedirect
+from dotmuncher.constants import *
+from dotmuncher.dm_util import exceptionStr, jsonView, jsonReponse
+
 
 redisConn = None
 try:
@@ -26,14 +30,14 @@ except Exception:
 TABLE_PREFIX = 'dotmuncher_'
 
 
-TYPENAME_TYPENUM_MAP = {
-    'POSITION_EVENT': 1,
-    'OHHAI_EVENT': 2,
-    'POWER_PELLET_EVENT': 3,
-    'COLLISION_EVENT': 4,
-    'DOT_EATEN_EVENT': 5,
+
+POSITION_EVENT = 1
+OHHAI_EVENT = 2
+
+TYPENUM_TYPENAM_MAP = {
+    POSITION_EVENT: 'POSITION_EVENT',
+    OHHAI_EVENT: 'OHHAI_EVENT',
 }
-TYPENUM_TYPENAM_MAP = invertedDict(TYPENAME_TYPENUM_MAP)
 
 
 class Phone(models.Model):
@@ -42,8 +46,9 @@ class Phone(models.Model):
         db_table = TABLE_PREFIX + 'phone'
     
     token = models.CharField(max_length=50, unique=True)
-    name_utf8 = models.CharField(max_length=100)
+    
     # utf8_64
+    name_utf8 = models.CharField(max_length=100)
     
     @classmethod
     def forToken(cls, token):
@@ -57,6 +62,14 @@ class Phone(models.Model):
             m.save()
         
         return m
+    
+    @property
+    def name(self):
+        return unicode(b64decode(self.name_utf8), 'utf-8')
+    
+    def setName(self, name):
+        self.name_utf8 = b64encode(unicode(name).encode('utf-8'))
+        self.save()
 
 
 BLANK_MAP_INFO = {
@@ -121,22 +134,46 @@ class Game(models.Model):
         return m
     
     @property
+    def numEvents(self):
+        return int(redisConn.get('g_numEvents:%d' % self.id) or 0)
+    
+    @property
     def info(self):
         return json.loads(self.infoJson) if self.infoJson else {}
 
 
-class Event(models.Model):
+class Event:
     
-    class Meta:
-        db_table = TABLE_PREFIX + 'event'
-    
-    gameId = models.IntegerField(default=-1)
-    eventType = models.IntegerField()
-    eventJson = models.CharField(max_length=1000)
+    def __init__(self, gameId, eventInfo):
+        self.gameId = gameId
+        self.eventInfo = eventInfo
     
     @property
     def name(self):
-        return TYPENUM_TYPENAM_MAP[self.eventType]
+        return TYPENUM_TYPENAM_MAP.get(self.eventInfo.get('type', '?'), '?')
+    
+    @property
+    def eventJson(self):
+        return json.dumps(self.eventInfo)
+    
+    @classmethod
+    def appendEvent(cls, gameId, eventInfo):
+        redisConn.incr('numEvents', 1)
+        i = redisConn.incr('g_numEvents:%d' % gameId, 1)
+        eventInfo['t'] = int(time.time() * 1000)
+        eventInfo['i'] = i
+        redisConn.set(
+            'g_i_event:%d:%d' % (gameId, i),
+            json.dumps(eventInfo))
+    
+    @classmethod
+    def getEvents(cls, gameId, id__gte):
+        numEvents = int(redisConn.get('g_numEvents:%d' % gameId) or 0)
+        for i in range(id__gte, numEvents + 1):
+            j = redisConn.get('g_i_event:%d:%d' % (gameId, i))
+            if j:
+                eventInfo = json.loads(j)
+                yield cls(gameId, eventInfo)
 
 
 # for debugging
@@ -167,5 +204,47 @@ class APIRequest(models.Model):
     def prettyJsonHtml(self):
         info = json.loads(self.infoJson or '{}')
         return ppJsonDumps(info).replace('\n', '<br>')
+
+
+
+def apiRequest(callName):
+    def outer(f):
+        def f2(r):
+            
+            callJson = r.REQUEST.get('json', '')
+            
+            info = {
+                'callName': callName,
+                'callJson': callJson,
+            }
+            
+            if 'phone' in r.REQUEST:
+                try:
+                    info['phone'] = int(r.REQUEST['phone'])
+                except Exception:
+                    pass
+            
+            try:
+                t1 = time.time()
+                info = json.loads(callJson)
+                x = f(r, info)
+                duration = time.time() - t1
+                ms = int(duration * 1000)
+            except Exception:
+                info['exception'] = exceptionStr()
+                APIRequest.log(info)
+                raise
+            
+            info['ms'] = ms
+            
+            if isinstance(x, dict):
+                info['responseInfo'] = x
+            
+            #APIRequest.log(info)
+            
+            return jsonReponse(r, x)
+            
+        return f2
+    return outer
 
 

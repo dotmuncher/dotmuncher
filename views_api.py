@@ -3,72 +3,45 @@ import json, struct, time
 
 from django.http import HttpResponseRedirect
 
-import keyjson
-
 from dotmuncher.models import *
 from dotmuncher.constants import *
-from dotmuncher.dm_util import coordScore, exceptionStr, jsonView, jsonReponse
+from dotmuncher.dm_util import exceptionStr, jsonView, jsonReponse
 
 
-# 40008000 / 360 = 111133.333 m / deg
-# (6 (m) / 111133.333 (m/deg)) = 0.000054 deg
-COLLISION_COORD_PLUSORMINUS = 0.000054
+#### update
 
-
-def apiRequest(callName):
-    def outer(f):
-        def f2(r):
-            
-            callJson = r.REQUEST.get('json', '')
-            
-            info = {
-                'callName': callName,
-                'callJson': callJson,
-            }
-            
-            if 'phone' in r.REQUEST:
-                try:
-                    info['phone'] = int(r.REQUEST['phone'])
-                except Exception:
-                    pass
-            
-            try:
-                t1 = time.time()
-                info = json.loads(callJson)
-                x = f(r, info)
-                duration = time.time() - t1
-                ms = int(duration * 1000)
-            except Exception:
-                info['exception'] = exceptionStr()
-                APIRequest.log(info)
-                raise
-            
-            info['ms'] = ms
-            
-            if isinstance(x, dict):
-                info['responseInfo'] = x
-            
-            APIRequest.log(info)
-            
-            return jsonReponse(r, x)
-            
-        return f2
-    return outer
-
-
-@apiRequest('find_games')
-def api_demo_magic(r, info):
+@apiRequest('update')
+def api_update(r, info):
     
-    if info.get('reset'):
-        redisConn.delete('demomagic_gameId')
-        return {}
+    now = int(time.time() * 1000)
     
-    else:
-        v = redisConn.get('demomagic_gameId')
-        if v:
-            return {"join": int(v)}
-        else:
-            return {"join": 0, "map": int(redisConn.get('demomagic_mapId'))}
+    # Kinda validate the input
+    lat = str(info['lat'])
+    lng = str(info['lng'])
+    hacc = float(info['hacc'])
+    vacc = float(info['vacc'])
+    game = int(info['game'])
+    phone = int(info['phone'])
+    id__gte = int(info['id__gte'])
+    
+    # Update phone status
+    redisConn.set(
+                'g_p_pos:%d:%d' % (game, phone),
+                json.dumps({
+                    't': now,
+                    'lat': lat, 
+                    'lng': lng,
+                }))
+    
+    # Get events
+    events = [e.eventInfo for e in Event.getEvents(game, id__gte)]
+    
+    # Get {phoneStates:, powerMode:}
+    info = _loadGameInfo(game, now)
+    
+    info['events'] = events
+    
+    return info
 
 
 @apiRequest('find_games')
@@ -79,6 +52,8 @@ def api_find_games(r, info):
     phoneToken = info['phoneToken']
     
     phone = Phone.forToken(phoneToken)
+    
+    #TODO find by lastEventAt, lat, lng
     
     items = []
     for game in (Game.objects
@@ -102,6 +77,8 @@ def api_find_maps(r, info):
     
     phone = Phone.forToken(phoneToken)
     
+    #TODO find by lastEventAt, lat, lng
+    
     items = []
     for game in (Map.objects
                         .order_by('-id'))[:25]:
@@ -118,142 +95,67 @@ def api_find_maps(r, info):
 @apiRequest('new_game')
 def api_new_game(r, info):
     
-    map = Map.objects.get(id=info['map'])
-    game = Game.create(map)
+    phone = str(info['phone'])
     
-    redisConn.set('demomagic_gameId', str(game.id))
+    mapModel = Map.objects.get(id=info['map'])
+    mapInfo = mapModel.info
     
-    mapInfo = map.info
+    gameModel = Game.create(mapModel)
+    game = gameModel.id
     
-    for prefix, lls in (
-                    ('d', mapInfo['dotPoints']),
-                    ('p', mapInfo['powerPelletPoints'])):
-        for ll in lls:
-            lat, lng = ll
-            redisConn.zadd(
-                            'gp-lat:%d' % game.id,
-                            coordScore(lat),
-                            prefix + json.dumps(ll))
-            redisConn.zadd(
-                            'gp-lng:%d' % game.id,
-                            coordScore(lng),
-                            prefix + json.dumps(ll))
+    redisConn.set('g_mapInfo:%d' % game, mapModel.infoJson)
+    
+    
+    redisConn.rpush('g_phones:%d' % game, str(phone))
+    Event.appendEvent(game, {
+        'type': OHHAI_EVENT,
+        'phone': phone,
+        'name': Phone.objects.get(id=phone).name,
+    })
     
     if info.get('redirect'):
-        return HttpResponseRedirect('/watch-game/?id=' + str(game.id))#DRY
+        return HttpResponseRedirect('/watch-game/?id=' + str(game))#DRY
     
     return {
-        'game': game.id,
-        'gameToken': game.token,
+        'game': game,
+        'gameToken': gameModel.token,
         'mapInfo': mapInfo,
     }
 
 
-@apiRequest('new_game')
-def api_join_game(r):
+@apiRequest('join_game')
+def api_join_game(r, info):
     
-    game = Game.objects.get(id=info['game'])
+    phone = int(info['phone'])
+    game = int(info['game'])
+    
+    j = redisConn.get('g_mapInfo:%d' % game)
+    mapInfo = json.loads(j)
+    
+    redisConn.rpush('g_phones:%d' % game, str(phone))
+    Event.appendEvent(game, {
+        'type': OHHAI_EVENT,
+        'phone': phone,
+        'name': Phone.objects.get(id=phone).name,
+    })
     
     return {
-        'game': game.id,
-        'gameToken': game.token,
-        'mapInfo': game.map.info,
+        'mapInfo': mapInfo,
     }
 
 
-@apiRequest('submit_and_get_events')
-def api_submit_and_get_events(r, info):
+
+@apiRequest('update_phone_settings')
+def api_update_phone_settings(r, info):
     
-    i__gte = int(info['i__gte'])
-    gameId = int(info['game'])
+    name = info['name']
+    phoneToken = info['phoneToken']
     
-    # See if power mode has expired
-    _handlePossiblePowerModeExpiration(gameId)
-    
-    # Save events
-    for eventType, eventInfo in info['events']:
-        
-        gameId = int(eventInfo['game'])
-        phoneId = int(eventInfo['phone'])
-        
-        e = Event(
-            gameId=gameId,
-            eventType=eventType,
-            eventJson=json.dumps(eventInfo))
-        e.save()
-        
-        
-        if eventType == TYPENAME_TYPENUM_MAP['OHHAI_EVENT']:
-            # The first kitteh to say hai can be teh protagonist
-            redisConn.setnx('g-protagonistPhone:%d' % gameId, str(phoneId))
-        
-        elif eventType == TYPENAME_TYPENUM_MAP['POSITION_EVENT']:
-            
-            latKey = 'gp-lat:%d' % eventInfo['game']
-            lngKey = 'gp-lng:%d' % eventInfo['game']
-            
-            # Any collisions?
-            
-            latMatches = set(redisConn.zrangebyscore(
-                        latKey,
-                        coordScore(float(eventInfo['lat']) - COLLISION_COORD_PLUSORMINUS),
-                        coordScore(float(eventInfo['lat']) + COLLISION_COORD_PLUSORMINUS)))
-            
-            lngMatches = set(redisConn.zrangebyscore(
-                        lngKey,
-                        coordScore(float(eventInfo['lng']) - COLLISION_COORD_PLUSORMINUS),
-                        coordScore(float(eventInfo['lng']) + COLLISION_COORD_PLUSORMINUS)))
-            
-            matches = latMatches & lngMatches
-            
-            if len(matches) > 0:
-                v = redisConn.get('g-protagonistPhone:%d' % gameId)
-                # Has an OHHAI_EVENT been processed yet?
-                if v:
-                    protagonistPhone = int(v)
-                    for member in matches:
-                        f = {
-                            'u': _handleCollisionWithPhone,
-                            'd': _handleCollisionWithDot,
-                            'p': _handleCollisionWithPowerPellet,
-                        }.get(member[0])
-                        if f:
-                            f(gameId, phoneId, member[1:])
-            
-            # Update this phone's position
-            redisConn.zadd(
-                            latKey,
-                            coordScore(eventInfo['lat']),
-                            'u' + eventInfo['phone'])
-            redisConn.zadd(
-                            lngKey,
-                            coordScore(eventInfo['lng']),
-                            prefix + eventInfo['phone'])
-    
-    #### Get events
-    
-    events = []
-    min_i = -1
-    max_i = -1
-    
-    ids = []
-    
-    for e in (Event.objects
-                        .filter(
-                            gameId=int(info['game']),
-                            id__gte=i__gte)):
-        events.append([
-            e.eventType,
-            json.loads(e.eventJson),
-        ])
-        ids.append(e.id)
-    
-    #TODO: remove extra position_events
+    phone = Phone.forToken(phoneToken)
+    phone.setName(name)
     
     return {
-        'events': events,
-        'min_i': min(ids) if len(ids) > 0 else -1,
-        'max_i': max(ids) if len(ids) > 0 else -1,
+        'phoneId': phone.id,
     }
 
 
@@ -261,8 +163,6 @@ def api_submit_and_get_events(r, info):
 def api_map_create(r, info):
     
     map = Map.create()
-    
-    redisConn.set('demomagic_mapId', str(map.id))
     
     return {
         'token': map.token,
@@ -300,6 +200,8 @@ def api_map_add_points(r, newInfo):
     }
 
 
+#### Temp API calls:
+
 @apiRequest('debug')
 def api_debug(r, info):
     
@@ -313,73 +215,43 @@ def api_debug(r, info):
     }
 
 
-def _handleCollisionWithPhone(gameId, phoneId, data, protagonistPhone):
-    phoneIdOfMatch = int(data)
-    # Is one of the phones the protagonist?
-    if protagonistPhone in set([phoneId, phoneIdOfMatch]):
-        
-        nonProtagonistPhone = (
-                                    phoneId
-                                    if phoneId != protagonistPhone else
-                                    phoneIdOfMatch)
-        
-        v = redisConn.get('g-powerModeUntil:%d' % gameId)
-        if v:
-            powerMode = int(time.time() * 1000) < int(v)
-        else:
-            powerMode = False
-        
-        if powerMode:
-            eater, eatee = protagonistPhone, nonProtagonistPhone
-        else:
-            eater, eatee = nonProtagonistPhone, protagonistPhone
-        
-        e = Event(
-                gameId=gameId,
-                eventType=TYPENAME_TYPENUM_MAP['COLLISION_EVENT'],
-                eventJson=json.dumps({
-                    'eater': eater,
-                    'eatee': eatee,
-                }))
-        e.save()
 
-
-def _handleCollisionWithDot(gameId, phoneId, data, protagonistPhone):
-    if phoneId == protagonistPhone:
-        e = Event(
-                gameId=gameId,
-                eventType=TYPENAME_TYPENUM_MAP['DOT_EATEN_EVENT'],
-                eventJson=json.dumps({
-                    'point': json.loads(data),
-                }))
-        e.save()
-
-
-def _handleCollisionWithPowerPellet(gameId, phoneId, data, protagonistPhone):
-    if phoneId == protagonistPhone:
-        
-        until = int(time.time() * 1000) + POWER_MODE_DURATION_MS
-        redisConn.set('g-powerModeUntil:%d' % game.id, str(until))
-        
-        e = Event(
-                gameId=gameId,
-                eventType=TYPENAME_TYPENUM_MAP['POWER_PELLET_EVENT'],
-                eventJson=json.dumps({
-                    'active': True,
-                }))
-        e.save()
-
-
-def _handlePossiblePowerModeExpiration(gameId):
-    v = redisConn.get('g-powerModeUntil:%d' % gameId)
+def _loadGameInfo(game, now):
+    
+    # Woot, only two blocking redis requests! #prematureoptimization
+    
+    phoneIds = [int(s) for s in redisConn.lrange('g_phones:%d' % game, 0, -1)]
+    
+    keys = (
+                [
+                    'g_p_pos:%d:%d' % (game, p)
+                    for p in phoneIds] +
+                ['g_powerModeUntil:%d' % game])
+    values = redisConn.mget(keys)
+    
+    # Power mode
+    v = values[-1]
     if v:
-        if int(time.time() * 1000) >= int(v):
-            e = Event(
-                    gameId=gameId,
-                    eventType=TYPENAME_TYPENUM_MAP['COLLISION_EVENT'],
-                    eventJson=json.dumps({
-                        'active': False,
-                    }))
-            e.save()
-            v = redisConn.delete('g-powerModeUntil:%d' % gameId)
+        powerMode = int(time.time() * 1000) < int(v)
+    else:
+        powerMode = False
+    
+    # States
+    states = []
+    for i in range(len(phoneIds)):
+        state = {
+            'phone': phoneIds[i],
+        }
+        v = values[i]
+        if v:
+            info = json.loads(v)
+            state['idle'] = now - info['t']
+            state['lat'] = info['lat']
+            state['lng'] = info['lng']
+        states.append(state)
+    
+    return {
+        'phoneStates': states,
+        'powerMode': powerMode,
+    }
 

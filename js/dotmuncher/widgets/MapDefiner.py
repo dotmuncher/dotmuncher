@@ -140,7 +140,9 @@ MD_STATE_SAVING = 3
 
 class MapDefiner:
     
-    def __init__(self, toolbarContainer, overlayContainer):
+    def __init__(self, map, toolbarContainer, overlayContainer):
+        
+        self._map = map
         
         self._state = MD_STATE_ADJUST_MAP
         
@@ -154,7 +156,7 @@ class MapDefiner:
             saveButton,
         ])
         
-        self._overlay = MapDefinerOverlay(self, dotmuncher.map)
+        self._overlay = MapDefinerOverlay(self, map)
         
         toolbarContainer.appendChild(self._toolbar._)
         overlayContainer.appendChild(self._overlay._)

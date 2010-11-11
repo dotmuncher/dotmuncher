@@ -1,8 +1,6 @@
 
 import struct, urllib, urllib2, json, sys, traceback, StringIO, random
 
-import keyjson
-
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 
@@ -79,12 +77,6 @@ def exceptionStr(exc_info=None):
     return f.getvalue()
 
 
-def coordScore(coord):
-    n = int(float(coord) + 200) * 2**62 / 400
-    data = struct.pack('>Q', n)
-    return keyjson.b64encode(data)
-
-
 def encodeURIComponent(s):
     if isinstance(s, unicode):
         return urllib.quote(s.encode('utf-8'))
@@ -96,10 +88,14 @@ def encodeURIComponent(s):
         raise Exception(s)
 
 
-def simpleGet(url, GET=None, userAgent='Python-urllib/2.6'):
+def simpleGet(url, GET=None, userAgent='Python-urllib/2.6', verbose=False):
     
     if GET:
         url += '?' + '&'.join((k + '=' + encodeURIComponent(v)) for k, v in GET.items())
+    
+    if verbose:
+        print(url)
+    
     req = urllib2.Request(url, headers={
         'User-Agent': userAgent,
     })

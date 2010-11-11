@@ -1,6 +1,8 @@
 
 import json
 
+from django.http import HttpResponse
+
 from dotmuncher.models import Phone, Map, Game, Event
 from dotmuncher.dm_util import view
 
@@ -27,12 +29,23 @@ def maps(r):
 
 @view('dotmuncher/games.html')
 def games(r):
-    pass
+    
+    games = (Map.objects
+                    .order_by('-id'))
+    
+    return {
+        'games': games,
+    }
 
 
 @view('dotmuncher/define_map.html')
 def define_map(r):
-    pass
+    #LATER: starting bounds from geo-location
+    return {
+        'zoom': 16,
+        'centerLat': '40.730958',
+        'centerLng': '-73.997008',
+    }
 
 
 @view('dotmuncher/map.html')
@@ -45,8 +58,14 @@ def map(r):
     map = Map.objects.get(token=token)
     
     return {
+        
         'map': map,
         'newGameJson': json.dumps({'map': map.id, 'redirect': True}),
+        
+        #TODO from map
+        'zoom': 16,
+        'centerLat': '40.730958',
+        'centerLng': '-73.997008',
     }
 
 

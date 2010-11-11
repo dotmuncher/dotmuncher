@@ -8,32 +8,22 @@
 
 <script type="text/javascript">
     
-    var $ = function(s) {
-        return document.getElementById(s);
-    }
-    
     var init = function() {
         
         dotmuncher.init();
         
-        createMap();
-        
-        new dotmuncher.MapDefiner(
-                            $('toolbar_container'),
-                            $('overlay_container'));
-        
-    }
-    
-    var createMap = function() {
-        var latlng = new google.maps.LatLng(40.730958,-73.997008);
-        var myOptions = {
-          zoom: 16,
-          center: latlng,
+        var info = {
+          zoom: {{ zoom }},
+          center: new google.maps.LatLng({{ centerLat }}, {{ centerLng }}),
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var map = new google.maps.Map($("mapcanvas"),
-            myOptions);
-        dotmuncher.map = map;
+        var map = new google.maps.Map(byId("mapcanvas"), info);
+        
+        new dotmuncher.MapDefiner(
+                            map,
+                            byId('toolbar_container'),
+                            byId('overlay_container'));
+        
     }
     
 </script>
@@ -41,13 +31,13 @@
     
 </style>
 {% endblock %}
-{% block onload %} onload="init();"{% endblock %}
 {% block content %}
     
-    <div id="toolbar_container"></div>
-    <div id="overlay_container">
-        <div id="mapcanvas"></div>
-    </div>
-
-
+    <center>
+        <div id="toolbar_container"></div>
+        <div id="overlay_container">
+            <div id="mapcanvas"></div>
+        </div>
+    </center>
+    
 {% endblock %}

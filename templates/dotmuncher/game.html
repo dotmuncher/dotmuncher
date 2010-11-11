@@ -9,36 +9,26 @@
 
 <script type="text/javascript">
     
-    var $ = function(s) {
-        return document.getElementById(s);
-    }
-    
     var init = function() {
         
         dotmuncher.init();
         
-        createMap();
-        
-        new dotmuncher.GameViewer(
-                            {{ game.id }},
-                            $('game_toolbar_container'),
-                            $('game_overlay_container'),
-                            {{ map.infoJson|safe }});
-    }
-    
-    var createMap = function() {
-        var latlng = new google.maps.LatLng(40.730958,-73.997008);
-        var myOptions = {
+        var info = {
           zoom: 16,
           navigationControl: false,
           mapTypeControl: false,
           scaleControl: false,
-          center: latlng,
+          center: new google.maps.LatLng(40.730958,-73.997008),
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        var map = new google.maps.Map($("game_mapcanvas"),
-            myOptions);
-        dotmuncher.map = map;
+        var map = new google.maps.Map(byId("mapcanvas"), info);
+        
+        new dotmuncher.GameViewer(
+                            map,
+                            {{ game.id }},
+                            byId('toolbar_container'),
+                            byId('overlay_container'),
+                            {{ map.infoJson|safe }});
     }
     
 </script>
@@ -50,16 +40,15 @@
     
 </style>
 {% endblock %}
-{% block onload %} onload="init();"{% endblock %}
 {% block content %}
     
     <center>
         <h2>Game #{{ game.id }} on map #{{ map.id }}</h2>
     </center>
     
-    <div id="game_toolbar_container"></div>
-    <div id="game_overlay_container">
-        <div id="game_mapcanvas"></div>
+    <div id="toolbar_container"></div>
+    <div id="overlay_container">
+        <div id="mapcanvas"></div>
     </div>
     
 {% endblock %}

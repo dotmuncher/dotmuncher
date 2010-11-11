@@ -3,14 +3,45 @@
 {% block head %}
 <style type="text/css">
     
+    .game {
+        outline: 0;
+        border: 0;
+    }
+    
+    div.game {
+        
+        margin: 20px;
+        
+        padding-top: 30px;
+        
+        border: 1px solid #666;
+        border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+    }
+    a.game:hover div.game {
+        background: #444;
+        border: 1px solid #888;
+    }
+    a.game:active div.game {
+        background: #555;
+        border: 1px solid #BBB;
+    }
     
     
 </style>
 {% endblock %}
 {% block content %}
 
-
-<h2>TODO games</h2>
-
+<center>
+    <h2>Games</h2>
+    {% for game in games %}
+    <a class="game" href="{% url game %}?id={{ game.id }}">
+        <div class="game">
+            Game #{{ game.id }}. #events: {{ game.numEvents }}
+        </div>
+    </a>
+    {% endfor %}
+</center>
 
 {% endblock %}

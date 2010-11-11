@@ -2,6 +2,32 @@
 
 CSS = '''
 
+#overlay_container {
+    position: relative;
+    width: 800px;
+    height: 450px;
+    
+    margin-bottom: 25px;
+}
+#mapcanvas {
+    
+    position: relative;
+    top: 0px;
+    left: 0px;
+    
+    width: 100%;
+    height: 100%;
+    
+    z-index: 10;
+}
+#toolbar_container {
+    
+    margin-top: 25px;
+    
+    width: 798px;
+    height: 80px;
+}
+
 {##########/* Buttons */##########}
 .Button_CSS {
     
@@ -11,7 +37,6 @@ CSS = '''
     outline: 0;
     border: 0;
 }
-
 .MapDefiner_toolbar_editButton_CSS {
     
     position: absolute;
@@ -28,7 +53,6 @@ CSS = '''
 .MapDefiner_toolbar_editButton_CSS:active {
     background: #5C8593;
 }
-
 .MapDefiner_toolbar_saveButton_CSS {
     
     position: absolute;
@@ -46,31 +70,7 @@ CSS = '''
     background: #5C8593;
 }
 
-
-
 {##########/* GameViewer */##########}
-
-#game_overlay_container {
-    position: absolute;
-    width: 800px;
-    height: 450px;
-}
-#game_mapcanvas {
-    
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    
-    width: 100%;
-    height: 100%;
-    
-    z-index: 10;
-}
-#game_toolbar_container {
-    width: 798px;
-    height: 80px;
-}
-
 .GameViewer_toolbar_CSS {
     width: 100%;
     height: 100%;
@@ -83,7 +83,6 @@ CSS = '''
     -moz-border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
 }
-
 .GameViewer_overlay_CSS {
     position: absolute;
     top: 0px;
@@ -111,28 +110,6 @@ CSS = '''
 }
 
 {##########/* MapDefiner */##########}
-
-#overlay_container {
-    position: absolute;
-    width: 800px;
-    height: 450px;
-}
-#mapcanvas {
-    
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    
-    width: 100%;
-    height: 100%;
-    
-    z-index: 10;
-}
-#toolbar_container {
-    width: 798px;
-    height: 80px;
-}
-
 .MapDefiner_toolbar_CSS {
     
     width: 100%;
@@ -142,7 +119,6 @@ CSS = '''
     border-top: 1px solid black;
     border-right: 1px solid black;
 }
-
 .MapDefiner_overlay_CSS {
     position: absolute;
     top: 0px;

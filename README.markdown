@@ -1,4 +1,29 @@
 
+## Quickstart: run the server on your laptop
+
+#### Prereqs:
+
+* [Django 1.2](#TODO), [Redis](#TODO), [redis-py](http://github.com/andymccurdy/redis-py)
+
+#### Folders:
+
+* Create a folder somewhere. By "ROOT", we'll be referring to that folder's full path.
+* Put dotmuncher in ROOT
+* Run <code>python dotmuncher/scripts/get-repos.py</code>, which will git clone these repos to ROOT:
+    * [pyxc-pj](http://github.com/andrewschaaf/pyxc-pj), [dev_deployment](http://github.com/andrewschaaf/dev_deployment), [pj-core](http://github.com/andrewschaaf/pj-core), [pj-closure](http://github.com/andrewschaaf/pj-closure),
+
+#### Environment
+
+* Create ~/.profile (if it doesn't exist) and add this line:
+    * <code>export $PYTHONPATH=ROOT:ROOT/pyxc-pj:$PYTHONPATH</code> (replace "ROOT" with ROOT)
+
+#### Start the servers
+* <code>cd ROOT/dev_deployment; redis-server conf/redis.conf</code>
+* <code>cd ROOT/dev_deployment; env APP=dotmuncher python dotmuncher/manage.py runserver</code>
+
+#### Run the tests
+
+* <code>python tests/all.py</code>
 
 ## API
 
@@ -15,7 +40,7 @@ phone: an integer assigned by the server</pre>
     name: 
 }
 {
-    phoneId: phone integer
+    phone: phone integer
 }</pre>
 
 ### find_games
@@ -26,7 +51,7 @@ phone: an integer assigned by the server</pre>
     "phoneToken": string
 }
 {
-    "phoneId": int
+    "phone": int
     "items": [
         {
             "id": int
@@ -43,7 +68,7 @@ phone: an integer assigned by the server</pre>
     "phoneToken": string
 }
 {
-    "phoneId": int
+    "phone": int
     "items": [
         {
             "id": int
@@ -56,6 +81,7 @@ phone: an integer assigned by the server</pre>
 ### new_game
 <pre>{
     "map": int id
+    "phone": int
 }
 {
     "game": int id,
@@ -70,6 +96,7 @@ phone: an integer assigned by the server</pre>
 ### join_game
 <pre>{
     "game": int id
+    "phone": int
 }
 {
     "mapInfo": ...see new_game...
@@ -78,21 +105,28 @@ phone: an integer assigned by the server</pre>
 ### update
 
 <pre>{
-    'lat': ""
-    'lng': ""
+    lat: ""
+    lng: ""
     
-    'hacc': ""
-    'vacc': ""
+    hacc: ""
+    vacc: ""
     
-    'game': int
-    'phone': int
+    game: int
+    phone: int
     
-    'id__gte': int
+    id__gte: int
 }
 {
-    phones: [
+    phoneStates: [
         // ordered by the official order in which the phones joined the game
-        [phone, "...lat...", "...lng..."],
+        {
+            phone: int,
+            // These will be included iff we've received a sample:
+            lat: "...lat...",
+            lng: "...lng...",
+            idle: ms since update,
+        },
+        ...
     ],
     powerMode: bool,
     events: [
