@@ -3,7 +3,7 @@
 //  iosmuncher
 //
 //  Created by DM on 11/6/10.
-//  see /iosmuncher/LICENSE
+//  see /LICENSE
 //
 
 #import "DMPowerDotAnnotation.h"
