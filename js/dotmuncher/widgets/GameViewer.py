@@ -55,8 +55,9 @@ class EventsFollower:
 
 class GameViewer:
     
-    def __init__(self, gameId, toolbarContainer, overlayContainer, mapInfo):
+    def __init__(self, map, gameId, toolbarContainer, overlayContainer, mapInfo):
         
+        self._map = map
         self._gameId = gameId
         self._mapInfo = mapInfo
         
@@ -72,7 +73,6 @@ class GameViewer:
         toolbarContainer.appendChild(self._toolbar._)
         overlayContainer.appendChild(self._overlay._)
         
-        self._map = dotmuncher.map
         self._overlayView = GMOverlayViewSubclass(self._map)
         
         setTimeout(

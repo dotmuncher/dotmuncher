@@ -6,8 +6,9 @@ from dotmuncher.dm_util import view
 @view('dotmuncher/dev/dev_events.html')
 def dev_events(r):
     
-    events = (Event.objects
-                    .order_by('-id'))[:100]
+    gameId = int(r.REQUEST['game'])
+    
+    events = list(Event.getEvents(gameId, 0))
     
     return {
         'events': events,
@@ -17,12 +18,13 @@ def dev_events(r):
 @view('dotmuncher/dev/dev_requests.html')
 def dev_requests(r):
     
-    qs = APIRequest.objects.order_by('-id')
-    
     if 'phone' in r.REQUEST:
-        qs = qs.filter(phoneId=int(r.REQUEST['phone']))
-    
-    requests = qs[:30]
+        requests = (APIRequest.objects
+                        .order_by('-id')
+                        .filter(phoneId=int(r.REQUEST['phone'])))[:30]
+    else:
+        requests = (APIRequest.objects
+                        .order_by('-id'))[:30]
     
     return {
         'requests': requests,

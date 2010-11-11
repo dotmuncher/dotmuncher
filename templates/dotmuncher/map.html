@@ -1,6 +1,34 @@
 {% extends "dotmuncher/base.html" %}
 {% block title %}TODO title{% endblock %}
 {% block head %}
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.1&amp;sensor=false"></script>
+
+<script type="text/javascript" src="{% url dotmuncher_js %}"></script>
+
+<script type="text/javascript">
+    
+    var init = function() {
+        
+        dotmuncher.init();
+        
+        var info = {
+          zoom: {{ zoom }},
+          center: new google.maps.LatLng({{ centerLat }}, {{ centerLng }}),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(byId("mapcanvas"), info);
+        
+        console.log('map');
+        
+        new dotmuncher.MapDefiner(
+                            map,
+                            byId('toolbar_container'),
+                            byId('overlay_container'));
+        
+    }
+    
+</script>
 <style type="text/css">
     
     
@@ -9,16 +37,19 @@
 {% endblock %}
 {% block content %}
 
+<center>
+    <h2>Map {{ map.token }}</h2>
+    <p>
+        <a href="{% url api_new_game %}?json={{ newGameJson }}">
+            TEMP: new game with this map
+        </a>
+    </p>
+</center>
 
-<h2>Map {{ map.token }}</h2>
-
-<p>
-    <a href="{% url api_new_game %}?json={{ newGameJson }}">
-        TEMP: new game with this map
-    </a>
-</p>
-
-<textarea style="width: 500px; height: 400px;">{{ map.infoJson|safe }}</textarea>
+<div id="toolbar_container"></div>
+<div id="overlay_container">
+    <div id="mapcanvas"></div>
+</div>
 
 
 {% endblock %}
