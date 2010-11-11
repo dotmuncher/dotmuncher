@@ -20,7 +20,9 @@
      own application, the package name must be changed from "com.example.*"
      to come from a domain that you own or have control over. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.google.apis">
+	android:versionCode="1"
+	android:versionName="v0.01"
+    package="org.streetpacman">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -31,7 +33,7 @@
 
         <uses-library android:name="com.google.android.maps" />
 
-       <activity android:name="com.dotmuncher.android.apis.MapsDemo" android:label="MapsDemo">
+       <activity android:name="org.streetpacman.MapsDemo" android:label="Street Pacman">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
                 <action android:name="android.intent.action.MAIN"></action>
@@ -42,18 +44,19 @@
         <!--      VIEW/WIDGET PACKAGE SAMPLES      -->
         <!-- ************************************* -->
 
-        <activity android:name="com.dotmuncher.android.view.DotMuncherDemo" android:label="MapView">
+        <activity android:name="org.streetpacman.view.DotMuncherDemo" android:label="MapView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.dotmuncher.android.view.DotMuncher" android:label="DotMuncher">
+        <activity android:name="org.streetpacman.view.DotMuncher" android:label="Street Pacman">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
-        </activity>
+        </activity>        
    </application>
+   <uses-sdk android:minSdkVersion="8" />
 </manifest>

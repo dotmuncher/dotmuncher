@@ -15,6 +15,6 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="activity_sample_code">Maps API Demos</string>
+    <string name="activity_sample_code">Street Pacman</string>
 </resources>
 
