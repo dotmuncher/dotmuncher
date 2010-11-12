@@ -15,9 +15,9 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="3"
-	android:versionName="0.03"
-    package="com.dotmuncher">
+	android:versionCode="4"
+	android:versionName="0.04"
+    package="org.streetpacman">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -28,7 +28,7 @@
 
         <uses-library android:name="com.google.android.maps" />
 
-       <activity android:name="com.dotmuncher.MapsDemo" android:label="Street Pacman">
+       <activity android:name="org.streetpacman.MapsDemo" android:label="Street Pacman">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
                 <action android:name="android.intent.action.MAIN"></action>
@@ -39,14 +39,14 @@
         <!--      VIEW/WIDGET PACKAGE SAMPLES      -->
         <!-- ************************************* -->
 
-        <activity android:name="com.dotmuncher.view.DotMuncherDemo" android:label="MapView">
+        <activity android:name="org.streetpacman.view.DotMuncherDemo" android:label="MapView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.dotmuncher.view.DotMuncher" android:label="Street Pacman">
+        <activity android:name="org.streetpacman.view.DotMuncher" android:label="Street Pacman">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
