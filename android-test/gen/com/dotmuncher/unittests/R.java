@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.dotmuncher.test;
+package com.dotmuncher.unittests;
 
 public final class R {
     public static final class attr {
