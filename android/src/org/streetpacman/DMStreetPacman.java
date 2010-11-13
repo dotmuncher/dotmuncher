@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.streetpacman.view;
+package org.streetpacman;
 
 import java.util.UUID;
 
@@ -57,19 +57,19 @@ import org.streetpacman.events.*;
 /**
  * Example of how to use an {@link com.google.android.maps.MapView}
  * in conjunction with the {@link com.hardware.SensorManager}
- * <h3>DotMuncher</h3>
+ * <h3>DMStreetPacman</h3>
 
-<p>This demonstrates creating a Map based Activity.</p>
+<p>This demonstrates creating a DMMap based Activity.</p>
 
 <h4>Source files</h4>
  * <table class="LinkTable">
  *         <tr>
- *             <td >src/org.streetpacman/view/DotMuncher.java</td>
+ *             <td >src/org.streetpacman/view/DMStreetPacman.java</td>
  *             <td >The Alert Dialog Samples implementation</td>
  *         </tr>
  * </table>
  */
-public class DotMuncher extends MapActivity {
+public class DMStreetPacman extends MapActivity {
 
 	private DMEventControler dmEventControler;
     private DMAppControler dmAppControler; // DMAppControler
@@ -77,7 +77,7 @@ public class DotMuncher extends MapActivity {
     private LocationManager lm;
     private LocationListener locationListener;
     
-    private static final String TAG = "DotMuncher";
+    private static final String TAG = "DMStreetPacman";
     private SensorManager mSensorManager;
     private RotateView mRotateView;
     private MapView mMapView;
@@ -614,7 +614,7 @@ public class DotMuncher extends MapActivity {
                     "Location changed : Lat: " + loc.getLatitude() + 
                     " Lng: " + loc.getLongitude(), 
                     Toast.LENGTH_SHORT).show();
-                dmEventControler.submit_and_get_events(loc);
+                //dmEventControler.submit_and_get_events(loc);
             }
         }
 

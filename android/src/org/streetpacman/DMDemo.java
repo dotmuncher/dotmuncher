@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.streetpacman.view;
+package org.streetpacman;
 
 import org.streetpacman.R;
 
@@ -24,9 +24,9 @@ import android.os.Bundle;
 
 /**
  * Example of how to use an {@link com.google.android.maps.MapView}.
- * <h3>DotMuncherDemo</h3>
+ * <h3>DMDemo</h3>
 
-<p>This demonstrates creating a Map based Activity.</p>
+<p>This demonstrates creating a DMMap based Activity.</p>
 
 <h4>Demo</h4>
 Views/MapView
@@ -34,7 +34,7 @@ Views/MapView
 <h4>Source files</h4>
  * <table class="LinkTable">
  *         <tr>
- *             <td >src/org.streetpacman/view/DotMuncherDemo.java</td>
+ *             <td >src/org.streetpacman/view/DMDemo.java</td>
  *             <td >The Alert Dialog Samples implementation</td>
  *         </tr>
  *         <tr>
@@ -43,7 +43,7 @@ Views/MapView
  *         </tr>
  * </table>
  */
-public class DotMuncherDemo extends MapActivity {
+public class DMDemo extends MapActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

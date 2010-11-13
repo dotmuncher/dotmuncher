@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapsDemo extends ListActivity {
+public class DMLauncher extends ListActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class MapsDemo extends ListActivity {
 
             CharSequence labelSeq = info.loadLabel(pm);
 
-            if ("com.example.android.google.apis".equals(info.activityInfo.applicationInfo.packageName)) {
+            if ("org.streetpacman".equals(info.activityInfo.applicationInfo.packageName)) {
                 addItem(myData, labelSeq.toString(), activityIntent(
                         info.activityInfo.applicationInfo.packageName,
                         info.activityInfo.name));
