@@ -587,8 +587,7 @@ public class DMStreetPacman extends MapActivity {
         }
     }
     
-    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
-    
+    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3    
     private class MyLocationListener implements LocationListener 
     {
         @Override

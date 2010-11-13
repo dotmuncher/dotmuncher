@@ -1,13 +1,8 @@
 package org.streetpacman.controler;
 
-import java.util.UUID;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.streetpacman.states.DMPlayer;
-
-import android.content.Context;
-import android.telephony.TelephonyManager;
 
 public class DMApp {
 	private DMPlayer dmPlayer;
@@ -46,5 +41,7 @@ public class DMApp {
 	public void update() throws JSONException{
 		JSONObject json = dmPlayer.getJSONFor_update();
 		json = DMNet.api("update",json);
+		dmPlayer.powerMode = json.getBoolean("powerMode");
+		
 	}
 }

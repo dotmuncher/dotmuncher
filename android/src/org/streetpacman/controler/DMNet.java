@@ -3,20 +3,10 @@ package org.streetpacman.controler;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import org.apache.http.client.methods.HttpGet;
-///HttpGet;
+
 import org.apache.http.HttpResponse;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.streetpacman.events.DMEvent;
-import org.streetpacman.events.DMEvents;
-import org.streetpacman.events.TwitterTrend;
-import org.streetpacman.events.TwitterTrends;
-import org.streetpacman.states.DMGame;
-import org.streetpacman.states.DMMap;
 
-import com.google.gson.Gson;
-
-import android.location.Location;
 import android.util.Log;
 
 
@@ -28,48 +18,8 @@ import java.io.Reader;
 import java.net.URI;
 
 public class DMNet {
-	private static String host = "urban.pyxc.org";
+	private static String host = "s0.dotmuncher.com";
 	//private String host = "http://search.twitter.com";
-	
-	public void find_maps(){
-        try{
-        Log.i("MY INFO", "Json Parser started.. find_maps");
-        Gson gson = new Gson();
-        //gson.toJson(maps);
-        Reader r = new InputStreamReader(getJSONData("/api/v0/find_maps.json",""));
-        Log.i("MY INFO", r.toString());
-        DMMap objs = gson.fromJson(r, DMMap.class);
-        /*
-        Log.i("MY INFO", ""+objs.getMaps().size());
-        for(DMMapEvent m : objs.getMaps()){
-            Log.i("MAP", m.getId());
-        }
-        */
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
-
-	public void find_games(){
-        try{
-        Log.i("MY INFO", "Json Parser started.. find_games");
-        Gson gson = new Gson();
-        //gson.toJson(games);
-        Reader r = new InputStreamReader(getJSONData("/api/v0/find_games.json",""));
-        Log.i("MY INFO", r.toString());
-        DMGame objs = gson.fromJson(r, DMGame.class);
-        /*
-        Log.i("MY INFO", ""+objs.getGames().size());
-        for(DMGameEvent g : objs.getGames()){
-            Log.i("GAME", g.getId());
-        }
-        */
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
-	
-
 	
 	// http://senior.ceng.metu.edu.tr/2009/praeda/2009/01/11/a-simple-restful-client-at-android/
     private static String convertStreamToString(InputStream is) {
