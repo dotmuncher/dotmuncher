@@ -22,27 +22,6 @@ import com.google.android.maps.MapActivity;
 
 import android.os.Bundle;
 
-/**
- * Example of how to use an {@link com.google.android.maps.MapView}.
- * <h3>DMDemo</h3>
-
-<p>This demonstrates creating a DMMap based Activity.</p>
-
-<h4>Demo</h4>
-Views/MapView
-
-<h4>Source files</h4>
- * <table class="LinkTable">
- *         <tr>
- *             <td >src/org.streetpacman/view/DMDemo.java</td>
- *             <td >The Alert Dialog Samples implementation</td>
- *         </tr>
- *         <tr>
- *             <td >/res/layout/mapview.xml</td>
- *             <td >Defines contents of the screen</td>
- *         </tr>
- * </table>
- */
 public class DMDemo extends MapActivity {
 
     @Override

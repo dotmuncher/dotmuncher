@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />    
 
     <application android:label="@string/activity_sample_code"
-            android:icon="@drawable/app_sample_code" >
+            android:icon="@drawable/pacman_chomp3" >
 
         <uses-library android:name="com.google.android.maps" />
 
