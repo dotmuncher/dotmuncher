@@ -36,8 +36,8 @@ urlpatterns += patterns('dotmuncher.views_api',
     url(r'^api/v0/update_phone_settings\.json$', 'api_update_phone_settings', name='api_update_phone_settings'),
     url(r'^api/v0/update\.json$', 'api_update', name='api_update'),
     
-    url(r'^api/v0/api_map_create\.json$', 'api_map_create', name='api_map_create'),
-    url(r'^api/v0/api_map_add_points\.json$', 'api_map_add_points', name='api_map_add_points'),
+    url(r'^api/v0/map_create\.json$', 'api_map_create', name='api_map_create'),
+    url(r'^api/v0/map_add_points\.json$', 'api_map_add_points', name='api_map_add_points'),
 )
 
 #### Dev views
