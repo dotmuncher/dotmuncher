@@ -22,7 +22,7 @@ import com.google.android.maps.MapActivity;
 
 import android.os.Bundle;
 
-public class DMDemo extends MapActivity {
+public class DMMapView extends MapActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

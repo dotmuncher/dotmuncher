@@ -49,30 +49,14 @@ import android.widget.Toast;
 
 import javax.microedition.khronos.opengles.GL;
 
-import org.streetpacman.controler.DMAppControler;
-import org.streetpacman.controler.DMEventControler;
+import org.streetpacman.controler.DMApp;
+import org.streetpacman.controler.DMNet;
 import org.streetpacman.events.*;
 
-
-/**
- * Example of how to use an {@link com.google.android.maps.MapView}
- * in conjunction with the {@link com.hardware.SensorManager}
- * <h3>DMStreetPacman</h3>
-
-<p>This demonstrates creating a DMMap based Activity.</p>
-
-<h4>Source files</h4>
- * <table class="LinkTable">
- *         <tr>
- *             <td >src/org.streetpacman/view/DMStreetPacman.java</td>
- *             <td >The Alert Dialog Samples implementation</td>
- *         </tr>
- * </table>
- */
 public class DMStreetPacman extends MapActivity {
 
-	private DMEventControler dmEventControler;
-    private DMAppControler dmAppControler; // DMAppControler
+	private DMNet dmNet;
+    private DMApp dmApp;
     
     private LocationManager lm;
     private LocationListener locationListener;
@@ -174,8 +158,8 @@ public class DMStreetPacman extends MapActivity {
         
         
         // Init Controler        
-        dmEventControler = new DMEventControler();
-        //dmEventControler.submit_and_get_events();
+        dmNet = new DMNet();
+        //dmNet.submit_and_get_events();
         
 		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
 		
@@ -189,7 +173,7 @@ public class DMStreetPacman extends MapActivity {
 	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
 	    String deviceId = deviceUuid.toString();
 	    
-	    dmAppControler = new DMAppControler(deviceId);
+	    dmApp = new DMApp(deviceId);
 	    
 	    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
         //---use the LocationManager class to obtain GPS locations---
@@ -614,7 +598,7 @@ public class DMStreetPacman extends MapActivity {
                     "Location changed : Lat: " + loc.getLatitude() + 
                     " Lng: " + loc.getLongitude(), 
                     Toast.LENGTH_SHORT).show();
-                //dmEventControler.submit_and_get_events(loc);
+                //dmNet.submit_and_get_events(loc);
             }
         }
 

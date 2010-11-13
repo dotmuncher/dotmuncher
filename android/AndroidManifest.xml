@@ -21,7 +21,7 @@
             </intent-filter>
        </activity>
 
-        <activity android:name="org.streetpacman.DMDemo" android:label="MapView">
+        <activity android:name="org.streetpacman.DMMapView" android:label="MapView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
