@@ -27,8 +27,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 
-public class DMEventControler {
-	private String host = "urban.pyxc.org";
+public class DMNet {
+	private static String host = "urban.pyxc.org";
 	//private String host = "http://search.twitter.com";
 	
 	public void find_maps(){
@@ -100,7 +100,7 @@ public class DMEventControler {
     }
 
 	// http://www.softwarepassion.com/android-series-parsing-json-data-with-gson/
-	public InputStream getJSONData(String path, String query){
+	public static InputStream getJSONData(String path, String query){
         DefaultHttpClient httpClient = new DefaultHttpClient();
         java.net.URI uri;
         InputStream data = null;
@@ -112,7 +112,6 @@ public class DMEventControler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-       
         return data;
     }
 	/*
@@ -132,4 +131,18 @@ public class DMEventControler {
         }
     }
     */
+
+	public static JSONObject api(String method, JSONObject json) {
+        try{
+            Log.i("MY INFO", "DMNet.api method: " + method);
+            Reader r = new InputStreamReader(getJSONData("/api/v0/"+ method +".json","json=" + json.toString()));
+            
+            Log.i("MY INFO", r.toString());
+            //DMGame objs = gson.fromJson(r, DMGame.class);
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+		return json;
+	}
 }
