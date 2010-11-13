@@ -12,14 +12,19 @@
 * Run <code>python dotmuncher/scripts/get-repos.py</code>, which will git clone these repos to ROOT:
     * [pyxc-pj](http://github.com/andrewschaaf/pyxc-pj), [dev_deployment](http://github.com/andrewschaaf/dev_deployment), [pj-core](http://github.com/andrewschaaf/pj-core), [pj-closure](http://github.com/andrewschaaf/pj-closure),
 
-#### Start the servers
+#### Prep stuff
+
 * <code>cd ROOT/dev_deployment; mkdir -p tmpdir
+* <code>cd ROOT/dev_deployment; env APP=dotmuncher python manage.py syncdb
+
+#### Start the servers
+
 * <code>cd ROOT/dev_deployment; redis-server conf/redis.conf</code>
 * <code>cd ROOT/dev_deployment; env APP=dotmuncher python manage.py runserver</code>
 
 #### Run the tests
 
-* <code>python tests/all.py</code>
+* <code>env DJANGO\_SETTINGS\_MODULE=dev\_deployment.settings python tests/all.py</code>
 
 ## API
 
