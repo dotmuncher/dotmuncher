@@ -9,9 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.streetpacman.events.DMEvent;
 import org.streetpacman.events.DMEvents;
-import org.streetpacman.events.DMGameEvent;
-import org.streetpacman.events.DMMapEvent;
-import org.streetpacman.events.DMSubmit;
 import org.streetpacman.events.TwitterTrend;
 import org.streetpacman.events.TwitterTrends;
 import org.streetpacman.states.DMGame;
@@ -42,10 +39,12 @@ public class DMEventControler {
         Reader r = new InputStreamReader(getJSONData("/api/v0/find_maps.json",""));
         Log.i("MY INFO", r.toString());
         DMMap objs = gson.fromJson(r, DMMap.class);
+        /*
         Log.i("MY INFO", ""+objs.getMaps().size());
         for(DMMapEvent m : objs.getMaps()){
             Log.i("MAP", m.getId());
         }
+        */
         }catch(Exception ex){
             ex.printStackTrace();
         }
@@ -59,43 +58,18 @@ public class DMEventControler {
         Reader r = new InputStreamReader(getJSONData("/api/v0/find_games.json",""));
         Log.i("MY INFO", r.toString());
         DMGame objs = gson.fromJson(r, DMGame.class);
+        /*
         Log.i("MY INFO", ""+objs.getGames().size());
         for(DMGameEvent g : objs.getGames()){
             Log.i("GAME", g.getId());
         }
+        */
         }catch(Exception ex){
             ex.printStackTrace();
         }
     }
 	
-	public void submit_and_get_events(Location loc){
-        try{
-        Log.i("MY INFO", "Json Parser started.. submit_and_get_events");
-        Gson gson = new Gson();
-        
-        DMSubmit s = new DMSubmit();
-        String request = gson.toJson(s); 
-        
-        //JSONArray json_array = 
-        
-        //String request = '{"game":1,"i__gte":4,"events":[]}';
-        
-        InputStream instream = getJSONData( "/api/v0/submit_and_get_events.json","json=" + request +"&phone=123456789");
-        
-        String result= convertStreamToString(instream);
-        
-        // A Simple JSONObject Creation
-        JSONObject json=new JSONObject(result);
-        JSONArray json_events_array = json.getJSONArray("events");
-        
-        int min_i = json.getInt ("min_i");
-        int max_i = json.getInt ("max_i");
-                
-        
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
+
 	
 	// http://senior.ceng.metu.edu.tr/2009/praeda/2009/01/11/a-simple-restful-client-at-android/
     private static String convertStreamToString(InputStream is) {

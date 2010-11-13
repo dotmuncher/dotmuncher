@@ -2,14 +2,16 @@ package org.streetpacman.controler;
 
 import java.util.UUID;
 
+import org.streetpacman.states.DMPhone;
+
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
 public class DMAppControler {
-	private String phoneToken;
+	private DMPhone dmPhone;
 	
 	public DMAppControler(String deviceId) {
-		phoneToken = "a_" + deviceId;
+		//phoneToken = "a_" + deviceId;
 	}	
 
 	public void update_phone_settings(){
