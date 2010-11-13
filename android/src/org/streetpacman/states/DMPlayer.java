@@ -14,6 +14,7 @@ public class DMPlayer {
 	public double lng;
 	public float acc;
 	public int id__gte;
+	public Boolean powerMode;
 	
 	public JSONObject getJSONFor_update_phone_settings() throws JSONException{
 		JSONObject json = new JSONObject();
