@@ -1,9 +1,9 @@
 
 # Add ROOT to sys.path
+import sys, os
 def parentOf(path, n=1):
     return '/'.join(path.rstrip('/').split('/')[:-n])
 ROOT = parentOf(os.path.abspath(__file__), n=3)
-import sys
 sys.path.append(ROOT)
 
 
