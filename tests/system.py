@@ -22,6 +22,11 @@ class SampleGame(TestCase):
         
         print('===== SampleGame =====')
         
+        # Create an empty map
+        d = api('map_create', {})
+        mapToken = d['token']
+        api('map_add_points', {'token': token, 'done': True})
+        
         n1 = 'Dirk Gently'
         n2 = u'Treaty of Nöteborg'
         n3 = u'まるさん猫'
