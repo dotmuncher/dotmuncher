@@ -25,7 +25,7 @@ class SampleGame(TestCase):
         # Create an empty map
         d = api('map_create', {})
         mapToken = d['token']
-        api('map_add_points', {'token': token, 'done': True})
+        api('map_add_points', {'token': mapToken, 'done': True})
         
         n1 = 'Dirk Gently'
         n2 = u'Treaty of Nöteborg'
