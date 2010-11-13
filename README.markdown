@@ -19,7 +19,7 @@
 
 #### Start the servers
 * <code>cd ROOT/dev_deployment; redis-server conf/redis.conf</code>
-* <code>cd ROOT/dev_deployment; env APP=dotmuncher python dotmuncher/manage.py runserver</code>
+* <code>cd ROOT/dev_deployment; env APP=dotmuncher python manage.py runserver</code>
 
 #### Run the tests
 
@@ -86,9 +86,8 @@ phone: an integer assigned by the server</pre>
 {
     "game": int id,
     "mapInfo": {
-        "pathPoints": [["...lat...", "...lng..."], ...],
-        "basePoints": [...],
         "dotPoints": [...],
+        "basePoints": [...],
         "powerPelletPoints": [...],
     },
 }</pre>
