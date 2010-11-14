@@ -15,6 +15,7 @@ public final class R {
         public static final int pacman_chomp1=0x7f020001;
         public static final int pacman_chomp2=0x7f020002;
         public static final int pacman_chomp3=0x7f020003;
+        public static final int pacman_on_mac_twitter_logo=0x7f020004;
     }
     public static final class id {
         public static final int main=0x7f050000;
