@@ -12,7 +12,7 @@
     <application android:label="@string/activity_sample_code"
             android:icon="@drawable/pacman_on_mac_twitter_logo" >
 
-        <uses-library android:name="com.google.android.maps" />
+		<uses-library android:name="com.google.android.maps" />
 
        <activity android:name="org.streetpacman.DMLauncher" android:label="Street Pacman">
             <intent-filter>

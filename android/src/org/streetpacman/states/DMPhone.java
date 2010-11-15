@@ -3,8 +3,7 @@ package org.streetpacman.states;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DMPlayer {
-	public int player;
+public class DMPhone {
 	public int game;
     public int map;
     public int phone;

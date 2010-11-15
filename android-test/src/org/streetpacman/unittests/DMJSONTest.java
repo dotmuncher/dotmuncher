@@ -3,7 +3,7 @@ package org.streetpacman.unittests;
 import junit.framework.TestCase;
 
 public class DMJSONTest extends TestCase {
-    protected double fValue1;
+    String res_new_game = "{\"game\":1,\"mapInfo\": {\"dotPoints\": [[\"11.11\",\"22.22\"],[\"33.33\",\"44.44\"]],\"basePoints\": [],\"powerPelletPoints\": []}}";
     protected double fValue2;
 
    protected void setUp() {
