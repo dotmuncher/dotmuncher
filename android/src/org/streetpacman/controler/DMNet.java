@@ -86,10 +86,8 @@ public class DMNet {
 	public static JSONObject api(String method, JSONObject json) {
         try{
             Log.i("MY INFO", "DMNet.api method: " + method);
-            Reader r = new InputStreamReader(getJSONData("/api/v0/"+ method +".json","json=" + json.toString()));
-            
+            Reader r = new InputStreamReader(getJSONData("/api/v0/"+ method +".json","json=" + json.toString()));            
             Log.i("MY INFO", r.toString());
-            //DMGame objs = gson.fromJson(r, DMGame.class);
 
         }catch(Exception ex){
             ex.printStackTrace();

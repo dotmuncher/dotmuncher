@@ -13,9 +13,10 @@
             android:icon="@drawable/pacman_on_mac_twitter_logo" >
 
 		<uses-library android:name="com.google.android.maps" />
-		<activity android:name="org.streetpacman.DMWizard" android:label="Wizard Map">
+		<activity android:name="org.streetpacman.DMWizard" android:label="Wizard">
 			<intent-filter>
-			
+				<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
 			</intent-filter>
 		</activity>
 		

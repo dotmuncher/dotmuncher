@@ -4,7 +4,7 @@ import java.util.List;
 
 
 public class DMGame {
-	public int game;
+	public int game = 0;
 	
 
 }

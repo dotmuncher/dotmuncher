@@ -168,12 +168,6 @@ public class DMStreetPacman extends MapActivity {
 	    String deviceId = deviceUuid.toString();
 	    
 	    dmApp = new DMApp(deviceId);
-	    try {
-			dmApp.find_maps();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	    
 	    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
         //---use the LocationManager class to obtain GPS locations---
