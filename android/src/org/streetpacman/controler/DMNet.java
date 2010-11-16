@@ -86,12 +86,12 @@ public class DMNet {
 	public static JSONObject api(String method, JSONObject json) {
         try{
             Log.i("MY INFO", "DMNet.api method: " + method);
-            Reader r = new InputStreamReader(getJSONData("/api/v0/"+ method +".json","json=" + json.toString()));            
-            Log.i("MY INFO", r.toString());
-
+            InputStream instream = getJSONData("/api/v0/"+ method +".json","json=" + json.toString());            
+            json = new JSONObject(convertStreamToString(instream));
+            Log.i("MY INFO", "json=" + json.toString(4));
         }catch(Exception ex){
             ex.printStackTrace();
-        }
+        }        
 		return json;
 	}
 }
