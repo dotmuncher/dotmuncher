@@ -43,22 +43,23 @@ public final class R {
         public static final int pacman_chomp1=0x7f02001d;
         public static final int pacman_chomp2=0x7f02001e;
         public static final int pacman_chomp3=0x7f02001f;
-        public static final int pacman_dead0=0x7f020020;
-        public static final int pacman_dead10=0x7f020021;
-        public static final int pacman_dead11=0x7f020022;
-        public static final int pacman_dead2=0x7f020023;
-        public static final int pacman_dead3=0x7f020024;
-        public static final int pacman_dead4=0x7f020025;
-        public static final int pacman_dead5=0x7f020026;
-        public static final int pacman_dead6=0x7f020027;
-        public static final int pacman_dead7=0x7f020028;
-        public static final int pacman_dead8=0x7f020029;
-        public static final int pacman_dead9=0x7f02002a;
-        public static final int pacman_on_mac_twitter_logo=0x7f02002b;
+        public static final int pacman_dead=0x7f020020;
+        public static final int pacman_dead0=0x7f020021;
+        public static final int pacman_dead10=0x7f020022;
+        public static final int pacman_dead11=0x7f020023;
+        public static final int pacman_dead2=0x7f020024;
+        public static final int pacman_dead3=0x7f020025;
+        public static final int pacman_dead4=0x7f020026;
+        public static final int pacman_dead5=0x7f020027;
+        public static final int pacman_dead6=0x7f020028;
+        public static final int pacman_dead7=0x7f020029;
+        public static final int pacman_dead8=0x7f02002a;
+        public static final int pacman_dead9=0x7f02002b;
+        public static final int pacman_on_mac_twitter_logo=0x7f02002c;
     }
     public static final class id {
+        public static final int img_anim=0x7f050000;
         public static final int main=0x7f050001;
-        public static final int pacman_chomp=0x7f050000;
     }
     public static final class layout {
         public static final int main=0x7f030000;
