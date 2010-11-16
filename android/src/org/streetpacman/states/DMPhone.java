@@ -4,16 +4,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DMPhone {
-	public int game;
-    public int map;
-    public int phone;
-    public String name;
-	public String phoneToken;
-	public double lat;
-	public double lng;
-	public float acc;
-	public int id__gte;
-	public Boolean powerMode;
+	public int game = 0;
+    public int map = 0;
+    public int phone = 0;
+    public String name = "";
+	public String phoneToken = "";
+	public double lat = 0;
+	public double lng = 0;
+	public float acc = 0;
+	public int id__gte = 0;
+	public Boolean powerMode = false;
 	
 	public JSONObject getJSONFor_update_phone_settings() throws JSONException{
 		JSONObject json = new JSONObject();

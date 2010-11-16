@@ -13,7 +13,12 @@
             android:icon="@drawable/pacman_on_mac_twitter_logo" >
 
 		<uses-library android:name="com.google.android.maps" />
-
+		<activity android:name="org.streetpacman.DMWizard" android:label="Wizard Map">
+			<intent-filter>
+			
+			</intent-filter>
+		</activity>
+		
        <activity android:name="org.streetpacman.DMLauncher" android:label="Street Pacman">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
@@ -33,7 +38,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
-        </activity>        
+        </activity>
    </application>
    <uses-sdk android:minSdkVersion="8" />
 </manifest>

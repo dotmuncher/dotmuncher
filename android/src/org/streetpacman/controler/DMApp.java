@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import org.streetpacman.states.DMPhone;
 
 public class DMApp {
-	private DMPhone dmPhone;
+	public DMPhone dmPhone;
 	
 	public DMApp(String deviceId) {
 		dmPhone = new DMPhone();

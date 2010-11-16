@@ -49,13 +49,13 @@ import android.widget.Toast;
 
 import javax.microedition.khronos.opengles.GL;
 
+import org.json.JSONException;
 import org.streetpacman.controler.DMApp;
 import org.streetpacman.controler.DMNet;
 import org.streetpacman.events.*;
 
 public class DMStreetPacman extends MapActivity {
 
-	private DMNet dmNet;
     private DMApp dmApp;
     
     private LocationManager lm;
@@ -156,13 +156,7 @@ public class DMStreetPacman extends MapActivity {
         mMapView.setClickable(true);
         mMapView.setEnabled(true);
         
-        
-        // Init Controler        
-        dmNet = new DMNet();
-        //dmNet.submit_and_get_events();
-        
-		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
-		
+		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id		
 	    final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
 	
 	    final String tmDevice, tmSerial, tmPhone, androidId;
@@ -174,6 +168,12 @@ public class DMStreetPacman extends MapActivity {
 	    String deviceId = deviceUuid.toString();
 	    
 	    dmApp = new DMApp(deviceId);
+	    try {
+			dmApp.find_maps();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    
 	    // http://www.devx.com/wireless/Article/39239/1763?supportItem=3
         //---use the LocationManager class to obtain GPS locations---
@@ -597,7 +597,12 @@ public class DMStreetPacman extends MapActivity {
                     "Location changed : Lat: " + loc.getLatitude() + 
                     " Lng: " + loc.getLongitude(), 
                     Toast.LENGTH_SHORT).show();
-                //dmNet.submit_and_get_events(loc);
+                try {
+					dmApp.update();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         }
 
