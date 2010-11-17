@@ -1,4 +1,3 @@
-
 ## Quickstart: run the server on your laptop
 
 #### Prereqs:
@@ -41,7 +40,7 @@ phone: an integer assigned by the server</pre>
     name: 
 }
 {
-    phone: phone integer
+    phoneId: phoneId integer
 }</pre>
 
 ### find_games
