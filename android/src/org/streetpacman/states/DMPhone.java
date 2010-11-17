@@ -44,14 +44,14 @@ public class DMPhone {
     public JSONObject getJSONFor_new_game() throws JSONException{
     	JSONObject json = new JSONObject();
     	json.put("map", map);
-    	json.put("phoneId", phoneId);
+    	json.put("phone", phoneId);
 		return json;    	
     }
     
     public JSONObject getJSONFor_join_game() throws JSONException{
     	JSONObject json = new JSONObject();
     	json.put("game", game);
-    	json.put("phoneId", phoneId);
+    	json.put("phone", phoneId);
 		return json;    	
     }
 }            

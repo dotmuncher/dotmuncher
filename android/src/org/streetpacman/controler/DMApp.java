@@ -5,19 +5,20 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.streetpacman.states.DMMap;
+import org.streetpacman.states.DMGame;
 import org.streetpacman.states.DMPhone;
 
 import android.util.Log;
 
 public class DMApp {
 	public DMPhone dmPhone;
-	public DMMap dmMap;
+	public DMGame dmGame;
 	public ArrayList<Integer> al_games = new ArrayList<Integer>();
 	public ArrayList<Integer> al_maps = new ArrayList<Integer>();
 	
 	public DMApp(String deviceId) {
 		dmPhone = new DMPhone();
+		dmGame = new DMGame();
 		dmPhone.phoneToken = "a_" + deviceId;
 	}	
 
@@ -57,12 +58,15 @@ public class DMApp {
 	
 	public void new_game() throws JSONException{
 		JSONObject json = dmPhone.getJSONFor_new_game();
-		json = DMNet.api("find_maps",json);
+		json = DMNet.api("new_game",json);
+		dmGame.game = json.getInt("game");
+		
 	}
 	
 	public void join_game() throws JSONException{
 		JSONObject json = dmPhone.getJSONFor_join_game();
 		json = DMNet.api("join_game",json);
+		dmGame.game = json.getInt("game");
 	}
 	
 	public void update() throws JSONException{

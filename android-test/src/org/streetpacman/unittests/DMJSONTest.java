@@ -15,8 +15,7 @@ public class DMJSONTest extends TestCase {
 		dmApp = new DMApp("test_dmApp");
 		try {
 			dmApp.update_phone_settings();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -25,29 +24,51 @@ public class DMJSONTest extends TestCase {
 		try {
 			dmApp.update_phone_settings();
 			Log.i("update_phone_settings", ""+dmApp.dmPhone.phoneId);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			assertTrue(dmApp.dmPhone.phoneId == 15);
+		} catch (Exception e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
-		assertTrue(dmApp.dmPhone.phoneId == 15);
 	}
 	
 	public void test_find_games() {
 		try {
 			dmApp.find_games();
 			Log.i("test_find_games", ""+dmApp.al_games.size());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			assertTrue(dmApp.al_games.size()>0);
+		} catch (Exception e) {
+			assertTrue(false);
 			e.printStackTrace();
-		}
+		}		
 	}
 	
 	public void test_find_maps() {
 		try {
 			dmApp.find_maps();
 			Log.i("test_find_maps", ""+dmApp.al_maps.size());
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			assertTrue(dmApp.al_maps.size()>0);
+		} catch ( Exception e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}	
+	}
+	
+	public void test_new_game() {
+		try {
+			dmApp.new_game();
+			Log.i("test_new_game", "");
+		} catch (Exception e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+	}
+	
+	public void test_join_game() {
+		try {
+			dmApp.join_game();
+			Log.i("test_join_game", "");
+		} catch (Exception e) {
+			assertTrue(false);
 			e.printStackTrace();
 		}
 	}
