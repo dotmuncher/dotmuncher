@@ -52,7 +52,7 @@ phone: an integer assigned by the server</pre>
     "phoneToken": string
 }
 {
-    "phone": int
+    "phoneId": int
     "items": [
         {
             "id": int
@@ -69,7 +69,7 @@ phone: an integer assigned by the server</pre>
     "phoneToken": string
 }
 {
-    "phone": int
+    "phoneId": int
     "items": [
         {
             "id": int

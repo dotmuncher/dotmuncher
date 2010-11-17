@@ -4,15 +4,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DMPhone {
-	public int game = 0;
-    public int map = 0;
-    public int phone = 0;
+	public int game = -1;
+    public int map = -1;
+    public int phoneId = -1;
     public String name = "";
 	public String phoneToken = "";
-	public double lat = 0;
-	public double lng = 0;
-	public float acc = 0;
-	public int id__gte = 0;
+	public double lat = -1;
+	public double lng = -1;
+	public float acc = -1;
+	public int id__gte = -1;
 	public Boolean powerMode = false;
 	
 	public JSONObject getJSONFor_update_phone_settings() throws JSONException{
@@ -37,21 +37,21 @@ public class DMPhone {
 		json.put("hacc", Double.toString(acc));
 		json.put("vacc", Double.toString(acc));
 		json.put("game", game);
-		json.put("phone", phone);
+		json.put("phoneId", phoneId);
 		json.put("id__gte", id__gte);
 		return json;
 	}
     public JSONObject getJSONFor_new_game() throws JSONException{
     	JSONObject json = new JSONObject();
     	json.put("map", map);
-    	json.put("phone", phone);
+    	json.put("phoneId", phoneId);
 		return json;    	
     }
     
     public JSONObject getJSONFor_join_game() throws JSONException{
     	JSONObject json = new JSONObject();
     	json.put("game", game);
-    	json.put("phone", phone);
+    	json.put("phoneId", phoneId);
 		return json;    	
     }
 }            
