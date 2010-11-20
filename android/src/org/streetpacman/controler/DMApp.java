@@ -20,7 +20,14 @@ public class DMApp {
 		dmPhone = new DMPhone();
 		dmGame = new DMGame();
 		dmPhone.phoneToken = "a_" + deviceId;
-	}	
+	}
+	
+	public void net(DMAPI api) throws JSONException{
+		JSONObject json = DMNet.callapi(api,dmPhone.getJSONFor(api));
+		if(json!=null){
+			
+		}
+	}
 
 	public void update_phone_settings() throws JSONException{
 		JSONObject json = dmPhone.getJSONFor_update_phone_settings();

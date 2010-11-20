@@ -2,6 +2,9 @@ package org.streetpacman.states;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.streetpacman.controler.DMAPI;
+
+import android.util.Log;
 
 public class DMPhone {
 	public int game = -1;
@@ -14,6 +17,47 @@ public class DMPhone {
 	public float acc = -1;
 	public int id__gte = -1;
 	public Boolean powerMode = false;
+	
+	public JSONObject getJSONFor(DMAPI api) throws JSONException{
+		JSONObject json = new JSONObject();
+		switch(api){
+			case update_phone_settings:
+				json.put("phoneToken", phoneToken);
+				json.put("name", name);
+				break;
+			case find_games:
+				json.put("lat", Double.toString(lat));
+				json.put("lng", Double.toString(lng));
+				json.put("phoneToken", phoneToken);		
+				break;
+			case find_maps:
+				json.put("lat", Double.toString(lat));
+				json.put("lng", Double.toString(lng));
+				json.put("phoneToken", phoneToken);
+				break;
+			case new_game:
+				json.put("map", map);
+		    	json.put("phone", phoneId);
+				break;
+			case join_game:
+				json.put("game", game);
+		    	json.put("phone", phoneId);
+				break;
+			case update:
+				json.put("lat", Double.toString(lat));
+				json.put("lng", Double.toString(lng));
+				json.put("hacc", Double.toString(acc));
+				json.put("vacc", Double.toString(acc));
+				json.put("game", game);
+				json.put("phoneId", phoneId);
+				json.put("id__gte", id__gte);
+				break;
+			default:
+				json = null;
+			
+		}
+		return json;
+	}
 	
 	public JSONObject getJSONFor_update_phone_settings() throws JSONException{
 		JSONObject json = new JSONObject();
