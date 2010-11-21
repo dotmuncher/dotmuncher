@@ -1,14 +1,11 @@
 
 '''
-
-
     A           
              
        GGG       X
 B     GGG    
 
             Y
-
 '''
 
 import math, random

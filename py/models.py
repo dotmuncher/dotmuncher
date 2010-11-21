@@ -29,10 +29,11 @@ except Exception:
 
 TABLE_PREFIX = 'dotmuncher_'
 
-
-
 POSITION_EVENT = 1
 OHHAI_EVENT = 2
+PHONE_EATEN_EVENT = 6
+ITEM_EATEN_EVENT = 7
+GAME_OVER = 8
 
 TYPENUM_TYPENAM_MAP = {
     POSITION_EVENT: 'POSITION_EVENT',
@@ -249,7 +250,7 @@ def apiRequest(callName):
     return outer
 
 
-def loadGameInfo(game):
+def loadGameInfoAnd(game, extraKeys):
     
     now = int(time.time() * 1000)
     
@@ -261,21 +262,33 @@ def loadGameInfo(game):
                 [
                     'g_p_pos:%d:%d' % (game, p)
                     for p in phones] +
-                ['g_powerModeUntil:%d' % game])
+                ['g_deadPlayers:%d' % (game)] +
+                ['g_powerModeUntil:%d' % game] + 
+                extraKeys)
     values = redisConn.mget(keys)
     
+    deadPlayersValue = values[-(2 + len(extraKeys))]
+    powerModeValue = values[-(1 + len(extraKeys))]
+    extraValues = values[-len(extraKeys):]
+    
+    # Dead players
+    if deadPlayersValue:
+        deadPlayers = json.loads(deadPlayersValue)
+    else:
+        deadPlayers = {}
+    
     # Power mode
-    v = values[-1]
-    if v:
-        powerMode = int(time.time() * 1000) < int(v)
+    if powerModeValue:
+        powerMode = int(time.time() * 1000) < int(powerModeValue)
     else:
         powerMode = False
     
     # States
     states = []
     for i in range(len(phones)):
+        phone = phones[i]
         state = {
-            'phone': phones[i],
+            'phone': phone,
         }
         v = values[i]
         if v:
@@ -283,12 +296,20 @@ def loadGameInfo(game):
             state['idle'] = now - info['t']
             state['lat'] = info['lat']
             state['lng'] = info['lng']
+            state['alive'] = bool(str(phone) not in deadPlayers)
         states.append(state)
     
-    return {
-        'phoneStates': states,
-        'powerMode': powerMode,
-    }
+    return [
+        {
+            'phoneStates': states,
+            'powerMode': powerMode,
+            'deadPlayers': deadPlayers,
+        },
+        extraValues]
 
+
+def loadGameInfo(game):
+    info, extraValues = loadGameInfoAnd(game, [])
+    return info
 
 

@@ -30,7 +30,7 @@ def api_update(r, info):
                 'g_p_pos:%d:%d' % (game, phone),
                 json.dumps({
                     't': now,
-                    'lat': lat, 
+                    'lat': lat,
                     'lng': lng,
                 }))
     redisConn.sadd('gamesWithNewInfo', str(game))
@@ -41,7 +41,11 @@ def api_update(r, info):
     # Get {phoneStates:, powerMode:}
     info = loadGameInfo(game)
     
-    info['events'] = events
+    return {
+        'phoneStates': info['phoneStates'],
+        'powerMode': info['powerMode'],
+        'events': events,
+    }
     
     return info
 
