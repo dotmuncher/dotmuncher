@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 import os
 os.environ['APP'] = 'dotmuncher'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'dev_deployment.settings'
 
 import sys
 from subprocess import check_call

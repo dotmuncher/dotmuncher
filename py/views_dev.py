@@ -21,7 +21,7 @@ def dev_requests(r):
     if 'phone' in r.REQUEST:
         requests = (APIRequest.objects
                         .order_by('-id')
-                        .filter(phone=int(r.REQUEST['phone'])))[:30]
+                        .filter(phoneId=int(r.REQUEST['phone'])))[:30]
     else:
         requests = (APIRequest.objects
                         .order_by('-id'))[:30]
