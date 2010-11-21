@@ -39,7 +39,7 @@ public class DMApp {
 	}
 
 	public void update_phone_settings(JSONObject json) throws JSONException{
-		dmPhone.phoneId = json.getInt("phoneId");
+		dmPhone.phone = json.getInt("phone");
 	}
 	
 	public void find_games(JSONObject json) throws JSONException{

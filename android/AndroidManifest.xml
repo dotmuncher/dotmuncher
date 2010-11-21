@@ -42,12 +42,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="org.streetpacman.DMMapDemo" android:label="MapDemo">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
    </application>
    <uses-sdk android:minSdkVersion="8" />
 </manifest>

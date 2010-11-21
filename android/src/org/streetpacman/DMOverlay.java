@@ -61,7 +61,7 @@ class DMOverlay extends Overlay{
         synchronized(dmGame.dmPhoneStates){
 	        for(DMPhoneState dmPhoneState : dmGame.dmPhoneStates){
 	        	// Only draw others
-	        	if(dmPhoneState.phone != dmPhone.phoneId){
+	        	if(dmPhoneState.phone != dmPhone.phone){
 	        		GeoPoint p = new GeoPoint(
 		                    (int) (dmPhoneState.lat * 1E6), 
 		                    (int) (dmPhoneState.lng * 1E6));
