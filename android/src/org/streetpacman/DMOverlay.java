@@ -45,7 +45,7 @@ class DMOverlay extends Overlay{
 	    errorCirclePaint.setAntiAlias(true);
 	    
 	    phonePaint = powerPelletPaint = basePaint = dotPaint = new Paint();
-	    dotPaint.setColor(Color.WHITE);
+	    dotPaint.setColor(Color.RED);
 	}
 	
 	  @Override
@@ -65,7 +65,7 @@ class DMOverlay extends Overlay{
 		                    (int) (dmPhoneState.lat * 1E6), 
 		                    (int) (dmPhoneState.lng * 1E6));
 		        	projection.toPixels(p, screenPts);
-		            canvas.drawCircle(screenPts.x, screenPts.y, 30, phonePaint);	
+		            canvas.drawCircle(screenPts.x, screenPts.y, 25, phonePaint);	
 	        	}	        	
 	        }
         }
