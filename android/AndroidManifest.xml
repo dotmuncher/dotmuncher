@@ -35,14 +35,14 @@
             </intent-filter>
        </activity>
 
-        <activity android:name="org.streetpacman.DMMapView" android:label="MapView">
+        <activity android:name="org.streetpacman.DMStreetPacman" android:label="MapView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="org.streetpacman.DMStreetPacman" android:label="Street Pacman">
+        <activity android:name="org.streetpacman.DMMapDemo" android:label="Street Pacman">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />

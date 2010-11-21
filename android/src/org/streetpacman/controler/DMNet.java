@@ -20,7 +20,6 @@ import java.net.URI;
 public class DMNet {
 	private static String host = "s0.dotmuncher.com";
 	//private static String host = "10.0.2.2";
-	//private String host = "http://search.twitter.com";
 	
 	// http://senior.ceng.metu.edu.tr/2009/praeda/2009/01/11/a-simple-restful-client-at-android/
     private static String convertStreamToString(InputStream is) {
@@ -65,23 +64,6 @@ public class DMNet {
         }
         return data;
     }
-	/*
-	public void runJSONParser(){
-        try{
-        Log.i("MY INFO", "Json Parser started..");
-        Gson gson = new Gson();
-        Reader r = new InputStreamReader(getJSONData("/trends.json"));
-        Log.i("MY INFO", r.toString());
-        TwitterTrends objs = gson.fromJson(r, TwitterTrends.class);
-        Log.i("MY INFO", ""+objs.getTrends().size());
-        for(TwitterTrend tr : objs.getTrends()){
-            Log.i("TRENDS", tr.getName() + " - " + tr.getUrl());
-        }
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
-    */
 	
 	public static JSONObject callapi(DMAPI api, JSONObject json) {
         try{
@@ -90,20 +72,6 @@ public class DMNet {
             InputStream instream = getJSONData("/api/v0/"+ api.name() +".json","json=" + json.toString());            
             json = new JSONObject(convertStreamToString(instream));
             Log.i("DMNet.callapi response", "json=" + json.toString(4));
-            return json;
-        }catch(Exception ex){        	
-            ex.printStackTrace();
-            return null;
-        }        		
-	}
-	
-	public static JSONObject api(String method, JSONObject json) {
-        try{
-            Log.i("DMNet.api method", method);
-            Log.i("DMNet.api request", "json=" + json.toString(4));
-            InputStream instream = getJSONData("/api/v0/"+ method +".json","json=" + json.toString());            
-            json = new JSONObject(convertStreamToString(instream));
-            Log.i("DMNet.api response", "json=" + json.toString(4));
             return json;
         }catch(Exception ex){        	
             ex.printStackTrace();

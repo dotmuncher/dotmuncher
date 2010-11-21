@@ -1,0 +1,104 @@
+package org.streetpacman;
+
+import org.streetpacman.controler.DMApp;
+import org.streetpacman.states.DMMap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Overlay;
+import com.google.android.maps.Projection;
+
+class DMOverlay extends Overlay{
+	private Location myLocation;
+	private final DMMap dmMap;
+	private final Paint errorCirclePaint;
+	private final Paint dotPaint;
+	private final Paint basePaint;
+	private final Paint powerPelletPaint;
+	
+	public DMOverlay(DMApp dmApp) {
+	    dmMap = dmApp.dmMap;
+	    
+	    errorCirclePaint = new Paint();
+	    errorCirclePaint.setColor(Color.BLUE);
+	    errorCirclePaint.setStyle(Paint.Style.STROKE);
+	    errorCirclePaint.setStrokeWidth(3);
+	    errorCirclePaint.setAlpha(127);
+	    errorCirclePaint.setAntiAlias(true);
+	    
+	    powerPelletPaint = basePaint = dotPaint = new Paint();
+	    dotPaint.setColor(Color.WHITE);
+	}
+	
+    @Override
+    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when){
+        super.draw(canvas, mapView, shadow);        
+        final Projection projection = getMapProjection(mapView);
+        Point screenPts = new Point();
+        
+        synchronized(dmMap.dotPoints){
+	        for(GeoPoint p : dmMap.dotPoints){
+	        	projection.toPixels(p, screenPts);
+	            canvas.drawCircle(screenPts.x, screenPts.y, 10, dotPaint);
+	        }
+        }
+        synchronized(dmMap.basePoints){
+	        for(GeoPoint p : dmMap.basePoints){
+	        	projection.toPixels(p, screenPts);
+	            canvas.drawCircle(screenPts.x, screenPts.y, 20, basePaint);
+	        }
+        }
+        synchronized(dmMap.powerPelletPoints){
+	        for(GeoPoint p : dmMap.powerPelletPoints){
+	        	projection.toPixels(p, screenPts);
+	            canvas.drawCircle(screenPts.x, screenPts.y, 25, powerPelletPaint);
+	        }
+        }
+        
+        // Draw the current location
+        //drawMyLocation(canvas, projection);
+        return true;
+    }
+    
+    Projection getMapProjection(MapView mapView) {
+      return mapView.getProjection();
+    }
+    
+    private void drawMyLocation(Canvas canvas, Projection projection) {
+	    if (myLocation == null) {
+	      return;
+	    }
+	    /*
+	    Point pt = drawElement(canvas, projection,
+	        DMUtils.getGeoPoint(myLocation), R.drawable.pacman_chomp,
+	        -(0 / 2) + 3, -(0 / 2));
+	    // Draw the error circle.
+	    float radius = projection.metersToEquatorPixels(myLocation.getAccuracy());
+	    canvas.drawCircle(pt.x, pt.y, radius, errorCirclePaint);
+	    */
+    }
+    
+    /**
+     * Sets the pointer location (will be drawn on next invalidate).
+     */
+    public void setMyLocation(Location myLocation) {
+      this.myLocation = myLocation;
+    }
+    
+    Point drawElement(Canvas canvas, Projection projection, GeoPoint geoPoint,
+        Drawable element, int offsetX, int offsetY) {
+	  Point pt = new Point();
+	  projection.toPixels(geoPoint, pt);
+	  canvas.save();
+	  canvas.translate(pt.x + offsetX, pt.y + offsetY);
+	  element.draw(canvas);
+	  canvas.restore();
+	  return pt;
+    }
+}

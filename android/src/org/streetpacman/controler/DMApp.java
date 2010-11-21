@@ -1,24 +1,29 @@
 package org.streetpacman.controler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.streetpacman.states.DMGame;
+import org.streetpacman.states.DMMap;
 import org.streetpacman.states.DMPhone;
+import org.streetpacman.util.DMUtils;
 
 import android.util.Log;
 
 public class DMApp {
 	public DMPhone dmPhone;
 	public DMGame dmGame;
-	public ArrayList<Integer> al_games = new ArrayList<Integer>();
-	public ArrayList<Integer> al_maps = new ArrayList<Integer>();
+	public DMMap dmMap;
+	public List<Integer> alGames;
+	public List<Integer> alMaps;
 	
 	public DMApp(String deviceId) {
 		dmPhone = new DMPhone();
 		dmGame = new DMGame();
+		dmMap = new DMMap();
 		dmPhone.phoneToken = "a_" + deviceId;
 	}
 	
@@ -36,29 +41,40 @@ public class DMApp {
 	}
 	
 	public void find_games(JSONObject json) throws JSONException{
-		JSONArray json_array = json.getJSONArray("items");
-		for(int i=0;i<json_array.length();i++){
-			al_games.add(json_array.getJSONObject(i).getInt("id"));
+		JSONArray jsonArray = json.getJSONArray("items");
+		alGames = new ArrayList<Integer>();
+		for(int i=0;i<jsonArray.length();i++){
+			alGames.add(jsonArray.getJSONObject(i).getInt("id"));
 		}
 	}
 	
 	public void find_maps(JSONObject json) throws JSONException{
-		JSONArray json_array = json.getJSONArray("items");
-		for(int i=0;i<json_array.length();i++){
-			al_maps.add(json_array.getJSONObject(i).getInt("id"));
+		JSONArray jsonArray = json.getJSONArray("items");
+		alMaps = new ArrayList<Integer>();
+		for(int i=0;i<jsonArray.length();i++){
+			alMaps.add(jsonArray.getJSONObject(i).getInt("id"));
 		}
 	}
 	
-	public void new_game(JSONObject json) throws JSONException{
+	private void initGame(JSONObject json) throws JSONException{
 		dmGame.game = json.getInt("game");
-		
+		JSONObject mapInfo = json.getJSONObject("mapInfo");
+		dmMap.dotPoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("dotPoints"));
+		dmMap.basePoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("basePoints"));
+		dmMap.powerPelletPoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("powerPelletPoints"));
+	}
+	
+	public void new_game(JSONObject json) throws JSONException{
+		initGame(json);		
 	}
 	
 	public void join_game(JSONObject json) throws JSONException{
-		dmGame.game = json.getInt("game");
+		initGame(json);
 	}
 	
 	public void update(JSONObject json) throws JSONException{
 		dmPhone.powerMode = json.getBoolean("powerMode");
+		dmGame.updatePhoneStates(json.getJSONArray("phoneStates"));
+		dmGame.updateEvents(json.getJSONArray("events"));
 	}
 }
