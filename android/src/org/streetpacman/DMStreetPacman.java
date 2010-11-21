@@ -171,6 +171,7 @@ public class DMStreetPacman extends MapActivity {
                     " Lng: " + location.getLongitude(), 
                     Toast.LENGTH_SHORT).show();
                 try {
+                	dmApp.dmPhone.setLocation(location);
 					dmApp.net(DMAPI.update);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

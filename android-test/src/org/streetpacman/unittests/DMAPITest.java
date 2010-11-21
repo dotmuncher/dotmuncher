@@ -27,8 +27,11 @@ public class DMAPITest extends TestCase {
 	}
 	
 	public void test_run(){
-		for(DMAPI api: DMAPI.values()){
-			api.run(json, dmApp);	
+		try {
+			dmApp.net(DMAPI.find_maps);
+		} catch (Exception e) {
+			assertTrue(false);
+			e.printStackTrace();
 		}		
 	}
 }
