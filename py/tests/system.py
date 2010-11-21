@@ -62,6 +62,10 @@ class SampleGame(TestCase):
         
         # 2: join_game
         d = api('join_game', {'game': game, 'phone': p2})
+        d = api('join_game', {'game': game, 'phone': p2})
+        d = api('join_game', {'game': game, 'phone': p2})
+        d = api('join_game', {'game': game, 'phone': p2})
+        #TODO: confirm this (only adds you once) and (only sends one event)
         
         # 3: join_game
         d = api('join_game', {'game': game, 'phone': p3})

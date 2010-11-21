@@ -2,7 +2,7 @@
 from core.window import addCssToHead
 
 from dotmuncher.css import CSS
-
+from dotmuncher.thumbnails import *
 from dotmuncher.stuff.BoardWidget import *
 from dotmuncher.stuff.GameWidget import *
 
@@ -13,6 +13,7 @@ def init():
 
 
 G.init = init
+G.drawMapThumbnails = drawMapThumbnails
 G.BoardWidget = BoardWidget
 G.GameWidget = GameWidget
 

@@ -1,9 +1,13 @@
 
 '''
 
-  A           X
-      G
-B          Y
+
+    A           
+             
+       GGG       X
+B     GGG    
+
+            Y
 
 '''
 
@@ -15,10 +19,10 @@ def dist(x, y):
                      (x[1] - y[1])**2)
 
 
-A = [40.732190, -73.998569]
-B = [40.731021, -73.999604]
-X = [40.730698, -73.995551]
-Y = [40.729556, -73.996562]
+A = [40.732161, -73.99853]
+B = [40.731031, -73.99959]
+X = [40.730714, -73.99562]
+Y = [40.729625, -73.99654]
 G = [40.730765, -73.997413]
 
 PARK = (dist(X, Y) + dist(A, B)) / 2
@@ -27,7 +31,7 @@ def coordStr(x):
     return '%.9f' % x
 
 
-def line(x, y, n=10):
+def line(x, y, n):
     arr = []
     for i in range(n):
         t = float(i) / (n - 1)
@@ -59,8 +63,8 @@ def points(xs):
 
 
 STUB_MAP_INFO = {
-    'dotPoints': line(X, Y) + line(A, B) + line(A, X) + line(B, Y),
+    'dotPoints': line(X, Y, 10) + line(A, B, 10) + line(A, X, 20) + line(B, Y, 20),
     'basePoints': solidSquare(G, PARK / 4, 50),
-    'powerPelletPoints': points([X, Y, A, B]),
+    'powerPelletPoints': points([X, Y, B]),
 }
 

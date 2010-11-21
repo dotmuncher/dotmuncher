@@ -12,6 +12,7 @@ from django.http import HttpResponseRedirect
 from dotmuncher.py.constants import *
 from dotmuncher.py.dm_util import exceptionStr, jsonView, jsonReponse
 from dotmuncher.py.dm_util import invertedDict, ppJsonDumps, randomToken
+from dotmuncher.py.stubdata import STUB_MAP_INFO
 
 
 redisConn = None
@@ -97,9 +98,10 @@ class Map(models.Model):
     
     @property
     def info(self):
-        info = copy.deepcopy(BLANK_MAP_INFO)
-        info.update(json.loads(self.infoJson) if self.infoJson else {})
-        return info
+        return STUB_MAP_INFO
+        #info = copy.deepcopy(BLANK_MAP_INFO)
+        #info.update(json.loads(self.infoJson) if self.infoJson else {})
+        #return info
     
     @classmethod
     def create(cls):
@@ -182,7 +184,7 @@ class APIRequest(models.Model):
         db_table = TABLE_PREFIX + 'apirequest'
     
     createdAtUtc = models.DateTimeField()
-    phone = models.IntegerField()
+    phoneId = models.IntegerField()
     infoJson = models.TextField()
     
     @classmethod

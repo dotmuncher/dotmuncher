@@ -40,7 +40,7 @@
 <center>
     <h2>Map {{ map.token }}</h2>
     <p>
-        <a href="{% url api_new_game %}?json={{ newGameJson }}">
+        <a href="{% url api_new_game %}?json={{ newGameJson|safe }}">
             TEMP: new game with this map
         </a>
     </p>
