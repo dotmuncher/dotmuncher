@@ -8,7 +8,7 @@ from subprocess import check_call
 
 import pj.api
 
-from dotmuncher.dm_util import simpleGet
+from dotmuncher.py.dm_util import simpleGet
 
 
 def main():

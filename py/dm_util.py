@@ -15,6 +15,8 @@ def randomToken(n):
     return ''.join(random.choice(TOKEN_ALPHABET) for i in range(n))
 
 
+def parentOf(path, n=1):
+    return '/'.join(path.rstrip('/').split('/')[:-n])
 
 
 def jsonView(**outerKwargs):

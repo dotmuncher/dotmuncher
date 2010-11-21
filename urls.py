@@ -3,29 +3,41 @@ import os
 
 from django.conf.urls.defaults import *
 from django.conf import settings
+from django.shortcuts import render_to_response
+
+from dotmuncher.py.dm_util import parentOf
+
+
+REPO = parentOf(os.path.abspath(__file__))
 
 
 #### Pages
 
-handler404 = "dotmuncher.views.handler404"
-handler500 = "dotmuncher.views.handler500"
+handler404 = "dotmuncher.py.views.handler404"
+handler500 = "dotmuncher.py.views.handler500"
 
-urlpatterns = patterns('dotmuncher.views',
+urlpatterns = patterns('dotmuncher.py.views',
     
     url(r'^$', 'index', name='index'),
+    url(r'^intro/$', 'intro', name='intro'),
+    url(r'^iphone/$', 'iphone', name='iphone'),
+    url(r'^android/$', 'android', name='android'),
+    url(r'^about/$', 'about', name='about'),
+    url(r'^privacy/$', 'privacy', name='privacy'),
+    
+    url(r'^new-board/$', 'new_map', name='new_map'),
     
     url(r'^games/$', 'games', name='games'),
-    url(r'^maps/$', 'maps', name='maps'),
+    url(r'^boards/$', 'maps', name='maps'),
     
-    url(r'^define-map/$', 'define_map', name='define_map'),
-    
-    url(r'^map/$', 'map', name='map'),
+    url(r'^board/$', 'map', name='map'),
     url(r'^watch-game/$', 'game', name='game'),
+    
 )
 
 #### API views
 
-urlpatterns += patterns('dotmuncher.views_api',
+urlpatterns += patterns('dotmuncher.py.views_api',
     
     url(r'^api/v0/debug\.json$', 'api_debug', name='api_debug'),
     
@@ -42,7 +54,7 @@ urlpatterns += patterns('dotmuncher.views_api',
 
 #### Dev views
 
-urlpatterns += patterns('dotmuncher.views_dev',
+urlpatterns += patterns('dotmuncher.py.views_dev',
     url(r'^dev/events/$', 'dev_events', name='dev_events'),
     url(r'^dev/requests/$', 'dev_requests', name='dev_requests'),
 )
@@ -60,16 +72,31 @@ urlpatterns += patterns('pj.django',
         name='dotmuncher_js'),
 )
 
+#### /static/css/ (for dev mode)
+if settings.DEVMODE:
+    urlpatterns += patterns('',
+        url(r'static/css/dotmuncher\.css',
+            lambda r: render_to_response('dotmuncher/css/dotmuncher.css',
+                                         {},
+                                         mimetype='text/css'),
+            name='dotmuncher_css'),
+    )
+
+#### /images/ (non-sprited images for dev mode)
+if settings.DEVMODE:
+    urlpatterns += patterns('',
+        url(r'images(?P<path>.+)',
+            'django.views.static.serve',
+            {'document_root': os.path.join(REPO, 'images')}))
+
 #### /static/ (for dev mode)
 # Assumes your deployment system will never let /static/* reach Django
-
-def parentOf(path):
-    return '/'.join(path.rstrip('/').split('/')[:-1])
-
 if settings.DEVMODE:
-    staticRoot = os.path.join(parentOf(__file__), 'static')
+    staticRoot = os.path.join(REPO, 'static')
     if os.path.isdir(staticRoot):
         urlpatterns += patterns('',
-            url(r'static(?P<path>.+)', 'django.views.static.serve', {'document_root': staticRoot}))
+            url(r'static(?P<path>.+)',
+                'django.views.static.serve',
+                {'document_root': staticRoot}))
 
 

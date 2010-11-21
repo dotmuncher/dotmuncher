@@ -2,6 +2,13 @@
 
 CSS = '''
 
+body {
+    background: #666;
+}
+
+#widget {
+    position: absolute;
+}
 #overlay_container {
     position: relative;
     width: 800px;
@@ -10,25 +17,27 @@ CSS = '''
     margin-bottom: 25px;
 }
 #mapcanvas {
-    
+    background: red;
     position: relative;
-    top: 0px;
-    left: 0px;
+    top: 76px;
+    left: 5px;
     
     width: 100%;
     height: 100%;
     
     z-index: 10;
 }
-#toolbar_container {
-    
-    margin-top: 25px;
-    
-    width: 798px;
-    height: 80px;
+.WidgetWithMap_CSS {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* SPRITE js */
+    background: url("/images/widget/background.png");
+    width: 818px;
+    height: 539px;
 }
 
-{##########/* Buttons */##########}
+{##########/* Button */##########}
 .Button_CSS {
     
     display: block;
@@ -37,38 +46,102 @@ CSS = '''
     outline: 0;
     border: 0;
 }
-.MapDefiner_toolbar_editButton_CSS {
-    
+
+{##########/* BoardWidget */##########}
+.BoardWidgetRadio_CSS {
     position: absolute;
-    left: 100px;
-    top: 20px;
-    
-    background: #C3EFFA;
-    width: 120px;
-    height: 40px;
+    top: 23px;
+    left: 187px;
+    z-index: 5;
 }
-.MapDefiner_toolbar_editButton_CSS:hover {
-    background: #94E4F9;
-}
-.MapDefiner_toolbar_editButton_CSS:active {
-    background: #5C8593;
-}
-.MapDefiner_toolbar_saveButton_CSS {
-    
+.bounds_button_CSS {
     position: absolute;
-    left: 400px;
-    top: 20px;
-    
-    background: #C3EFFA;
-    width: 120px;
-    height: 40px;
+    top: 0;
+    left: 0;
+    /* SPRITE js */
+    background: url("/images/board-edit/bounds.png");
+    width: 111px;
+    height: 32px;
 }
-.MapDefiner_toolbar_saveButton_CSS:hover {
-    background: #94E4F9;
+.bounds_button_hoverable_CSS:hover {
+    /* SPRITE js */
+    background: url("/images/board-edit/bounds_hover.png");
 }
-.MapDefiner_toolbar_saveButton_CSS:active {
-    background: #5C8593;
+.bounds_button_active_CSS {
+    /* SPRITE js */
+    background: url("/images/board-edit/bounds_active.png");
 }
+.path_button_CSS {
+    position: absolute;
+    top: 0;
+    left: 112px;
+    /* SPRITE js */
+    background: url("/images/board-edit/path.png");
+    width: 111px;
+    height: 32px;
+}
+.path_button_hoverable_CSS:hover {
+    /* SPRITE js */
+    background: url("/images/board-edit/path_hover.png");
+}
+.path_button_active_CSS {
+    /* SPRITE js */
+    background: url("/images/board-edit/path_active.png");
+}
+.base_button_CSS {
+    position: absolute;
+    top: 0;
+    left: 183px;
+    /* SPRITE js */
+    background: url("/images/board-edit/base.png");
+    width: 111px;
+    height: 32px;
+}
+.base_button_hoverable_CSS:hover {
+    /* SPRITE js */
+    background: url("/images/board-edit/base_hover.png");
+}
+.base_button_active_CSS {
+    /* SPRITE js */
+    background: url("/images/board-edit/base_active.png")
+}
+.pellets_button_CSS {
+    position: absolute;
+    top: 0;
+    left: 294px;
+    /* SPRITE js */
+    background: url("/images/board-edit/pellets.png");
+    width: 121px;
+    height: 32px;
+}
+.pellets_button_hoverable_CSS:hover {
+    /* SPRITE js */
+    background: url("/images/board-edit/pellets_hover.png");
+}
+.pellets_button_active_CSS {
+    /* SPRITE js */
+    background: url("/images/board-edit/pellets_active.png");
+}
+.save_button_CSS {
+    position: absolute;
+    top: 23px;
+    left: 700px;
+    /* SPRITE js */
+    background: url("/images/board-edit/save.png");
+    width: 82px;
+    height: 32px;
+}
+.save_button_CSS:hover {
+    /* SPRITE js */
+    background: url("/images/board-edit/save_hover.png");
+}
+.save_button_CSS:active {
+    /* SPRITE js */
+    background: url("/images/board-edit/save_active.png");
+}
+
+
+
 
 {##########/* GameViewer */##########}
 .GameViewer_toolbar_CSS {

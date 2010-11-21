@@ -40,8 +40,10 @@
 {% block content %}
 
 <center>
-    <h2>Maps</h2>
+    <h2>Boards</h2>
 </center>
+
+<a href="{% url new_map %}">New Board</a>
 
 {% for map in maps %}
 <a class="map" href="{% url map %}?token={{ map.token }}">

@@ -3,14 +3,9 @@ import json
 
 from django.http import HttpResponse
 
-from dotmuncher.models import Phone, Map, Game, Event
-from dotmuncher.dm_util import view
+from dotmuncher.py.models import Phone, Map, Game, Event
+from dotmuncher.py.dm_util import view
 
-
-
-@view('dotmuncher/index.html')
-def index(r):
-    pass
 
 
 @view('dotmuncher/maps.html')
@@ -38,8 +33,8 @@ def games(r):
     }
 
 
-@view('dotmuncher/define_map.html')
-def define_map(r):
+@view('dotmuncher/new_map.html')
+def new_map(r):
     #LATER: starting bounds from geo-location
     return {
         'zoom': 16,
@@ -84,10 +79,37 @@ def game(r):
     }
 
 
+
+
+#### Boring Views
+
+@view('dotmuncher/index.html')
+def index(r):
+    pass
+
+@view('dotmuncher/intro.html')
+def intro(r):
+    pass
+
+@view('dotmuncher/iphone.html')
+def iphone(r):
+    pass
+
+@view('dotmuncher/android.html')
+def android(r):
+    pass
+
+@view('dotmuncher/about.html')
+def about(r):
+    pass
+
+@view('dotmuncher/privacy.html')
+def privacy(r):
+    pass
+
 @view('dotmuncher/404.html')
 def handler404(r):
     pass
-
 
 @view('dotmuncher/500.html')
 def handler500(r):
