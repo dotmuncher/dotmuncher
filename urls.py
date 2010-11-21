@@ -72,15 +72,15 @@ urlpatterns += patterns('pj.django',
         name='dotmuncher_js'),
 )
 
-#### /static/css/ (for dev mode)
-if settings.DEVMODE:
-    urlpatterns += patterns('',
-        url(r'static/css/dotmuncher\.css',
-            lambda r: render_to_response('dotmuncher/css/dotmuncher.css',
-                                         {},
-                                         mimetype='text/css'),
-            name='dotmuncher_css'),
-    )
+#### /static/css/
+# Assumes your deployment system will never let /static/* reach Django
+urlpatterns += patterns('',
+    url(r'static/css/dotmuncher\.css',
+        lambda r: render_to_response('dotmuncher/css/dotmuncher.css',
+                                     {},
+                                     mimetype='text/css'),
+        name='dotmuncher_css'),
+)
 
 
 #### /static/ (for dev mode)
