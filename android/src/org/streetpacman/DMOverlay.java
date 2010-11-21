@@ -1,7 +1,11 @@
 package org.streetpacman;
 
 import org.streetpacman.controler.DMApp;
+import org.streetpacman.states.DMGame;
 import org.streetpacman.states.DMMap;
+import org.streetpacman.states.DMPhone;
+import org.streetpacman.states.DMPhoneState;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,13 +21,18 @@ import com.google.android.maps.Projection;
 class DMOverlay extends Overlay{
 	private Location myLocation;
 	private final DMMap dmMap;
+	private final DMGame dmGame;
+	private final DMPhone dmPhone;
 	private final Paint errorCirclePaint;
 	private final Paint dotPaint;
 	private final Paint basePaint;
 	private final Paint powerPelletPaint;
+	private final Paint phonePaint;
 	
 	public DMOverlay(DMApp dmApp) {
 	    dmMap = dmApp.dmMap;
+	    dmGame = dmApp.dmGame;
+	    dmPhone = dmApp.dmPhone;
 	    
 	    errorCirclePaint = new Paint();
 	    errorCirclePaint.setColor(Color.BLUE);
@@ -32,7 +41,7 @@ class DMOverlay extends Overlay{
 	    errorCirclePaint.setAlpha(127);
 	    errorCirclePaint.setAntiAlias(true);
 	    
-	    powerPelletPaint = basePaint = dotPaint = new Paint();
+	    phonePaint = powerPelletPaint = basePaint = dotPaint = new Paint();
 	    dotPaint.setColor(Color.WHITE);
 	}
 	
@@ -41,7 +50,20 @@ class DMOverlay extends Overlay{
         super.draw(canvas, mapView, shadow);        
         final Projection projection = getMapProjection(mapView);
         Point screenPts = new Point();
-        
+
+        synchronized(dmGame.dmPhoneStates){
+	        for(DMPhoneState dmPhoneState : dmGame.dmPhoneStates){
+	        	// Only draw others
+	        	if(dmPhoneState.phone != dmPhone.phoneId){
+	        		GeoPoint p = new GeoPoint(
+		                    (int) (dmPhoneState.lat * 1E6), 
+		                    (int) (dmPhoneState.lng * 1E6));
+		        	projection.toPixels(p, screenPts);
+		            canvas.drawCircle(screenPts.x, screenPts.y, 30, phonePaint);	
+	        	}	        	
+	        }
+        }
+                
         synchronized(dmMap.dotPoints){
 	        for(GeoPoint p : dmMap.dotPoints){
 	        	projection.toPixels(p, screenPts);

@@ -7,11 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.maps.GeoPoint;
-
 public class DMGame {
 	public int game = -1;
 	public List<DMPhoneState> dmPhoneStates = new ArrayList<DMPhoneState>();
+	public DMMap dmMap;
+	
 	public void updatePhoneStates(JSONArray jsonArray) throws JSONException {
 		synchronized (dmPhoneStates) {
 			dmPhoneStates.clear();		
@@ -43,12 +43,11 @@ public class DMGame {
 					String kType = kArray.getString(0);
 					int x = (int) (new Double(kArray.getString(1)) * 1E6);
 					int y = (int) (new Double(kArray.getString(2)) * 1E6);
-					GeoPoint p = new GeoPoint(x,y);
 					if(kType == "p"){
-						
+						dmMap.killPowerPellet(x,y);
 					}
 					if(kType == "d"){
-						
+						dmMap.killDot(x,y);
 					}
 					break;
 				case DMConstants.GAME_OVER:

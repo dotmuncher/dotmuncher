@@ -24,6 +24,8 @@ public class DMApp {
 		dmPhone = new DMPhone();
 		dmGame = new DMGame();
 		dmMap = new DMMap();
+		dmGame.dmMap = dmMap;
+		
 		dmPhone.phoneToken = "a_" + deviceId;
 	}
 	
@@ -62,6 +64,7 @@ public class DMApp {
 		dmMap.dotPoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("dotPoints"));
 		dmMap.basePoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("basePoints"));
 		dmMap.powerPelletPoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("powerPelletPoints"));
+		dmMap.buildPointsMap();
 	}
 	
 	public void new_game(JSONObject json) throws JSONException{
