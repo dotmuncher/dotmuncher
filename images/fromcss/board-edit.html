@@ -1,0 +1,169 @@
+<html>
+<head>
+  <style type="text/css">
+    
+    body {
+      background: #333;
+      margin: 20px;
+    }
+    
+    .i {
+      margin: 10px;
+    }
+    
+    .widget {
+      
+      position: relative;
+      
+      width: 800px;
+      height: 521px;
+      
+      margin-bottom: 50px;
+      
+      background: url("http://localhost:9000/gradient?from=F&to=7&w=10&h=40&.png") repeat-x;
+      border: 1px solid black;
+      -webkit-border-radius: 10px 10px 0 0;
+      -webkit-box-shadow: 4px 4px 8px #111;
+    }
+    
+    .map {
+      position: absolute;
+      left: 0px;
+      top: 70px;
+      
+      width: 800px;
+      height: 450px;
+      
+      background: #E4E2E0;
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+    }
+    
+    .mb {
+      height: 30px;
+      text-align: center;
+      font: bold 14px Arial,Sans-serif;
+    }
+    .mb div {
+      margin-top: 7px;
+    }
+    .gb {
+      color: #333;
+      background: url("http://localhost:9000/gradient?from=F&to=7&w=10&h=40&.png") repeat-x scroll 0 0 #142783;
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000;
+      border-right: 1px solid #000;
+    }
+    .ob {
+      color: #333;
+      background: url("http://localhost:9000/gradient?from=FFF36A&to=FFC100&w=10&h=30&.png") repeat-x scroll 0 0 #FFB82B;
+      border: 1px solid #FFD543;
+    }
+    
+    
+    .mb_hover {
+      background-position: 0 -5px;
+      color: #000;
+    }
+    .mb_active {
+      background-image: none;
+      color: #FFF;
+    }
+    
+    
+    
+    .ob_hover {
+      color: #000;
+    }
+    .ob_active {
+      color: #000;
+      background-image: none;
+    }
+    
+    .map_bounds {
+      width: 110px;
+      border-left: 1px solid #000;
+      -webkit-border-radius: 7px 0 0 7px;
+    }
+    .path {
+      width: 70px;
+    }
+    .ghost_base {
+      width: 110px;
+    }
+    .power_pellets {
+      width: 120px;
+      -webkit-border-radius: 0 7px 7px 0;
+    }
+    
+    .save {
+      width: 80px;
+      -webkit-border-radius: 7px;
+      font: bold 16px Arial,Sans-serif;
+    }
+    
+    
+  </style>
+</head>
+<body>
+  
+  <!--
+  <div class="i widget">
+    <div class="top_gradient"></div>
+    <div class="map"></div>
+  </div>
+-->
+  
+  <div class="i mb ob save">
+    <div>Save</div>
+  </div>
+  <div class="i mb mb_hover ob ob_hover save">
+    <div>Save</div>
+  </div>
+  <div class="i mb mb_active ob ob_active save">
+    <div>Save</div>
+  </div>
+  
+  <div class="i gb mb map_bounds MW MapWidget_boundsButton_CSS">
+    <div>Map Bounds</div>
+  </div>
+  <div class="i gb mb mb_hover map_bounds">
+    <div>Map Bounds</div>
+  </div>
+  <div class="i gb mb mb_active map_bounds">
+    <div>Map Bounds</div>
+  </div>
+  
+  <div class="i gb mb path">
+    <div>Path</div>
+  </div>
+  <div class="i gb mb mb_hover path">
+    <div>Path</div>
+  </div>
+  <div class="i gb mb mb_active path MapWidget_pathButton_CSS">
+    <div>Path</div>
+  </div>
+  
+  <div class="i gb mb ghost_base MapWidget_baseButton_CSS">
+    <div>Ghost Base</div>
+  </div>
+  <div class="i gb mb mb_hover ghost_base">
+    <div>Ghost Base</div>
+  </div>
+  <div class="i gb mb mb_active ghost_base">
+    <div>Ghost Base</div>
+  </div>
+  
+  <div class="i gb mb power_pellets">
+    <div>Power Pellets</div>
+  </div>
+  <div class="i gb mb mb_hover power_pellets MapWidget_pelletsButton_CSS">
+    <div>Power Pellets</div>
+  </div>
+  <div class="i gb mb mb_active power_pellets">
+    <div>Power Pellets</div>
+  </div>
+  
+  
+</body>
+</html>

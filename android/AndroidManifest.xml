@@ -12,8 +12,22 @@
     <application android:label="@string/activity_sample_code"
             android:icon="@drawable/pacman_on_mac_twitter_logo" >
 
-        <uses-library android:name="com.google.android.maps" />
-
+		<uses-library android:name="com.google.android.maps" />
+		
+		<activity android:name="org.streetpacman.DMAnim" android:label="Animation">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name="org.streetpacman.DMWizard" android:label="Wizard">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+			</intent-filter>
+		</activity>
+		
        <activity android:name="org.streetpacman.DMLauncher" android:label="Street Pacman">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER"></category>
@@ -21,19 +35,13 @@
             </intent-filter>
        </activity>
 
-        <activity android:name="org.streetpacman.DMMapView" android:label="MapView">
+        <activity android:name="org.streetpacman.DMStreetPacman" android:label="Street Pacman">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
 
-        <activity android:name="org.streetpacman.DMStreetPacman" android:label="Street Pacman">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>        
    </application>
    <uses-sdk android:minSdkVersion="8" />
 </manifest>

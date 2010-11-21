@@ -1,4 +1,3 @@
-
 ## Quickstart: run the server on your laptop
 
 #### Prereqs:
