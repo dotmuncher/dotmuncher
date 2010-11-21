@@ -45,7 +45,8 @@ class DMOverlay extends Overlay{
 	    errorCirclePaint.setAntiAlias(true);
 	    
 	    phonePaint = powerPelletPaint = basePaint = dotPaint = new Paint();
-	    dotPaint.setColor(Color.RED);
+	    dotPaint.setColor(Color.WHITE);
+	    dotPaint.setAntiAlias(true);
 	}
 	
 	  @Override

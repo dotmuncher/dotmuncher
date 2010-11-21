@@ -27,7 +27,6 @@ import org.streetpacman.util.DMUtils;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
@@ -46,6 +45,7 @@ public class DMStreetPacman extends MapActivity {
 	private DMOverlay dmOverlay;
 	private Location currentLocation;
 	private LocationManager locationManager;
+	private boolean keepMyLocationVisible;
     MapView mapView;
 
     @Override
@@ -116,10 +116,11 @@ public class DMStreetPacman extends MapActivity {
 			dmApp.dmPhone.game = dmApp.alGames.get(0);
 			dmApp.net(DMAPI.join_game);			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		// zoom and pan
+		showPoints();
     }
 
     /**
@@ -223,5 +224,29 @@ public class DMStreetPacman extends MapActivity {
         sensorManager.unregisterListener(sensorListener);
       }
       */
+    }
+    
+    public void showPoints() {
+        if (mapView == null) {
+          return;
+        }
+
+        int bottom = dmApp.dmMap.getBottom();
+        int left = dmApp.dmMap.getLeft();
+        int latSpanE6 = dmApp.dmMap.getTop() - bottom;
+        int lonSpanE6 = dmApp.dmMap.getRight() - left;
+        if (latSpanE6 > 0
+            && latSpanE6 < 180E6
+            && lonSpanE6 > 0
+            && lonSpanE6 < 360E6) {
+          keepMyLocationVisible = false;
+          GeoPoint center = new GeoPoint(
+              bottom + latSpanE6 / 2,
+              left + lonSpanE6 / 2);
+          if (DMUtils.isValidGeoPoint(center)) {
+            mapView.getController().setCenter(center);
+            mapView.getController().zoomToSpan(latSpanE6, lonSpanE6);
+          }
+        }
     }
 }
