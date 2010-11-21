@@ -10,7 +10,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "JSON.h"
-#import "DMDots.h"
 #import "DMHeroAnnotation.h"
 #import "DMHeroAnnotationView.h"
 #define POSITION_EVENT 1
@@ -21,7 +20,6 @@
 
 @interface DMLocationManager : NSObject <CLLocationManagerDelegate, MKMapViewDelegate> {
 	CLLocationManager *locationManager;
-	DMDots *dots;
 	MKMapView *mapView;
 	SBJsonWriter *jsonWriter;
 	SBJsonParser *jsonParser;

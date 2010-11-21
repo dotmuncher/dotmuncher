@@ -16,10 +16,6 @@ public class DMMap {
 	private Map<String,GeoPoint> dotPointsMap;
 	private Map<String,GeoPoint> basePointsMap;
 	private Map<String,GeoPoint> powerPelletPointsMap;
-	
-	public void removePoint(GeoPoint p){
-		//dotPoints.r
-	}
 
 	public void buildPointsMap() {
 		dotPointsMap = new HashMap<String,GeoPoint>();

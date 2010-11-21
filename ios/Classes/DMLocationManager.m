@@ -54,29 +54,29 @@ NSString *debugURL = @"http://urban.pyxc.org/api/v0/debug.json";
 //			  newLocation.coordinate.longitude);
 	[currentPlayerLocation release];
 	currentPlayerLocation = [newLocation retain];
-	
-	if (phoneID == 1) {
+	/*
+	if (phoneID == 0) {
 		[heroAnnotation setCoordinate:newLocation.coordinate]; // update pacman
 		[heroAnnotation setType:HERO_DOT_MUNCHER];
 		[mapView addAnnotation:heroAnnotation];
 	}
-	if (phoneID == 2) {
+	if (phoneID == 1) {
 		[redGhostAnnotation setCoordinate:newLocation.coordinate]; // update pacman
 		[redGhostAnnotation setType:HERO_GHOST_RED];
 		[mapView addAnnotation:redGhostAnnotation];
 	}
-	if (phoneID == 3) {
+	if (phoneID == 2) {
 		[pinkGhostAnnotation setCoordinate:newLocation.coordinate]; // update pacman
 		[pinkGhostAnnotation setType:HERO_GHOST_PINK];
 		[mapView addAnnotation:pinkGhostAnnotation];
 	}
-	if (phoneID == 4) {
+	if (phoneID == 3) {
 		[greenGhostAnnotation setCoordinate:newLocation.coordinate]; // update pacman
 		[greenGhostAnnotation setType:HERO_GHOST_GREEN];
 		[mapView addAnnotation:greenGhostAnnotation];
 	}
 	
-	
+	*/
 	NSLog(@"hero %i location: latitude %+.6f, longitude %+.6f\n",
 		  phoneID,
 		  newLocation.coordinate,
@@ -97,29 +97,39 @@ NSString *debugURL = @"http://urban.pyxc.org/api/v0/debug.json";
 
 - (void)beginGame {
 	NSString *jsonString = [[jsonWriter stringWithObject:[NSArray array]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	NSString *requestURLString = [NSString stringWithFormat:@"%@demo_magic.json?json=%@", apiURL, [@"{}" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+
+	NSString *requestURLString = [NSString stringWithFormat:@"%@find_games.json?json=%@", apiURL, [[NSString stringWithFormat:@"{\"lat\": 0, \"lng\": 0, \"phoneToken\": \"%@\"}", [[UIDevice currentDevice] uniqueIdentifier]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSURL *requestURL = [NSURL URLWithString:requestURLString];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestURL];
-	NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+	NSURLConnection *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];	
 	NSString *responseString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
 	NSLog(@"%@", responseString);
-	NSMutableDictionary *returnDict = [jsonParser objectWithString:responseString];
+	NSDictionary *returnDict = [jsonParser objectWithString:responseString];
 	NSLog(@"%@", [returnDict description]);
-	NSNumber *newNumber = [returnDict objectForKey:@"join"];
-	gameID = [newNumber intValue];
+	NSArray *gamesToJoin = [returnDict objectForKey:@"items"]; // put a ui for this eventually, for now just join most recent game
+	NSDictionary *gameDict = [gamesToJoin objectAtIndex:0]; // for now
 
-	requestURLString = [NSString stringWithFormat:@"%@find_games.json?json=%@", apiURL, [[NSString stringWithFormat:@"{\"lat\": 0, \"lng\": 0, \"phoneToken\": \"%@\"}", [[UIDevice currentDevice] uniqueIdentifier]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSNumber *newGameID = [gameDict objectForKey:@"id"];
+//	gameID = [newGameID intValue]; // NOPE NOPE NOPE
+	gameID = 21;
+	NSNumber *newPhoneID = [returnDict objectForKey:@"phone"];
+	phoneID = [newPhoneID intValue];
+	
+	
+	/*
+	
+	requestURLString = [NSString stringWithFormat:@"%@new_game.json?json=%@", apiURL, [[NSString stringWithFormat:@"{\"map\": 1, \"phone\": %i}", phoneID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	requestURL = [NSURL URLWithString:requestURLString];
 	request = [NSMutableURLRequest requestWithURL:requestURL];
-	returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];	
+	returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 	responseString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
 	NSLog(@"%@", responseString);
 	returnDict = [jsonParser objectWithString:responseString];
-	NSLog(@"%@", [returnDict description]);
-	newNumber = [returnDict objectForKey:@"phoneId"];
-	phoneID = [newNumber intValue];
+	NSLog(@"%@", [returnDict description]);	
 	
-	requestURLString = [NSString stringWithFormat:@"%@join_game.json?json=%@", apiURL, [[NSString stringWithFormat:@"{\"game\": %i}", gameID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	*/
+	
+	requestURLString = [NSString stringWithFormat:@"%@join_game.json?json=%@", apiURL, [[NSString stringWithFormat:@"{\"game\": %i, \"phone\": %i}", gameID, phoneID] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	requestURL = [NSURL URLWithString:requestURLString];
 	request = [NSMutableURLRequest requestWithURL:requestURL];
 	returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
@@ -162,20 +172,15 @@ NSString *debugURL = @"http://urban.pyxc.org/api/v0/debug.json";
 	NSMutableArray *locationRequestArray = [NSMutableArray array];
 	
 	NSDictionary *locationDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+										lastEvent,  @"id__gte",
 										game,  @"game",
 										phone,  @"phone",
 										[NSString stringWithFormat:@"%+.6f", newLocation.coordinate.latitude],  @"lat",
 										[NSString stringWithFormat:@"%+.6f", newLocation.coordinate.longitude], @"lng",
 										[NSString stringWithFormat:@"%+.6f", newLocation.horizontalAccuracy],  @"hacc",
 										[NSString stringWithFormat:@"%+.6f", newLocation.verticalAccuracy], @"vacc", nil ];
-	
-	[locationRequestArray addObject:[NSArray arrayWithObjects:[NSString stringWithFormat:@"%i", POSITION_EVENT], locationDictionary, nil]];
-	
-	[locationRequestDict setObject:locationRequestArray forKey:@"events"];
-	[locationRequestDict setObject:lastEvent forKey:@"i__gte"];
-	[locationRequestDict setObject:game forKey:@"game"];
-	
-	NSString *requestURLString = [NSString stringWithFormat:@"%@submit_and_get_events.json?json=%@", apiURL, [[jsonWriter stringWithObject:locationRequestDict] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+		
+	NSString *requestURLString = [NSString stringWithFormat:@"%@update.json?json=%@", apiURL, [[jsonWriter stringWithObject:locationDictionary] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	NSURL *requestURL = [NSURL URLWithString:requestURLString];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requestURL];
 
@@ -192,7 +197,7 @@ NSString *debugURL = @"http://urban.pyxc.org/api/v0/debug.json";
 	
 	NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];	
 	NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-	
+	NSLog(@"%@", returnString);
 	NSMutableDictionary *returnDict = [jsonParser objectWithString:returnString];
 	
 	[returnString release];
@@ -201,10 +206,10 @@ NSString *debugURL = @"http://urban.pyxc.org/api/v0/debug.json";
 }
 
 - (void)updateHeroPositions:(NSMutableDictionary *)serverResponse {
-	for (NSArray *array in [serverResponse objectForKey:@"events"]) {
-		NSMutableDictionary *dict = [array objectAtIndex:1];
+	NSUInteger heroID = 0;
+	for (NSDictionary *dict in [serverResponse objectForKey:@"phoneStates"]) {
 		CLLocationCoordinate2D latlong = CLLocationCoordinate2DMake([[dict objectForKey:@"lat"] floatValue], [[dict objectForKey:@"lng"] floatValue]);
-		if ([[dict objectForKey:@"phone"] intValue] == 1) {
+		if (heroID == 0) {
 			NSLog(@"moved hero: latitude %+.6f, longitude %+.6f\n",
 				  latlong.latitude,
 				  latlong.longitude);	
@@ -213,7 +218,7 @@ NSString *debugURL = @"http://urban.pyxc.org/api/v0/debug.json";
 			[heroAnnotation setType:HERO_DOT_MUNCHER];
 			[mapView addAnnotation:heroAnnotation];
 		}
-		if ([[dict objectForKey:@"phone"] intValue] == 2) {
+		if (heroID == 1) {
 			NSLog(@"moved red: latitude %+.6f, longitude %+.6f\n",
 				  latlong.latitude,
 				  latlong.longitude);	
@@ -222,7 +227,7 @@ NSString *debugURL = @"http://urban.pyxc.org/api/v0/debug.json";
 			[redGhostAnnotation setType:HERO_GHOST_RED];
 			[mapView addAnnotation:redGhostAnnotation];
 		}
-		if ([[dict objectForKey:@"phone"] intValue] == 3) {
+		if (heroID == 2) {
 			NSLog(@"moved pink: latitude %+.6f, longitude %+.6f\n",
 				  latlong.latitude,
 				  latlong.longitude);	
@@ -231,7 +236,7 @@ NSString *debugURL = @"http://urban.pyxc.org/api/v0/debug.json";
 			[pinkGhostAnnotation setType:HERO_GHOST_PINK];
 			[mapView addAnnotation:pinkGhostAnnotation];
 		}
-		if ([[dict objectForKey:@"phone"] intValue] == 4) {
+		if (heroID == 3) {
 			NSLog(@"moved green: latitude %+.6f, longitude %+.6f\n",
 				  latlong.latitude,
 				  latlong.longitude);	
@@ -240,9 +245,9 @@ NSString *debugURL = @"http://urban.pyxc.org/api/v0/debug.json";
 			[greenGhostAnnotation setType:HERO_GHOST_GREEN];
 			[mapView addAnnotation:greenGhostAnnotation];
 		}
+		heroID++;
 	}
-	lastReceivedEvent = [[serverResponse objectForKey:@"max_i"] intValue];
-	
+//	lastReceivedEvent = [[serverResponse objectForKey:@"max_i"] intValue];
 }
 
 #pragma mark Map View Delegate methods

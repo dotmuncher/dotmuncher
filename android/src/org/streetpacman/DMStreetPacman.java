@@ -53,6 +53,13 @@ public class DMStreetPacman extends MapActivity {
     	Log.d(DMConstants.TAG, "DMStreetPacman.onCreate");
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //mapView = new MapView(this, "0GS6dsJhZCsmMbF1b4aXpMkwX3bT9MT4J3_BUWg");
+        setContentView(R.layout.mapview);
+        mapView = (MapView) findViewById(R.id.map);
+
+        
+        //mapView = this.get
+        //setContentView(mapView); 
         
 		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id		
 	    final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
@@ -66,19 +73,8 @@ public class DMStreetPacman extends MapActivity {
 	    String deviceId = deviceUuid.toString();
 	    
 	    this.dmApp = new DMApp(deviceId);
-	    
-		try {
-			dmApp.net(DMAPI.update_phone_settings);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
         
-        this.dmOverlay = new DMOverlay(dmApp,this);
-        
-        mapView = new MapView(this, "0GS6dsJhZCsmMbF1b4aXpMkwX3bT9MT4J3_BUWg");
-        //setContentView(R.layout.mapview);
-        setContentView(mapView); 
+        this.dmOverlay = new DMOverlay(dmApp,this);        
 
         List<Overlay> listOfOverlays = mapView.getOverlays();
         listOfOverlays.clear();
@@ -114,6 +110,16 @@ public class DMStreetPacman extends MapActivity {
 
       registerLocationAndSensorListeners();
 
+		try {
+			dmApp.net(DMAPI.update_phone_settings);
+			dmApp.net(DMAPI.find_games);
+			dmApp.dmPhone.game = dmApp.alGames.get(0);
+			dmApp.net(DMAPI.join_game);			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
     }
 
     /**
@@ -153,9 +159,11 @@ public class DMStreetPacman extends MapActivity {
 	  }
 	  dmOverlay.setMyLocation(currentLocation);
 	  mapView.invalidate();
+	  /*
 		MapController controller = mapView.getController();
 		GeoPoint geoPoint = DMUtils.getGeoPoint(currentLocation);
 		controller.animateTo(geoPoint);
+		*/
     }
     
     private final LocationListener locationListener = new LocationListener(){
@@ -171,6 +179,7 @@ public class DMStreetPacman extends MapActivity {
                     " Lng: " + location.getLongitude(), 
                     Toast.LENGTH_SHORT).show();
                 try {
+                	dmApp.dmPhone.setLocation(location);
 					dmApp.net(DMAPI.update);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
