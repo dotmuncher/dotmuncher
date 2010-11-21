@@ -9,7 +9,7 @@ import android.util.Log;
 public class DMPhone {
 	public int game = -1;
     public int map = -1;
-    public int phoneId = -1;
+    public int phone = -1;
     public String name = "";
 	public String phoneToken = "";
 	public double lat = -1;
@@ -37,11 +37,11 @@ public class DMPhone {
 				break;
 			case new_game:
 				json.put("map", map);
-		    	json.put("phone", phoneId);
+		    	json.put("phone", phone);
 				break;
 			case join_game:
 				json.put("game", game);
-		    	json.put("phone", phoneId);
+		    	json.put("phone", phone);
 				break;
 			case update:
 				json.put("lat", Double.toString(lat));
@@ -49,7 +49,7 @@ public class DMPhone {
 				json.put("hacc", Double.toString(acc));
 				json.put("vacc", Double.toString(acc));
 				json.put("game", game);
-				json.put("phoneId", phoneId);
+				json.put("phoneId", phone);
 				json.put("id__gte", id__gte);
 				break;
 			default:
@@ -81,21 +81,21 @@ public class DMPhone {
 		json.put("hacc", Double.toString(acc));
 		json.put("vacc", Double.toString(acc));
 		json.put("game", game);
-		json.put("phoneId", phoneId);
+		json.put("phone", phone);
 		json.put("id__gte", id__gte);
 		return json;
 	}
     public JSONObject getJSONFor_new_game() throws JSONException{
     	JSONObject json = new JSONObject();
     	json.put("map", map);
-    	json.put("phone", phoneId);
+    	json.put("phone", phone);
 		return json;    	
     }
     
     public JSONObject getJSONFor_join_game() throws JSONException{
     	JSONObject json = new JSONObject();
     	json.put("game", game);
-    	json.put("phone", phoneId);
+    	json.put("phone", phone);
 		return json;    	
     }
 }            
