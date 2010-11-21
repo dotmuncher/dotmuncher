@@ -29,6 +29,8 @@ import com.google.android.maps.Overlay;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Bundle;
 
@@ -91,7 +93,11 @@ public class DMMapView extends MapActivity {
             //---add the marker---
             Bitmap bmp = BitmapFactory.decodeResource(
                 getResources(), R.drawable.pacman_chomp0);            
-            canvas.drawBitmap(bmp, screenPts.x, screenPts.y-50, null);         
+            //canvas.drawBitmap(bmp, screenPts.x, screenPts.y-50, null);
+            
+            Paint paint = new Paint();
+            paint.setColor(Color.WHITE);
+            canvas.drawCircle(screenPts.x, screenPts.y, 10, paint);
             return true;
         }
     } 

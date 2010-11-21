@@ -12,6 +12,7 @@ public class DMAPITest extends TestCase {
     
 	protected void setUp() {
 		dmApp = new DMApp("test_dmApp");
+		
 	}
    
 	public void test_getJSONFor() {
@@ -23,5 +24,11 @@ public class DMAPITest extends TestCase {
 			assertTrue(false);
 			e.printStackTrace();
 		}
+	}
+	
+	public void test_run(){
+		for(DMAPI api: DMAPI.values()){
+			api.run(json, dmApp);	
+		}		
 	}
 }

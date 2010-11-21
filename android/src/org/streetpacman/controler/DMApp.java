@@ -25,61 +25,40 @@ public class DMApp {
 	public void net(DMAPI api) throws JSONException{
 		JSONObject json = DMNet.callapi(api,dmPhone.getJSONFor(api));
 		if(json!=null){
-			
+			api.run(json,this);
+		}else{
+			Log.i("net","json == null, network problem");
 		}
 	}
 
-	public void update_phone_settings() throws JSONException{
-		JSONObject json = dmPhone.getJSONFor_update_phone_settings();
-		json = DMNet.api("update_phone_settings",json); 
+	public void update_phone_settings(JSONObject json) throws JSONException{
 		dmPhone.phoneId = json.getInt("phoneId");
 	}
 	
-	public void find_games() throws JSONException{
-		JSONObject json = dmPhone.getJSONFor_find();
-		json = DMNet.api("find_games",json);
-		if(dmPhone.phoneId == json.getInt("phoneId")){
-			JSONArray json_array = json.getJSONArray("items");
-			for(int i=0;i<json_array.length();i++){
-				al_games.add(json_array.getJSONObject(i).getInt("id"));
-			}
-		}else{
-			Log.i("find_games","phoneId not match");
-			throw new JSONException("find_games");
+	public void find_games(JSONObject json) throws JSONException{
+		JSONArray json_array = json.getJSONArray("items");
+		for(int i=0;i<json_array.length();i++){
+			al_games.add(json_array.getJSONObject(i).getInt("id"));
 		}
 	}
 	
-	public void find_maps() throws JSONException{
-		JSONObject json = dmPhone.getJSONFor_find();
-		json = DMNet.api("find_maps",json);
-		if(dmPhone.phoneId == json.getInt("phoneId")){
-			JSONArray json_array = json.getJSONArray("items");
-			for(int i=0;i<json_array.length();i++){
-				al_maps.add(json_array.getJSONObject(i).getInt("id"));
-			}
-		}else{
-			Log.i("find_maps","phoneId not match");
-			throw new JSONException("find_maps");
+	public void find_maps(JSONObject json) throws JSONException{
+		JSONArray json_array = json.getJSONArray("items");
+		for(int i=0;i<json_array.length();i++){
+			al_maps.add(json_array.getJSONObject(i).getInt("id"));
 		}
 	}
 	
-	public void new_game() throws JSONException{
-		JSONObject json = dmPhone.getJSONFor_new_game();
-		json = DMNet.api("new_game",json);
+	public void new_game(JSONObject json) throws JSONException{
 		dmGame.game = json.getInt("game");
 		
 	}
 	
-	public void join_game() throws JSONException{
-		JSONObject json = dmPhone.getJSONFor_join_game();
-		json = DMNet.api("join_game",json);
+	public void join_game(JSONObject json) throws JSONException{
 		dmGame.game = json.getInt("game");
 	}
 	
-	public void update() throws JSONException{
-		JSONObject json = dmPhone.getJSONFor_update();
-		json = DMNet.api("update",json);
+	public void update(JSONObject json) throws JSONException{
 		dmPhone.powerMode = json.getBoolean("powerMode");
-		
 	}
 }

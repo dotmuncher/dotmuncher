@@ -50,6 +50,7 @@ import android.widget.Toast;
 import javax.microedition.khronos.opengles.GL;
 
 import org.json.JSONException;
+import org.streetpacman.controler.DMAPI;
 import org.streetpacman.controler.DMApp;
 import org.streetpacman.controler.DMNet;
 import org.streetpacman.events.*;
@@ -170,7 +171,7 @@ public class DMStreetPacman extends MapActivity {
 	    dmApp = new DMApp(deviceId);
 	    
 	    try {
-			dmApp.update();
+			dmApp.net(DMAPI.update_phone_settings);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -599,7 +600,7 @@ public class DMStreetPacman extends MapActivity {
                     " Lng: " + loc.getLongitude(), 
                     Toast.LENGTH_SHORT).show();
                 try {
-					dmApp.update();
+					dmApp.net(DMAPI.update);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
