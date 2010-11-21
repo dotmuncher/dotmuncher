@@ -5,7 +5,7 @@ cat widget.html | image-nuggets \
                             --from=html \
                             --to=png \
                             --optipng-level=2 \
-                            --dest-prefix=/Users/a/repos/dotmuncher/images/ \
+                            --dest-prefix=/Users/a/repos/dotmuncher/static/images/ \
                             widget/background.png
 
 
@@ -13,7 +13,7 @@ cat board-edit.html | image-nuggets \
                             --from=html \
                             --to=png \
                             --optipng-level=2 \
-                            --dest-prefix=/Users/a/repos/dotmuncher/images/ \
+                            --dest-prefix=/Users/a/repos/dotmuncher/static/images/ \
                             board-edit/save.png \
                             board-edit/save_hover.png \
                             board-edit/save_active.png \
