@@ -82,12 +82,6 @@ if settings.DEVMODE:
             name='dotmuncher_css'),
     )
 
-#### /images/ (non-sprited images for dev mode)
-if settings.DEVMODE:
-    urlpatterns += patterns('',
-        url(r'images(?P<path>.+)',
-            'django.views.static.serve',
-            {'document_root': os.path.join(REPO, 'images')}))
 
 #### /static/ (for dev mode)
 # Assumes your deployment system will never let /static/* reach Django

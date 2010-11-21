@@ -9,31 +9,32 @@ from subprocess import check_call
 import pj.api
 
 from dotmuncher.py.dm_util import simpleGet
+from dotmuncher.urls import REPO
 
 
 def main():
     
-    destDir = 'static/js'
-    
-    check_call(['mkdir', '-p', destDir])
-    
-    for filename in ['dotmuncher.js']:
+    for (type, filename) in (
+            ('js', 'dotmuncher.js'),
+            ('css', 'dotmuncher.css')):
+        destDir = '%s/static/%s' % (REPO, type)
+        check_call(['mkdir', '-p', destDir])
         sys.stdout.write('%s... ' % filename)
         
-        js = simpleGet('http://localhost:8000/static/js/dotmuncher.js')
+        data = simpleGet('http://localhost:8000/static/%s/%s' % (type, filename))
         
-        #js = pj.api.closureCompile(js, 'simple')
-        js = pj.api.closureCompile(js, 'pretty')
-        
-        #sys.path.append('TODO/gordian-minifier')
-        #import gordian_minifier
-        #js = gordian_minifier.minify(js)
+        if type == 'js':
+            #data = pj.api.closureCompile(data, 'simple')
+            data = pj.api.closureCompile(data, 'pretty')
+            #sys.path.append('TODO/gordian-minifier')
+            #import gordian_minifier
+            #data = gordian_minifier.minify(data)
         
         destPath = '%s/%s' % (destDir, filename)
         with open(destPath, 'wb') as f:
-            f.write(js)
-        
+            f.write(data)
         sys.stdout.write('done.\n')
+    
 
 
 if __name__ == '__main__':

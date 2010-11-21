@@ -32,7 +32,7 @@ body {
     top: 0;
     left: 0;
     /* SPRITE js */
-    background: url("/images/widget/background.png");
+    background: url("/static/images/widget/background.png");
     width: 818px;
     height: 539px;
 }
@@ -59,85 +59,85 @@ body {
     top: 0;
     left: 0;
     /* SPRITE js */
-    background: url("/images/board-edit/bounds.png");
+    background: url("/static/images/board-edit/bounds.png");
     width: 111px;
     height: 32px;
 }
 .bounds_button_hoverable_CSS:hover {
     /* SPRITE js */
-    background: url("/images/board-edit/bounds_hover.png");
+    background: url("/static/images/board-edit/bounds_hover.png");
 }
 .bounds_button_active_CSS {
     /* SPRITE js */
-    background: url("/images/board-edit/bounds_active.png");
+    background: url("/static/images/board-edit/bounds_active.png");
 }
 .path_button_CSS {
     position: absolute;
     top: 0;
     left: 112px;
     /* SPRITE js */
-    background: url("/images/board-edit/path.png");
+    background: url("/static/images/board-edit/path.png");
     width: 111px;
     height: 32px;
 }
 .path_button_hoverable_CSS:hover {
     /* SPRITE js */
-    background: url("/images/board-edit/path_hover.png");
+    background: url("/static/images/board-edit/path_hover.png");
 }
 .path_button_active_CSS {
     /* SPRITE js */
-    background: url("/images/board-edit/path_active.png");
+    background: url("/static/images/board-edit/path_active.png");
 }
 .base_button_CSS {
     position: absolute;
     top: 0;
     left: 183px;
     /* SPRITE js */
-    background: url("/images/board-edit/base.png");
+    background: url("/static/images/board-edit/base.png");
     width: 111px;
     height: 32px;
 }
 .base_button_hoverable_CSS:hover {
     /* SPRITE js */
-    background: url("/images/board-edit/base_hover.png");
+    background: url("/static/images/board-edit/base_hover.png");
 }
 .base_button_active_CSS {
     /* SPRITE js */
-    background: url("/images/board-edit/base_active.png")
+    background: url("/static/images/board-edit/base_active.png")
 }
 .pellets_button_CSS {
     position: absolute;
     top: 0;
     left: 294px;
     /* SPRITE js */
-    background: url("/images/board-edit/pellets.png");
+    background: url("/static/images/board-edit/pellets.png");
     width: 121px;
     height: 32px;
 }
 .pellets_button_hoverable_CSS:hover {
     /* SPRITE js */
-    background: url("/images/board-edit/pellets_hover.png");
+    background: url("/static/images/board-edit/pellets_hover.png");
 }
 .pellets_button_active_CSS {
     /* SPRITE js */
-    background: url("/images/board-edit/pellets_active.png");
+    background: url("/static/images/board-edit/pellets_active.png");
 }
 .save_button_CSS {
     position: absolute;
     top: 23px;
     left: 700px;
     /* SPRITE js */
-    background: url("/images/board-edit/save.png");
+    background: url("/static/images/board-edit/save.png");
     width: 82px;
     height: 32px;
 }
 .save_button_CSS:hover {
     /* SPRITE js */
-    background: url("/images/board-edit/save_hover.png");
+    background: url("/static/images/board-edit/save_hover.png");
 }
 .save_button_CSS:active {
     /* SPRITE js */
-    background: url("/images/board-edit/save_active.png");
+    background: url("/static/images/board-edit/save_active.png");
 }
 
 
