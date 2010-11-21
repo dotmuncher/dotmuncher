@@ -31,7 +31,6 @@
 		6B0FDF3612869332006D9924 /* ghost_pink2_eyes.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B0FDF2E12869332006D9924 /* ghost_pink2_eyes.png */; };
 		6B0FDF3712869332006D9924 /* ghost_red1_eyes.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B0FDF2F12869332006D9924 /* ghost_red1_eyes.png */; };
 		6B0FDF3812869332006D9924 /* ghost_red2_eyes.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B0FDF3012869332006D9924 /* ghost_red2_eyes.png */; };
-		6B0FDF7D1286964D006D9924 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 6B0FDF7C1286964D006D9924 /* LICENSE */; };
 		6B78623C1285B08300BE64CD /* DMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B78623B1285B08300BE64CD /* DMLocationManager.m */; };
 		6B7862781285B58C00BE64CD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B7862771285B58C00BE64CD /* CoreLocation.framework */; };
 		6B7862921285B8BF00BE64CD /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B7862911285B8BF00BE64CD /* MapKit.framework */; };
@@ -42,7 +41,6 @@
 		6B7862CA1285BD7100BE64CD /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B7862C51285BD7100BE64CD /* SBJsonWriter.m */; };
 		6BD5E3751285DE4E003FB1CE /* DMPowerDotAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD5E3741285DE4E003FB1CE /* DMPowerDotAnnotation.m */; };
 		6BD5E3781285DE62003FB1CE /* DMPowerDotAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD5E3771285DE62003FB1CE /* DMPowerDotAnnotationView.m */; };
-		6BD5E4591286391C003FB1CE /* commodore.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6BD5E4581286391C003FB1CE /* commodore.ttf */; };
 		6BD5E45D12864116003FB1CE /* DMDotAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD5E45C12864116003FB1CE /* DMDotAnnotationView.m */; };
 		6BD5E46012864125003FB1CE /* DMDotAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD5E45F12864125003FB1CE /* DMDotAnnotation.m */; };
 		6BD5E48E12864818003FB1CE /* DMHeroAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6BD5E48D12864818003FB1CE /* DMHeroAnnotation.m */; };
@@ -82,7 +80,6 @@
 		6B0FDF2E12869332006D9924 /* ghost_pink2_eyes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ghost_pink2_eyes.png; sourceTree = "<group>"; };
 		6B0FDF2F12869332006D9924 /* ghost_red1_eyes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ghost_red1_eyes.png; sourceTree = "<group>"; };
 		6B0FDF3012869332006D9924 /* ghost_red2_eyes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ghost_red2_eyes.png; sourceTree = "<group>"; };
-		6B0FDF7C1286964D006D9924 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		6B78623A1285B08300BE64CD /* DMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMLocationManager.h; sourceTree = "<group>"; };
 		6B78623B1285B08300BE64CD /* DMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMLocationManager.m; sourceTree = "<group>"; };
 		6B7862771285B58C00BE64CD /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -102,7 +99,6 @@
 		6BD5E3741285DE4E003FB1CE /* DMPowerDotAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPowerDotAnnotation.m; sourceTree = "<group>"; };
 		6BD5E3761285DE62003FB1CE /* DMPowerDotAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPowerDotAnnotationView.h; sourceTree = "<group>"; };
 		6BD5E3771285DE62003FB1CE /* DMPowerDotAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPowerDotAnnotationView.m; sourceTree = "<group>"; };
-		6BD5E4581286391C003FB1CE /* commodore.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = commodore.ttf; sourceTree = "<group>"; };
 		6BD5E45B12864116003FB1CE /* DMDotAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMDotAnnotationView.h; sourceTree = "<group>"; };
 		6BD5E45C12864116003FB1CE /* DMDotAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMDotAnnotationView.m; sourceTree = "<group>"; };
 		6BD5E45E12864125003FB1CE /* DMDotAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMDotAnnotation.h; sourceTree = "<group>"; };
@@ -165,7 +161,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				6B0FDF7C1286964D006D9924 /* LICENSE */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -203,7 +198,6 @@
 				6BD5E57412865DBE003FB1CE /* pacman_chomp2.png */,
 				6BD5E57512865DBE003FB1CE /* pacman_chomp3.png */,
 				2899E5210DE3E06400AC0155 /* iosmuncherViewController.xib */,
-				6BD5E4581286391C003FB1CE /* commodore.ttf */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* iosmuncher-Info.plist */,
 			);
@@ -310,7 +304,6 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* iosmuncherViewController.xib in Resources */,
-				6BD5E4591286391C003FB1CE /* commodore.ttf in Resources */,
 				6BD5E57612865DBE003FB1CE /* pacman_chomp0.png in Resources */,
 				6BD5E57712865DBE003FB1CE /* pacman_chomp1.png in Resources */,
 				6BD5E57812865DBE003FB1CE /* pacman_chomp2.png in Resources */,
@@ -331,7 +324,6 @@
 				6B0FDF3612869332006D9924 /* ghost_pink2_eyes.png in Resources */,
 				6B0FDF3712869332006D9924 /* ghost_red1_eyes.png in Resources */,
 				6B0FDF3812869332006D9924 /* ghost_red2_eyes.png in Resources */,
-				6B0FDF7D1286964D006D9924 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Estes (9NY7Y2B8BC)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -374,6 +367,7 @@
 				GCC_PREFIX_HEADER = iosmuncher_Prefix.pch;
 				INFOPLIST_FILE = "iosmuncher-Info.plist";
 				PRODUCT_NAME = iosmuncher;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E1A56210-6DE6-46DA-9078-7AF37A926F20";
 			};
 			name = Debug;
 		};
@@ -394,12 +388,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Estes (9NY7Y2B8BC)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E1A56210-6DE6-46DA-9078-7AF37A926F20";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
