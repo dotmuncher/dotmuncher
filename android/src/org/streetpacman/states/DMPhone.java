@@ -50,7 +50,7 @@ public class DMPhone {
 				json.put("hacc", Double.toString(acc));
 				json.put("vacc", Double.toString(acc));
 				json.put("game", game);
-				json.put("phoneId", phone);
+				json.put("phone", phone);
 				json.put("id__gte", id__gte);
 				break;
 			default:

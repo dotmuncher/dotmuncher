@@ -33,7 +33,7 @@ public class DMApp {
 		if(json!=null){
 			api.run(json,this);
 		}else{
-			Log.i("net","json == null, network problem");
+			Log.i("net","json == null, network problem?");
 		}
 	}
 
@@ -99,7 +99,6 @@ public class DMApp {
 	public void updateEvents(JSONArray jsonArray) throws JSONException {
 		for(int i=0;i<jsonArray.length();i++){
 			JSONObject json = jsonArray.getJSONObject(i);
-			i = json.getInt("i");
 			switch(json.getInt("type")){
 				case DMConstants.OHHAI_EVENT:
 					int phone = json.getInt("phone");
@@ -132,6 +131,7 @@ public class DMApp {
 					break;
 				default:
 			}
+			dmPhone.id__gte = json.getInt("i");
 		}
 		
 	}
