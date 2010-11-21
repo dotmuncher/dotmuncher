@@ -129,7 +129,7 @@ phone: an integer assigned by the server</pre>
     ],
     powerMode: bool,
     events: [
-        {...}, // (i: event id) and (t: ms since epoch) have been added to each event's dictionary
+        {...},
         {...},
         ...
     ]
@@ -141,22 +141,34 @@ phone: an integer assigned by the server</pre>
     type: OHHAI_EVENT = 2
     phone: phone integer
     name: string
+    
+    i: event id,
+    t: timestamp (ms since epoch)
 }
 
 {
     type: PHONE_EATEN_EVENT = 6
     eater: phone integer
     eatee: phone integer
+    
+    i: event id,
+    t: timestamp (ms since epoch)
 }
 
 {
     type: ITEM_EATEN_EVENT = 7
     k: '["p","lat","lng"]' for power pellets, '["d","lat","lng"]' for path dots
+    
+    i: event id,
+    t: timestamp (ms since epoch)
 }
 
 {
     type: GAME_OVER = 8
     reason: int
+    
+    i: event id,
+    t: timestamp (ms since epoch)
 }
 GAMEOVER_PACMAN_WINS = 1
 GAMEOVER_PACMAN_LOSES = 2</pre>
