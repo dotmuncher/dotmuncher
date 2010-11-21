@@ -5,7 +5,9 @@ import org.streetpacman.states.DMGame;
 import org.streetpacman.states.DMMap;
 import org.streetpacman.states.DMPhone;
 import org.streetpacman.states.DMPhoneState;
+import org.streetpacman.util.DMUtils;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,6 +22,7 @@ import com.google.android.maps.Projection;
 
 class DMOverlay extends Overlay{
 	private Location myLocation;
+	private final Context context;
 	private final DMMap dmMap;
 	private final DMGame dmGame;
 	private final DMPhone dmPhone;
@@ -29,10 +32,11 @@ class DMOverlay extends Overlay{
 	private final Paint powerPelletPaint;
 	private final Paint phonePaint;
 	
-	public DMOverlay(DMApp dmApp) {
+	public DMOverlay(DMApp dmApp, Context context) {
 	    dmMap = dmApp.dmMap;
 	    dmGame = dmApp.dmGame;
 	    dmPhone = dmApp.dmPhone;
+	    this.context = context;
 	    
 	    errorCirclePaint = new Paint();
 	    errorCirclePaint.setColor(Color.BLUE);
@@ -45,8 +49,11 @@ class DMOverlay extends Overlay{
 	    dotPaint.setColor(Color.WHITE);
 	}
 	
-    @Override
-    public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when){
+	  @Override
+	  public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	    if (shadow) {
+	      return;
+	    }
         super.draw(canvas, mapView, shadow);        
         final Projection projection = getMapProjection(mapView);
         Point screenPts = new Point();
@@ -84,8 +91,7 @@ class DMOverlay extends Overlay{
         }
         
         // Draw the current location
-        //drawMyLocation(canvas, projection);
-        return true;
+        drawMyLocation(canvas, projection);
     }
     
     Projection getMapProjection(MapView mapView) {
@@ -96,14 +102,20 @@ class DMOverlay extends Overlay{
 	    if (myLocation == null) {
 	      return;
 	    }
-	    /*
+	    
+		  Point pt = new Point();
+		  projection.toPixels(DMUtils.getGeoPoint(myLocation), pt);
+		/*
 	    Point pt = drawElement(canvas, projection,
-	        DMUtils.getGeoPoint(myLocation), R.drawable.pacman_chomp,
-	        -(0 / 2) + 3, -(0 / 2));
+	        DMUtils.getGeoPoint(myLocation),
+	        context.getResources().getDrawable(R.drawable.arrow_0),
+	        -(32 / 2) + 3, -(32 / 2));
+	    */
 	    // Draw the error circle.
 	    float radius = projection.metersToEquatorPixels(myLocation.getAccuracy());
 	    canvas.drawCircle(pt.x, pt.y, radius, errorCirclePaint);
-	    */
+	    canvas.drawCircle(pt.x, pt.y, 30, powerPelletPaint);
+
     }
     
     /**

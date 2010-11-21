@@ -20,13 +20,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.json.JSONException;
-import org.streetpacman.R;
 import org.streetpacman.controler.DMAPI;
 import org.streetpacman.controler.DMApp;
 import org.streetpacman.states.DMConstants;
+import org.streetpacman.util.DMUtils;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
@@ -47,9 +46,7 @@ public class DMStreetPacman extends MapActivity {
 	private DMOverlay dmOverlay;
 	private Location currentLocation;
 	private LocationManager locationManager;
-    MapView mapView; 
-    MapController mc;
-    GeoPoint p;
+    MapView mapView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,32 +74,19 @@ public class DMStreetPacman extends MapActivity {
 			e.printStackTrace();
 		}
         
-        this.dmOverlay = new DMOverlay(dmApp);
+        this.dmOverlay = new DMOverlay(dmApp,this);
         
-        mapView = new MapView(this, "MapViewCompassDemo_DummyAPIKey");
+        mapView = new MapView(this, "0GS6dsJhZCsmMbF1b4aXpMkwX3bT9MT4J3_BUWg");
         //setContentView(R.layout.mapview);
-        setContentView(mapView);
-        
-
-        
-        String coordinates[] = {"1.352566007", "103.78921587"};
-        double lat = Double.parseDouble(coordinates[0]);
-        double lng = Double.parseDouble(coordinates[1]);
- 
-        p = new GeoPoint(
-            (int) (lat * 1E6), 
-            (int) (lng * 1E6));
-
-        mc = mapView.getController();
-
-        mc.animateTo(p);
-        mc.setZoom(17); 
- 
+        setContentView(mapView); 
 
         List<Overlay> listOfOverlays = mapView.getOverlays();
         listOfOverlays.clear();
         listOfOverlays.add(dmOverlay);        
  
+        locationManager =
+            (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         mapView.invalidate();
 
     }
@@ -112,13 +96,79 @@ public class DMStreetPacman extends MapActivity {
     @Override
     protected boolean isLocationDisplayed() { return true; }
     
+    @Override
+    protected void onPause() {
+      // Called when activity is going into the background, but has not (yet) been
+      // killed. Shouldn't block longer than approx. 2 seconds.
+      Log.d(DMConstants.TAG, "DM.onPause");
+      unregisterLocationAndSensorListeners();
+      super.onPause();
+    }
+    
+    @Override
+    protected void onResume() {
+      // Called when the current activity is being displayed or re-displayed
+      // to the user.
+      Log.d(DMConstants.TAG, "DM.onResume");
+      super.onResume();
+
+      registerLocationAndSensorListeners();
+
+    }
+
+    /**
+     * Registers to receive location updates from the GPS location provider and
+     * sensor updated from the compass.
+     */
+    void registerLocationAndSensorListeners() {
+      if (locationManager != null) {
+          locationManager.requestLocationUpdates(
+                  LocationManager.GPS_PROVIDER, 
+                  0, 
+                  0, 
+                  locationListener);
+        try {
+          locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+              1000 * 60 * 5 /*minTime*/, 0 /*minDist*/, locationListener);
+        } catch (RuntimeException e) {
+          // If anything at all goes wrong with getting a cell location do not
+          // abort. Cell location is not essential to this app.
+          Log.w(DMConstants.TAG,
+              "Could not register network location listener.");
+        }
+      }
+    }
+    
+    public void alert(String txt) {
+	    Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
+	  }
+
+    /**
+     * Moves the location pointer to the current location and center the map if
+     * the current location is outside the visible area.
+     */
+    private void showCurrentLocation() {
+	  if (currentLocation == null || dmOverlay == null || mapView == null) {
+	    return;
+	  }
+	  dmOverlay.setMyLocation(currentLocation);
+	  mapView.invalidate();
+		MapController controller = mapView.getController();
+		GeoPoint geoPoint = DMUtils.getGeoPoint(currentLocation);
+		controller.animateTo(geoPoint);
+    }
+    
     private final LocationListener locationListener = new LocationListener(){
         @Override
-        public void onLocationChanged(Location loc) {        	
-            if (loc != null) {
+        public void onLocationChanged(Location location) {
+            currentLocation = location;
+
+            showCurrentLocation();
+            
+            if (location != null) {
                 Toast.makeText(getBaseContext(), 
-                    "Location changed : Lat: " + loc.getLatitude() + 
-                    " Lng: " + loc.getLongitude(), 
+                    "Location changed : Lat: " + location.getLatitude() + 
+                    " Lng: " + location.getLongitude(), 
                     Toast.LENGTH_SHORT).show();
                 try {
 					dmApp.net(DMAPI.update);
