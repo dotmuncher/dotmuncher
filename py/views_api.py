@@ -6,7 +6,9 @@ from django.http import HttpResponseRedirect
 from dotmuncher.py.models import *
 from dotmuncher.py.constants import *
 from dotmuncher.py.dm_util import exceptionStr, jsonView, jsonReponse
+from dotmuncher.py.stubdata import STUB_MAP_INFO
 
+#TODO: un-mock mapInfo
 
 #### update
 
@@ -99,12 +101,13 @@ def api_new_game(r, info):
     phone = str(info['phone'])
     
     mapModel = Map.objects.get(id=info['map'])
-    mapInfo = mapModel.info
+    #mapInfo = mapModel.info
+    mapInfo = STUB_MAP_INFO
     
     gameModel = Game.create(mapModel)
     game = gameModel.id
     
-    redisConn.set('g_mapInfo:%d' % game, mapModel.infoJson)
+    redisConn.set('g_mapInfo:%d' % game, json.dumps(mapInfo))
     
     
     redisConn.rpush('g_phones:%d' % game, str(phone))
@@ -131,7 +134,8 @@ def api_join_game(r, info):
     game = int(info['game'])
     
     j = redisConn.get('g_mapInfo:%d' % game)
-    mapInfo = json.loads(j)
+    #mapInfo = json.loads(j)
+    mapInfo = STUB_MAP_INFO
     
     redisConn.rpush('g_phones:%d' % game, str(phone))
     Event.appendEvent(game, {

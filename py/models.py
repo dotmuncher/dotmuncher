@@ -189,7 +189,7 @@ class APIRequest(models.Model):
     def log(cls, info):
         m = cls(
                 createdAtUtc=datetime.datetime.utcnow(),
-                phone=int(
+                phoneId=int(
                             info.get('phone', -1)),
                 infoJson=json.dumps(info))
         m.save()
