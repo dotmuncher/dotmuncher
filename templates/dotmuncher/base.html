@@ -1,67 +1,38 @@
 <html>
 <head>
-    <title>{% block title %}{% endblock %}</title>
-    <style type="text/css">
-        
-        
-        body {
-            
-            margin: 0;
-            padding: 10px;
-            
-            background: #333;
-            
-            color: #DDD;
-            
-            font-family: Georgia;
-        }
-        a {
-            color: #DDD;
-            text-decoration: none;
-        }
-        a:visited {
-            color: #DDD;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        .logo {
-            font-size: 18px;
-        }
-        
-        .footer {
-            font-size: 12px;
-        }
-        
-    </style>
-    {% block head %}{% endblock %}
-    <script type="text/javascript" charset="utf-8">
-        var byId = function(s) {
-            return document.getElementById(s);
-        };
-    </script>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="{% url dotmuncher_css %}" />
+  {% block head %}{% endblock %}
+  <script type="text/javascript" charset="utf-8">
+      var byId = function(s) {
+          return document.getElementById(s);
+      };
+  </script>
 </head>
 <body onload="if (window.init) { init(); }">
-    
-    <div class="logo">
-        <a href="/">
-            dotmuncher
-        </a>
-    </div>
-    <hr width="100%">
-    
+  
+  <div class="navbar">
+    {##########/* TODO min width */##########}
+    <a class="logo" href="{% url index %}">Street Pacman</a>
+    <a href="{% url games %}">Games</a>
+    <a href="{% url maps %}" class="navbar_boards">Boards</a>
+    <a href="{% url intro %}">Introduction</a>
+    <a href="{% url iphone %}">iPhone</a>
+    <a href="{% url android %}">Android</a>
+  </div>
+  
+  <div class="base_content">
     {% block content %}{% endblock %}
-    
-    
-    <div class="footer">
-        <hr width="100%">
-        <br>
-        <center>
-            <a href="#TODO">
-                Follow us on Twitter
-            </a>
-        </center>
-    </div>
+  </div>
+  {% comment %}
+  <div class="footer">
+    <center>
+        <a href="{% url about %}">About</a> &mdash;
+        <a href="{% url privacy %}">Privacy Policy</a> &mdash;
+        <a href="#TODO">Facebook</a> &mdash;
+        <a href="#TODO">Twitter</a>
+    </center>
+  </div>
+  {% endcomment %}
 </body>
 </html>

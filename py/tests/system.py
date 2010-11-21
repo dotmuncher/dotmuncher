@@ -5,9 +5,8 @@ from unittest import TestCase
 import json
 from urllib2 import HTTPError
 
-from dotmuncher.dm_util import simpleGet, randomToken
-
-from dotmuncher.constants import COLLISION_COORD_PLUSORMINUS
+from dotmuncher.py.dm_util import simpleGet, randomToken
+from dotmuncher.py.constants import COLLISION_COORD_PLUSORMINUS
 
 
 def api(name, info, host='localhost:8000'):
@@ -43,7 +42,7 @@ class SampleGame(TestCase):
         
         # 1: find_maps
         d = api('find_maps', {'lat': '1', 'lng': '1', 'phoneToken': pt1})
-        p1 = d['phoneId']
+        p1 = d['phone']
         map = d['items'][0]['id']
         
         # 1: new_game
@@ -53,11 +52,11 @@ class SampleGame(TestCase):
         
         # 2: find_games
         d = api('find_games', {'lat': '1', 'lng': '1', 'phoneToken': pt2})
-        p2 = d['phoneId']
+        p2 = d['phone']
         
         # 3: find_games
         d = api('find_games', {'lat': '1', 'lng': '1', 'phoneToken': pt3})
-        p3 = d['phoneId']
+        p3 = d['phone']
         
         assert p3 == p2 + 1 == p1 + 2
         

@@ -1,6 +1,6 @@
 
-from dotmuncher.models import *
-from dotmuncher.dm_util import view
+from dotmuncher.py.models import *
+from dotmuncher.py.dm_util import view
 
 
 @view('dotmuncher/dev/dev_events.html')
@@ -21,7 +21,7 @@ def dev_requests(r):
     if 'phone' in r.REQUEST:
         requests = (APIRequest.objects
                         .order_by('-id')
-                        .filter(phoneId=int(r.REQUEST['phone'])))[:30]
+                        .filter(phone=int(r.REQUEST['phone'])))[:30]
     else:
         requests = (APIRequest.objects
                         .order_by('-id'))[:30]

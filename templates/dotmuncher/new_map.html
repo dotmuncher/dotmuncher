@@ -11,17 +11,19 @@
     var init = function() {
         
         dotmuncher.init();
-        
+        /*
         var info = {
           zoom: {{ zoom }},
           center: new google.maps.LatLng({{ centerLat }}, {{ centerLng }}),
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(byId("mapcanvas"), info);
+        */
+        map = null;
         
-        new dotmuncher.MapDefiner(
+        new dotmuncher.BoardWidget(
                             map,
-                            byId('toolbar_container'),
+                            byId('widget'),
                             byId('overlay_container'));
         
     }
@@ -32,12 +34,9 @@
 </style>
 {% endblock %}
 {% block content %}
-    
-    <center>
-        <div id="toolbar_container"></div>
-        <div id="overlay_container">
-            <div id="mapcanvas"></div>
-        </div>
-    </center>
-    
+  <div id="widget">
+    <div id="overlay_container">
+        <div id="mapcanvas"></div>
+    </div>
+  </div>
 {% endblock %}

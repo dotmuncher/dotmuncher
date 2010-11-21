@@ -3,9 +3,9 @@ import json, struct, time
 
 from django.http import HttpResponseRedirect
 
-from dotmuncher.models import *
-from dotmuncher.constants import *
-from dotmuncher.dm_util import exceptionStr, jsonView, jsonReponse
+from dotmuncher.py.models import *
+from dotmuncher.py.constants import *
+from dotmuncher.py.dm_util import exceptionStr, jsonView, jsonReponse
 
 
 #### update
@@ -32,12 +32,13 @@ def api_update(r, info):
                     'lat': lat, 
                     'lng': lng,
                 }))
+    redisConn.sadd('gamesWithNewInfo', str(game))
     
     # Get events
     events = [e.eventInfo for e in Event.getEvents(game, id__gte)]
     
     # Get {phoneStates:, powerMode:}
-    info = _loadGameInfo(game, now)
+    info = loadGameInfo(game)
     
     info['events'] = events
     
@@ -63,7 +64,7 @@ def api_find_games(r, info):
         })
     
     return {
-        'phoneId': phone.id,
+        'phone': phone.id,
         'items': items,
     }
 
@@ -87,7 +88,7 @@ def api_find_maps(r, info):
         })
     
     return {
-        'phoneId': phone.id,
+        'phone': phone.id,
         'items': items,
     }
 
@@ -155,7 +156,7 @@ def api_update_phone_settings(r, info):
     phone.setName(name)
     
     return {
-        'phoneId': phone.id,
+        'phone': phone.id,
     }
 
 
@@ -214,44 +215,4 @@ def api_debug(r, info):
         'GET': r.GET,
     }
 
-
-
-def _loadGameInfo(game, now):
-    
-    # Woot, only two blocking redis requests! #prematureoptimization
-    
-    phoneIds = [int(s) for s in redisConn.lrange('g_phones:%d' % game, 0, -1)]
-    
-    keys = (
-                [
-                    'g_p_pos:%d:%d' % (game, p)
-                    for p in phoneIds] +
-                ['g_powerModeUntil:%d' % game])
-    values = redisConn.mget(keys)
-    
-    # Power mode
-    v = values[-1]
-    if v:
-        powerMode = int(time.time() * 1000) < int(v)
-    else:
-        powerMode = False
-    
-    # States
-    states = []
-    for i in range(len(phoneIds)):
-        state = {
-            'phone': phoneIds[i],
-        }
-        v = values[i]
-        if v:
-            info = json.loads(v)
-            state['idle'] = now - info['t']
-            state['lat'] = info['lat']
-            state['lng'] = info['lng']
-        states.append(state)
-    
-    return {
-        'phoneStates': states,
-        'powerMode': powerMode,
-    }
 

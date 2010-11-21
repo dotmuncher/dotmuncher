@@ -40,7 +40,7 @@ phone: an integer assigned by the server</pre>
     name: 
 }
 {
-    phoneId: phoneId integer
+    phone: phone integer
 }</pre>
 
 ### find_games
@@ -51,7 +51,7 @@ phone: an integer assigned by the server</pre>
     "phoneToken": string
 }
 {
-    "phoneId": int
+    "phone": int
     "items": [
         {
             "id": int
@@ -68,7 +68,7 @@ phone: an integer assigned by the server</pre>
     "phoneToken": string
 }
 {
-    "phoneId": int
+    "phone": int
     "items": [
         {
             "id": int
