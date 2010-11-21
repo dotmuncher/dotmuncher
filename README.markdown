@@ -1,4 +1,3 @@
-
 ## Quickstart: run the server on your laptop
 
 #### Prereqs:
@@ -12,18 +11,19 @@
 * Run <code>python dotmuncher/scripts/get-repos.py</code>, which will git clone these repos to ROOT:
     * [pyxc-pj](http://github.com/andrewschaaf/pyxc-pj), [dev_deployment](http://github.com/andrewschaaf/dev_deployment), [pj-core](http://github.com/andrewschaaf/pj-core), [pj-closure](http://github.com/andrewschaaf/pj-closure),
 
-#### Environment
+#### Prep stuff
 
-* Create ~/.profile (if it doesn't exist) and add this line:
-    * <code>export $PYTHONPATH=ROOT:ROOT/pyxc-pj:$PYTHONPATH</code> (replace "ROOT" with ROOT)
+* <code>cd ROOT/dev_deployment; mkdir -p tmpdir
+* <code>cd ROOT/dev_deployment; env APP=dotmuncher python manage.py syncdb
 
 #### Start the servers
+
 * <code>cd ROOT/dev_deployment; redis-server conf/redis.conf</code>
-* <code>cd ROOT/dev_deployment; env APP=dotmuncher python dotmuncher/manage.py runserver</code>
+* <code>cd ROOT/dev_deployment; env APP=dotmuncher python manage.py runserver</code>
 
 #### Run the tests
 
-* <code>python tests/all.py</code>
+* <code>env DJANGO\_SETTINGS\_MODULE=dev\_deployment.settings python tests/all.py</code>
 
 ## API
 
@@ -86,9 +86,8 @@ phone: an integer assigned by the server</pre>
 {
     "game": int id,
     "mapInfo": {
-        "pathPoints": [["...lat...", "...lng..."], ...],
-        "basePoints": [...],
         "dotPoints": [...],
+        "basePoints": [...],
         "powerPelletPoints": [...],
     },
 }</pre>
@@ -130,7 +129,7 @@ phone: an integer assigned by the server</pre>
     ],
     powerMode: bool,
     events: [
-        {...}, // (i: event id) and (t: ms since epoch) have been added to each event's dictionary
+        {...},
         {...},
         ...
     ]
@@ -142,22 +141,34 @@ phone: an integer assigned by the server</pre>
     type: OHHAI_EVENT = 2
     phone: phone integer
     name: string
+    
+    i: event id,
+    t: timestamp (ms since epoch)
 }
 
 {
     type: PHONE_EATEN_EVENT = 6
     eater: phone integer
     eatee: phone integer
+    
+    i: event id,
+    t: timestamp (ms since epoch)
 }
 
 {
     type: ITEM_EATEN_EVENT = 7
     k: '["p","lat","lng"]' for power pellets, '["d","lat","lng"]' for path dots
+    
+    i: event id,
+    t: timestamp (ms since epoch)
 }
 
 {
     type: GAME_OVER = 8
     reason: int
+    
+    i: event id,
+    t: timestamp (ms since epoch)
 }
 GAMEOVER_PACMAN_WINS = 1
 GAMEOVER_PACMAN_LOSES = 2</pre>

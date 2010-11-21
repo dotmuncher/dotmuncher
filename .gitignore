@@ -1,10 +1,12 @@
 .DS_Store
 *.pyc
 android/bin/*
-android/test/bin/*
-#android/test/gen/*
+android-test/bin/*
+*.log
+ios/build/**
 *.class
 *~
 .*
 !.gitignore
 static/js/**
+static/css/**
