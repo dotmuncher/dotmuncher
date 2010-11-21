@@ -1,7 +1,6 @@
 package org.streetpacman;
 
 import org.streetpacman.controler.DMApp;
-import org.streetpacman.states.DMGame;
 import org.streetpacman.states.DMMap;
 import org.streetpacman.states.DMPhone;
 import org.streetpacman.states.DMPhoneState;
@@ -23,8 +22,8 @@ import com.google.android.maps.Projection;
 class DMOverlay extends Overlay{
 	private Location myLocation;
 	private final Context context;
+	private final DMApp dmApp;
 	private final DMMap dmMap;
-	private final DMGame dmGame;
 	private final DMPhone dmPhone;
 	private final Paint errorCirclePaint;
 	private final Paint dotPaint;
@@ -33,8 +32,8 @@ class DMOverlay extends Overlay{
 	private final Paint phonePaint;
 	
 	public DMOverlay(DMApp dmApp, Context context) {
+		this.dmApp = dmApp;
 	    dmMap = dmApp.dmMap;
-	    dmGame = dmApp.dmGame;
 	    dmPhone = dmApp.dmPhone;
 	    this.context = context;
 	    
@@ -58,8 +57,8 @@ class DMOverlay extends Overlay{
         final Projection projection = getMapProjection(mapView);
         Point screenPts = new Point();
 
-        synchronized(dmGame.dmPhoneStates){
-	        for(DMPhoneState dmPhoneState : dmGame.dmPhoneStates){
+        synchronized(dmApp.dmPhoneStates){
+	        for(DMPhoneState dmPhoneState : dmApp.dmPhoneStates){
 	        	// Only draw others
 	        	if(dmPhoneState.phone != dmPhone.phone){
 	        		GeoPoint p = new GeoPoint(

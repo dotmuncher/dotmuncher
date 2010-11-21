@@ -2,6 +2,7 @@ package org.streetpacman;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Window;
 import android.widget.Gallery;
 import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
@@ -12,7 +13,8 @@ public class DMWizard extends Activity{
 
 	protected void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-
+	    requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    
 	    // Create a LinearLayout in which to add the ImageView
 	    mLinearLayout = new LinearLayout(this);
 

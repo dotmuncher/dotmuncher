@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.streetpacman.controler.DMAPI;
 
+import android.location.Location;
 import android.util.Log;
 
 public class DMPhone {
@@ -97,5 +98,11 @@ public class DMPhone {
     	json.put("game", game);
     	json.put("phone", phone);
 		return json;    	
+    }
+    
+    public void setLocation(Location location){
+    	lat = location.getLatitude();
+    	lng = location.getLongitude();
+    	acc = location.getAccuracy();
     }
 }            
