@@ -6,7 +6,6 @@ from django.http import HttpResponseRedirect
 from dotmuncher.py.models import *
 from dotmuncher.py.constants import *
 from dotmuncher.py.dm_util import exceptionStr, jsonView, jsonReponse
-from dotmuncher.py.stubdata import STUB_MAP_INFO
 
 #TODO: un-mock mapInfo
 
@@ -31,7 +30,7 @@ def api_update(r, info):
                 'g_p_pos:%d:%d' % (game, phone),
                 json.dumps({
                     't': now,
-                    'lat': lat, 
+                    'lat': lat,
                     'lng': lng,
                 }))
     redisConn.sadd('gamesWithNewInfo', str(game))
@@ -42,7 +41,11 @@ def api_update(r, info):
     # Get {phoneStates:, powerMode:}
     info = loadGameInfo(game)
     
-    info['events'] = events
+    return {
+        'phoneStates': info['phoneStates'],
+        'powerMode': info['powerMode'],
+        'events': events,
+    }
     
     return info
 
@@ -101,8 +104,7 @@ def api_new_game(r, info):
     phone = str(info['phone'])
     
     mapModel = Map.objects.get(id=info['map'])
-    #mapInfo = mapModel.info
-    mapInfo = STUB_MAP_INFO
+    mapInfo = mapModel.info
     
     gameModel = Game.create(mapModel)
     game = gameModel.id
@@ -134,15 +136,15 @@ def api_join_game(r, info):
     game = int(info['game'])
     
     j = redisConn.get('g_mapInfo:%d' % game)
-    #mapInfo = json.loads(j)
-    mapInfo = STUB_MAP_INFO
+    mapInfo = json.loads(j)
     
-    redisConn.rpush('g_phones:%d' % game, str(phone))
-    Event.appendEvent(game, {
-        'type': OHHAI_EVENT,
-        'phone': phone,
-        'name': Phone.objects.get(id=phone).name,
-    })
+    if str(phone) not in set(redisConn.lrange('g_phones:%d' % game, 0, -1)):
+        redisConn.rpush('g_phones:%d' % game, str(phone))
+        Event.appendEvent(game, {
+            'type': OHHAI_EVENT,
+            'phone': phone,
+            'name': Phone.objects.get(id=phone).name,
+        })
     
     return {
         'mapInfo': mapInfo,

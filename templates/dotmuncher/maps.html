@@ -1,6 +1,13 @@
 {% extends "dotmuncher/base.html" %}
-{% block title %}TODO title{% endblock %}
+{% block title %} :: Boards{% endblock %}
 {% block head %}
+<script type="text/javascript" src="{% url dotmuncher_js %}"></script>
+<script type="text/javascript">
+  var init = function() {
+    dotmuncher.init();
+    dotmuncher.drawMapThumbnails({{ mapInfosJson|safe }})
+  }
+</script>
 <style type="text/css">
     
     a.map {
@@ -48,10 +55,7 @@
 {% for map in maps %}
 <a class="map" href="{% url map %}?token={{ map.token }}">
     <div class="map">
-        <div class="map_thumbnail">
-            <center>
-            {{ map.id }}
-            </center>
+        <div class="map_thumbnail" id="{{ map.token }}">
         </div>
     </div>
 </a>

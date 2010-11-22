@@ -2,8 +2,30 @@
 
 CSS = '''
 
-body {
-    background: #666;
+{##########/* Board Thumbnails */##########}
+.BoardThumbnail_CSS {
+    position: absolute;
+    background: #000;
+    width: 100%;
+    height: 100%;
+}
+.BoardThumbnail_path_CSS {
+    position: absolute;
+    background: red;
+    width: 2px;
+    height: 2px;
+}
+.BoardThumbnail_base_CSS {
+    position: absolute;
+    background: blue;
+    width: 2px;
+    height: 2px;
+}
+.BoardThumbnail_pellet_CSS {
+    position: absolute;
+    background: #1DFF1E;
+    width: 4px;
+    height: 4px;
 }
 
 #widget {

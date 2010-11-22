@@ -124,6 +124,7 @@ phone: an integer assigned by the server</pre>
             lat: "...lat...",
             lng: "...lng...",
             idle: ms since update,
+            alive: boolean,
         },
         ...
     ],

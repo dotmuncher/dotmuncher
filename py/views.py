@@ -17,8 +17,12 @@ def maps(r):
                         completed=True)
                     .order_by('-id'))
     
+    mapInfos = dict((map.token, map.info)
+                    for map in maps)
+    
     return {
         'maps': maps,
+        'mapInfosJson': json.dumps(mapInfos),
     }
 
 
