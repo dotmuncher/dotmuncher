@@ -31,7 +31,7 @@ import org.streetpacman.states.DMConstants;
 /**
  * Utility class for decimating tracks at a given level of precision.
  * 
- * @author Leif Hendrik Wilden
+ * @author Leif Hendrik Wilden, Modified by Yi Wang
  */
 public class DMUtils {
 	

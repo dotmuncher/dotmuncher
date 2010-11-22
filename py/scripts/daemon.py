@@ -1,8 +1,8 @@
 
-import time
+import time, math, json
 
-from dotmuncher.models import redisConn, loadGameInfoAnd
-from dotmuncher.constants import COLLISION_COORD_PLUSORMINUS
+from dotmuncher.py.models import *
+from dotmuncher.py.constants import COLLISION_COORD_DISTANCE
 
 
 def main():
@@ -19,23 +19,36 @@ def main():
         
         # Handle 'em
         for game in games:
-            print '--- handling game %d ---' % game
             try:
                 redisConn.srem('gamesWithNewInfo', str(game))
                 
-                phoneStates, powerMode, daemonState = loadStuff(game)
+                phoneStates, powerMode, deadPlayers, daemonState = loadStuff(game)
                 
                 # Check for (protagonist, other-phone) collisions
                 protagonist = phoneStates[0]
                 plat, plng = protagonist['lat'], protagonist['lng']
-                for phone in phoneStates[1:]:
-                    if 'lat' in phone:
-                        if collision(plat, plng, phone['lat'], phone['lng']):
-                            if powerMode:
-                                eater, eatee = protagonist['phone'], phone['phone']
-                            else
-                                eatee, eater = protagonist['phone'], phone['phone']
-                            print('Ka-Blamo!', eater, eatee)
+                print '--- handling game %d. protagonist @ %s, %s. dead: %s ---' % (
+                                game, plat, plng, json.dumps(deadPlayers))
+                if protagonist.get('alive'):
+                    for state in phoneStates[1:]:
+                        if state.get('alive') and 'lat' in state:
+                            if collision(plat, plng, state['lat'], state['lng']):
+                                
+                                if powerMode:
+                                    eater, eatee = protagonist['phone'], state['phone']
+                                else:
+                                    eatee, eater = protagonist['phone'], state['phone']
+                                
+                                deadPlayers[str(eatee)] = int(time.time() * 1000)
+                                redisConn.set(
+                                    'g_deadPlayers:%d' % game,
+                                    json.dumps(deadPlayers))
+                                Event.appendEvent(game, {
+                                    'type': PHONE_EATEN_EVENT,
+                                    'eater': eater,
+                                    'eatee': eatee,
+                                })
+                                print(eater, 'EATED', eatee)
                 
             except Exception:
                 #TODO log and don't raise
@@ -43,9 +56,10 @@ def main():
 
 
 def collision(lat1, lng1, lat2, lng2):
-    return (
-                (abs(lat1 - lat2) < COLLISION_COORD_PLUSORMINUS) and
-                (abs(lng1 - lng2) < COLLISION_COORD_PLUSORMINUS))
+    lat1, lng1, lat2, lng2 = map(float, (lat1, lng1, lat2, lng2))
+    return math.sqrt((lat1 - lat2)**2 +
+                     (lng1 - lng2)**2) < COLLISION_COORD_DISTANCE
+
 
 
 def loadStuff(game):
@@ -64,7 +78,7 @@ def loadStuff(game):
         }
         redisConn.set(stateKey, json.dumps(state))
     
-    return info['phoneStates'], info['powerMode'], state
+    return info['phoneStates'], info['powerMode'], info['deadPlayers'], state
 
 
 if __name__ == '__main__':

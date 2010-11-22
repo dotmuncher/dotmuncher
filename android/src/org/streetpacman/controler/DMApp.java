@@ -26,6 +26,7 @@ public class DMApp {
 		dmMap = new DMMap();
 		
 		dmPhone.phoneToken = "a_" + deviceId;
+		
 	}
 	
 	public void net(DMAPI api) throws JSONException{
@@ -58,8 +59,7 @@ public class DMApp {
 		}
 	}
 	
-	private void initGame(JSONObject json) throws JSONException{
-		dmPhone.game = json.getInt("game");
+	private void initGame(JSONObject json) throws JSONException{		
 		JSONObject mapInfo = json.getJSONObject("mapInfo");
 		dmMap.dotPoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("dotPoints"));
 		dmMap.basePoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("basePoints"));
@@ -68,7 +68,8 @@ public class DMApp {
 	}
 	
 	public void new_game(JSONObject json) throws JSONException{
-		initGame(json);		
+		dmPhone.game = json.getInt("game");
+		initGame(json);
 	}
 	
 	public void join_game(JSONObject json) throws JSONException{

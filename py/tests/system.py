@@ -1,12 +1,12 @@
 #coding=utf-8
 
-import unittest
+import unittest, json, time
 from unittest import TestCase
-import json
 from urllib2 import HTTPError
 
 from dotmuncher.py.dm_util import simpleGet, randomToken
-from dotmuncher.py.constants import COLLISION_COORD_PLUSORMINUS
+from dotmuncher.py.constants import COLLISION_COORD_DISTANCE
+from dotmuncher.py.stubdata import A, B, X, Y, coordStr
 
 
 def api(name, info, host='localhost:8000'):
@@ -62,11 +62,15 @@ class SampleGame(TestCase):
         
         # 2: join_game
         d = api('join_game', {'game': game, 'phone': p2})
+        d = api('join_game', {'game': game, 'phone': p2})
+        d = api('join_game', {'game': game, 'phone': p2})
+        d = api('join_game', {'game': game, 'phone': p2})
+        #TODO: confirm this (only adds you once) and (only sends one event)
         
         # 3: join_game
         d = api('join_game', {'game': game, 'phone': p3})
         
-        # 3: update(s)
+        # 1: update(s)
         for lng in ['-2.2', '-2.3', '-2.4']:
             d = api('update', {
                 'lat': '-1.1',
@@ -80,6 +84,38 @@ class SampleGame(TestCase):
             assert d['phoneStates'][0]['lng'] == lng
             assert 'lng' not in d['phoneStates'][1]
             assert 'lng' not in d['phoneStates'][2]
+        
+        
+        def movePhone(game, phone, x, y, duration, sleep=0.05):
+            startTime = time.time()
+            while (time.time() - startTime) < duration:
+                t = (time.time() - startTime) / duration
+                d = api('update', {
+                    'lat': coordStr(x[0] + (y[0] - x[0]) * t),
+                    'lng': coordStr(x[1] + (y[1] - x[1]) * t),
+                    'hacc': coordStr(COLLISION_COORD_DISTANCE * 0.1),
+                    'vacc': coordStr(COLLISION_COORD_DISTANCE * 0.1),
+                    'game': game,
+                    'phone': phone,
+                    'id__gte': 10000,
+                })
+                time.sleep(sleep)
+        
+        '''
+            A           
+             
+               GGG       X
+        B     GGG    
+
+                    Y
+        '''
+        
+        movePhone(game, p1, A, X, 3.0)
+        
+        P = [X[0], X[1] - (1.5 * COLLISION_COORD_DISTANCE)]
+        movePhone(game, p2, Y, P, 3.0)
+        movePhone(game, p2, P, X, 2.0)
+        movePhone(game, p2, X, P, 2.0)
         
         # TODO: collisions, ...
         
