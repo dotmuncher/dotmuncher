@@ -18,9 +18,16 @@ import java.io.Reader;
 import java.net.URI;
 
 public class DMNet {
+	//*
 	private static String host = "urban.pyxc.org";
 	private static int port = 80;
-	//private static String host = "s0.dotmuncher.com";
+	//*/
+	
+	/*
+	private static String host = "s0.dotmuncher.com";
+	private static int port = 8000;
+	//*/
+	
 	//private static String host = "10.0.2.2";
 	
 	// http://senior.ceng.metu.edu.tr/2009/praeda/2009/01/11/a-simple-restful-client-at-android/

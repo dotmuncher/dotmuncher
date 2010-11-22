@@ -53,13 +53,8 @@ public class DMStreetPacman extends MapActivity {
     	Log.d(DMConstants.TAG, "DMStreetPacman.onCreate");
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //mapView = new MapView(this, "0GS6dsJhZCsmMbF1b4aXpMkwX3bT9MT4J3_BUWg");
         setContentView(R.layout.mapview);
         mapView = (MapView) findViewById(R.id.map);
-
-        
-        //mapView = this.get
-        //setContentView(mapView); 
         
 		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id		
 	    final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);

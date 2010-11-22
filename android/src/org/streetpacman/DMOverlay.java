@@ -44,9 +44,27 @@ class DMOverlay extends Overlay{
 	    errorCirclePaint.setAlpha(127);
 	    errorCirclePaint.setAntiAlias(true);
 	    
-	    phonePaint = powerPelletPaint = basePaint = dotPaint = new Paint();
-	    dotPaint.setColor(Color.WHITE);
+	    
+	    dotPaint = new Paint();
+	    dotPaint.setColor(Color.GRAY);
+	    dotPaint.setAlpha(127);
 	    dotPaint.setAntiAlias(true);
+	    
+	    phonePaint = new Paint();
+	    phonePaint.setColor(Color.YELLOW);
+	    phonePaint.setAlpha(127);
+	    phonePaint.setAntiAlias(true);
+	    
+	    powerPelletPaint = new Paint();
+	    powerPelletPaint.setColor(Color.GRAY);
+	    powerPelletPaint.setAlpha(127);
+	    powerPelletPaint.setAntiAlias(true);
+	    
+	    basePaint = new Paint();
+	    basePaint.setColor(Color.GRAY);
+	    basePaint.setAlpha(127);
+	    basePaint.setAntiAlias(true);
+	    
 	}
 	
 	  @Override
@@ -66,7 +84,7 @@ class DMOverlay extends Overlay{
 		                    (int) (dmPhoneState.lat * 1E6), 
 		                    (int) (dmPhoneState.lng * 1E6));
 		        	projection.toPixels(p, screenPts);
-		            canvas.drawCircle(screenPts.x, screenPts.y, 25, phonePaint);	
+		            canvas.drawCircle(screenPts.x, screenPts.y, 20, phonePaint);	
 	        	}	        	
 	        }
         }
@@ -80,13 +98,13 @@ class DMOverlay extends Overlay{
         synchronized(dmMap.basePoints){
 	        for(GeoPoint p : dmMap.basePoints){
 	        	projection.toPixels(p, screenPts);
-	            canvas.drawCircle(screenPts.x, screenPts.y, 20, basePaint);
+	            canvas.drawCircle(screenPts.x, screenPts.y, 15, basePaint);
 	        }
         }
         synchronized(dmMap.powerPelletPoints){
 	        for(GeoPoint p : dmMap.powerPelletPoints){
 	        	projection.toPixels(p, screenPts);
-	            canvas.drawCircle(screenPts.x, screenPts.y, 25, powerPelletPaint);
+	            canvas.drawCircle(screenPts.x, screenPts.y, 20, powerPelletPaint);
 	        }
         }
         
@@ -114,7 +132,7 @@ class DMOverlay extends Overlay{
 	    // Draw the error circle.
 	    float radius = projection.metersToEquatorPixels(myLocation.getAccuracy());
 	    canvas.drawCircle(pt.x, pt.y, radius, errorCirclePaint);
-	    canvas.drawCircle(pt.x, pt.y, 30, powerPelletPaint);
+	    canvas.drawCircle(pt.x, pt.y, 30, phonePaint);
 
     }
     
