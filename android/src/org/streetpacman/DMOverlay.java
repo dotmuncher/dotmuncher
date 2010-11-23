@@ -1,9 +1,10 @@
 package org.streetpacman;
 
 import org.streetpacman.controler.DMApp;
-import org.streetpacman.states.DMMap;
-import org.streetpacman.states.DMPhone;
-import org.streetpacman.states.DMPhoneState;
+import org.streetpacman.store.DMGeoPoint;
+import org.streetpacman.store.DMMap;
+import org.streetpacman.store.DMPhone;
+import org.streetpacman.store.DMPhoneState;
 import org.streetpacman.util.DMUtils;
 
 import android.content.Context;
@@ -26,10 +27,9 @@ class DMOverlay extends Overlay{
 	private final DMMap dmMap;
 	private final DMPhone dmPhone;
 	private final Paint errorCirclePaint;
-	private final Paint dotPaint;
-	private final Paint basePaint;
-	private final Paint powerPelletPaint;
 	private final Paint phonePaint;
+	private final Paint whiteFillPaint;
+	private final Paint blackStrokePaint;
 	
 	public DMOverlay(DMApp dmApp, Context context) {
 		this.dmApp = dmApp;
@@ -44,27 +44,21 @@ class DMOverlay extends Overlay{
 	    errorCirclePaint.setAlpha(127);
 	    errorCirclePaint.setAntiAlias(true);
 	    
-	    
-	    dotPaint = new Paint();
-	    dotPaint.setColor(Color.GRAY);
-	    dotPaint.setAlpha(127);
-	    dotPaint.setAntiAlias(true);
-	    
 	    phonePaint = new Paint();
 	    phonePaint.setColor(Color.YELLOW);
 	    phonePaint.setAlpha(127);
 	    phonePaint.setAntiAlias(true);
 	    
-	    powerPelletPaint = new Paint();
-	    powerPelletPaint.setColor(Color.GRAY);
-	    powerPelletPaint.setAlpha(127);
-	    powerPelletPaint.setAntiAlias(true);
+	    whiteFillPaint = new Paint();
+	    whiteFillPaint.setColor(Color.WHITE);
+	    whiteFillPaint.setAlpha(127);
 	    
-	    basePaint = new Paint();
-	    basePaint.setColor(Color.GRAY);
-	    basePaint.setAlpha(127);
-	    basePaint.setAntiAlias(true);
-	    
+	    blackStrokePaint = new Paint();
+		blackStrokePaint.setColor(Color.BLACK);
+		blackStrokePaint.setStyle(Paint.Style.STROKE);
+		blackStrokePaint.setStrokeWidth(3);
+		blackStrokePaint.setAlpha(127);
+		blackStrokePaint.setAntiAlias(true);
 	}
 	
 	  @Override
@@ -88,24 +82,13 @@ class DMOverlay extends Overlay{
 	        	}	        	
 	        }
         }
-                
-        synchronized(dmMap.dotPoints){
-	        for(GeoPoint p : dmMap.dotPoints){
-	        	projection.toPixels(p, screenPts);
-	            canvas.drawCircle(screenPts.x, screenPts.y, 10, dotPaint);
-	        }
-        }
-        synchronized(dmMap.basePoints){
-	        for(GeoPoint p : dmMap.basePoints){
-	        	projection.toPixels(p, screenPts);
-	            canvas.drawCircle(screenPts.x, screenPts.y, 15, basePaint);
-	        }
-        }
-        synchronized(dmMap.powerPelletPoints){
-	        for(GeoPoint p : dmMap.powerPelletPoints){
-	        	projection.toPixels(p, screenPts);
-	            canvas.drawCircle(screenPts.x, screenPts.y, 20, powerPelletPaint);
-	        }
+        
+        for(DMGeoPoint p : dmMap.allPoints){
+        	if(p.visible){
+        		projection.toPixels(p, screenPts);            
+                canvas.drawCircle(screenPts.x, screenPts.y, p.radius, whiteFillPaint);
+                canvas.drawCircle(screenPts.x, screenPts.y, p.radius, blackStrokePaint);	
+        	}        	
         }
         
         // Draw the current location

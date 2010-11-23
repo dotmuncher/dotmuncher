@@ -1,4 +1,4 @@
-package org.streetpacman.states;
+package org.streetpacman.store;
 
 public class DMPhoneState {
     public int phone = -1;

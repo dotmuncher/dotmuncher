@@ -1,4 +1,4 @@
-package org.streetpacman.states;
+package org.streetpacman.store;
 
 import org.json.JSONException;
 import org.json.JSONObject;

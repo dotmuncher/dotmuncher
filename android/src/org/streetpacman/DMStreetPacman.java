@@ -22,7 +22,7 @@ import java.util.UUID;
 import org.json.JSONException;
 import org.streetpacman.controler.DMAPI;
 import org.streetpacman.controler.DMApp;
-import org.streetpacman.states.DMConstants;
+import org.streetpacman.store.DMConstants;
 import org.streetpacman.util.DMUtils;
 
 import com.google.android.maps.GeoPoint;

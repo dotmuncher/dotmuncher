@@ -6,10 +6,10 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.streetpacman.states.DMConstants;
-import org.streetpacman.states.DMMap;
-import org.streetpacman.states.DMPhone;
-import org.streetpacman.states.DMPhoneState;
+import org.streetpacman.store.DMConstants;
+import org.streetpacman.store.DMMap;
+import org.streetpacman.store.DMPhone;
+import org.streetpacman.store.DMPhoneState;
 import org.streetpacman.util.DMUtils;
 
 import android.util.Log;
@@ -83,7 +83,7 @@ public class DMApp {
 		dmMap.dotPoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("dotPoints"));
 		dmMap.basePoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("basePoints"));
 		dmMap.powerPelletPoints = DMUtils.JSONArray2GeoPoints(mapInfo.getJSONArray("powerPelletPoints"));
-		dmMap.buildPointsMap();
+		dmMap.buildPoints();
 	}
 	
 	public void new_game(JSONObject json) throws JSONException{

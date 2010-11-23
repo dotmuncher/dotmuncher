@@ -1,4 +1,4 @@
-package org.streetpacman.states;
+package org.streetpacman.store;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,50 +6,60 @@ import java.util.List;
 import java.util.Map;
 
 import org.streetpacman.stats.ExtremityMonitor;
-import com.google.android.maps.GeoPoint;
+
+import android.graphics.Color;
+import android.graphics.Paint;
 
 public class DMMap {
 	public int map = -1;
-	public List<GeoPoint> dotPoints = new ArrayList<GeoPoint>();
-	public List<GeoPoint> basePoints = new ArrayList<GeoPoint>();
-	public List<GeoPoint> powerPelletPoints = new ArrayList<GeoPoint>();
 	
-	private Map<String,GeoPoint> dotPointsMap;
-	private Map<String,GeoPoint> basePointsMap;
-	private Map<String,GeoPoint> powerPelletPointsMap;
+	public List<DMGeoPoint> dotPoints;
+	public List<DMGeoPoint> basePoints;
+	public List<DMGeoPoint> powerPelletPoints;
+	public List<DMGeoPoint> allPoints = new ArrayList<DMGeoPoint>();
+	
+	private Map<String,DMGeoPoint> dotPointsMap;
+	private Map<String,DMGeoPoint> basePointsMap;
+	private Map<String,DMGeoPoint> powerPelletPointsMap;
 	
 	public ExtremityMonitor latitudeExtremities = new ExtremityMonitor();
 	public ExtremityMonitor longitudeExtremities = new ExtremityMonitor();
 
-	public void buildPointsMap() {
-		dotPointsMap = new HashMap<String,GeoPoint>();
+	public void buildPoints() {
+		// dot
+		dotPointsMap = new HashMap<String,DMGeoPoint>();
 		latitudeExtremities.reset();
 		longitudeExtremities.reset();
-		for(GeoPoint p: dotPoints){
+		for(DMGeoPoint p: dotPoints){
 			dotPointsMap.put(p.getLatitudeE6() + "," + p.getLongitudeE6(), p);
 			latitudeExtremities.update(p.getLatitudeE6());
 			longitudeExtremities.update(p.getLongitudeE6());
+			p.radius = 10;
 		}
-		basePointsMap = new HashMap<String,GeoPoint>();
-		for(GeoPoint p: basePoints){
+		// base
+		basePointsMap = new HashMap<String,DMGeoPoint>();
+		for(DMGeoPoint p: basePoints){
 			basePointsMap.put(p.getLatitudeE6() + "," + p.getLongitudeE6(), p);
+			p.radius = 15;
 		}
-		powerPelletPointsMap = new HashMap<String,GeoPoint>();
-		for(GeoPoint p: powerPelletPoints){
+		// powerPellet 
+		powerPelletPointsMap = new HashMap<String,DMGeoPoint>();
+		for(DMGeoPoint p: powerPelletPoints){
 			powerPelletPointsMap.put(p.getLatitudeE6() + "," + p.getLongitudeE6(), p);
-		}		
+			p.radius = 20;
+		}
+		// construct allPoints		
+		allPoints.addAll(dotPoints);
+		allPoints.addAll(powerPelletPoints);
+		allPoints.addAll(basePoints);
 	}
 	
 	public void killPowerPellet(int x, int y){
-		synchronized (powerPelletPoints) {
-			powerPelletPoints.remove(powerPelletPointsMap.get(x + "," + y));
-		}		
+		powerPelletPointsMap.get(x + "," + y).visible = false;
 	}
 	
 	public void killDot(int x, int y){
-		synchronized (dotPoints) {
-			dotPoints.remove(dotPointsMap.get(x + "," + y));
-		}			
+		dotPointsMap.get(x + "," + y).visible = false;
 	}
 	
 	// position helper	
