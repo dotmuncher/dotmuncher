@@ -54,8 +54,7 @@ public class DMPhone {
 				json.put("id__gte", id__gte);
 				break;
 			default:
-				json = null;
-			
+				json = null;			
 		}
 		return json;
 	}

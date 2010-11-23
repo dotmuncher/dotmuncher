@@ -11,14 +11,4 @@ public enum DMAPI {
 	new_game,
 	join_game,
 	update;
-
-	public void run(JSONObject json, DMApp dmApp){
-		try {
-			Class[] argTypes = { JSONObject.class };		
-			Method meth = DMApp.class.getMethod(this.name(), argTypes);
-			meth.invoke(dmApp, json);
-		}catch (Exception e) {
-		      System.err.println("Invoke() failed: " + e);
-		}
-	}	
 }

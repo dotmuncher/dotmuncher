@@ -32,7 +32,26 @@ public class DMApp {
 	public void net(DMAPI api) throws JSONException{
 		JSONObject json = DMNet.callapi(api,dmPhone.getJSONFor(api));
 		if(json!=null){
-			api.run(json,this);
+			switch(api){
+			case update:
+				update(json);
+				break;
+			case find_games:
+				find_games(json);
+				break;
+			case find_maps:
+				find_maps(json);
+				break;
+			case new_game:
+				new_game(json);
+				break;
+			case join_game:
+				join_game(json);
+				break;
+			case update_phone_settings:
+				update_phone_settings(json);
+				break;
+			}
 		}else{
 			Log.i("net","json == null, network problem?");
 		}
