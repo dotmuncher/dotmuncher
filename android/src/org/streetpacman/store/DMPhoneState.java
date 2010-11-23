@@ -5,4 +5,7 @@ public class DMPhoneState {
     public double lat = -1;
 	public double lng = -1;
     public int idle = -1;
+    public Boolean alive = true;
+    
+    public Boolean beenEaten = false;
 }

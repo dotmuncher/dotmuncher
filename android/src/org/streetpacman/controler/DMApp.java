@@ -112,6 +112,7 @@ public class DMApp {
 				dmPhoneState.lat = new Double(json.getString("lat"));
 				dmPhoneState.lng = new Double(json.getString("lng"));
 				dmPhoneState.idle = json.getInt("idle");
+				dmPhoneState.alive = json.getBoolean("alive");
 				dmPhoneStates.add(dmPhoneState);
 			}
 		}
@@ -124,17 +125,19 @@ public class DMApp {
 					int phone = json.getInt("phone");
 					String name = json.getString("name");
 					break;
-				case DMConstants.ITEM_EATEN_EVENT:
+				case DMConstants.PHONE_EATEN_EVENT:
 				    int eater = json.getInt("eater");
 				    int eatee = json.getInt("eatee");
+				    
 					break;
-				case DMConstants.PHONE_EATEN_EVENT:
+				case DMConstants.ITEM_EATEN_EVENT:
 					JSONArray kArray = json.getJSONArray("k");
 					String kType = kArray.getString(0);
 					int x = (int) (new Double(kArray.getString(1)) * 1E6);
 					int y = (int) (new Double(kArray.getString(2)) * 1E6);
 					if(kType == "p"){
 						dmMap.killPowerPellet(x,y);
+						dmPhone.powerMode = true;
 					}
 					if(kType == "d"){
 						dmMap.killDot(x,y);
@@ -147,11 +150,10 @@ public class DMApp {
 					}
 					if(reason == DMConstants.GAMEOVER_PACMAN_LOSES){
 						
-					}					
-					break;
-				default:
+					}
 			}
 			dmPhone.id__gte = json.getInt("i");
+			int t = json.getInt("t");
 		}
 		
 	}

@@ -21,17 +21,19 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 
 class DMOverlay extends Overlay{
+	private final int arrowWidth, arrowHeight;
 	private Location myLocation;
 	private final Context context;
 	private final DMApp dmApp;
 	private final DMMap dmMap;
 	private final DMPhone dmPhone;
 	private final Paint errorCirclePaint;
-	private final Paint phonePaint;
 	private final Paint whiteFillPaint;
 	private final Paint blackStrokePaint;
+	private Drawable d;
 	
 	public DMOverlay(DMApp dmApp, Context context) {
+		
 		this.dmApp = dmApp;
 	    dmMap = dmApp.dmMap;
 	    dmPhone = dmApp.dmPhone;
@@ -42,12 +44,7 @@ class DMOverlay extends Overlay{
 	    errorCirclePaint.setStyle(Paint.Style.STROKE);
 	    errorCirclePaint.setStrokeWidth(3);
 	    errorCirclePaint.setAlpha(127);
-	    errorCirclePaint.setAntiAlias(true);
-	    
-	    phonePaint = new Paint();
-	    phonePaint.setColor(Color.YELLOW);
-	    phonePaint.setAlpha(127);
-	    phonePaint.setAntiAlias(true);
+	    errorCirclePaint.setAntiAlias(true);	   
 	    
 	    whiteFillPaint = new Paint();
 	    whiteFillPaint.setColor(Color.WHITE);
@@ -59,6 +56,11 @@ class DMOverlay extends Overlay{
 		blackStrokePaint.setStrokeWidth(3);
 		blackStrokePaint.setAlpha(127);
 		blackStrokePaint.setAntiAlias(true);
+		
+		d = context.getResources().getDrawable(R.drawable.pacman_chomp2);
+		arrowWidth = d.getIntrinsicWidth();
+	    arrowHeight = d.getIntrinsicHeight();
+	    d.setBounds(0, 0, arrowWidth, arrowHeight);
 	}
 	
 	  @Override
@@ -78,7 +80,15 @@ class DMOverlay extends Overlay{
 		                    (int) (dmPhoneState.lat * 1E6), 
 		                    (int) (dmPhoneState.lng * 1E6));
 		        	projection.toPixels(p, screenPts);
-		            canvas.drawCircle(screenPts.x, screenPts.y, 20, phonePaint);	
+		        	//
+		        	if(dmPhoneState.beenEaten){
+		        		canvas.drawCircle(screenPts.x, screenPts.y, 20, blackStrokePaint);
+		        	}else{
+		        		drawElement(canvas, projection,
+		        		        DMUtils.getGeoPoint(myLocation),
+		        		        d,
+		        		        -(arrowWidth / 2) + 3, -(arrowHeight / 2));
+		        	}		            	
 	        	}	        	
 	        }
         }
@@ -103,19 +113,13 @@ class DMOverlay extends Overlay{
 	    if (myLocation == null) {
 	      return;
 	    }
-	    
-		  Point pt = new Point();
-		  projection.toPixels(DMUtils.getGeoPoint(myLocation), pt);
-		/*
 	    Point pt = drawElement(canvas, projection,
 	        DMUtils.getGeoPoint(myLocation),
-	        context.getResources().getDrawable(R.drawable.arrow_0),
-	        -(32 / 2) + 3, -(32 / 2));
-	    */
+	        d,
+	        -(arrowWidth / 2) + 3, -(arrowHeight / 2));
 	    // Draw the error circle.
 	    float radius = projection.metersToEquatorPixels(myLocation.getAccuracy());
 	    canvas.drawCircle(pt.x, pt.y, radius, errorCirclePaint);
-	    canvas.drawCircle(pt.x, pt.y, 30, phonePaint);
 
     }
     
