@@ -46,202 +46,198 @@ public class DMStreetPacmanMap extends MapActivity {
 	private Location currentLocation;
 	private LocationManager locationManager;
 	private boolean keepMyLocationVisible;
-    MapView mapView;
+	MapView mapView;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	Log.d(DMConstants.TAG, "DMStreetPacmanMap.onCreate");
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.mapview);
-        mapView = (MapView) findViewById(R.id.map);
-        
-		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id		
-	    final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-	
-	    final String tmDevice, tmSerial, tmPhone, androidId;
-	    tmDevice = "" + tm.getDeviceId();
-	    tmSerial = "" + tm.getSimSerialNumber();
-	    androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-	
-	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
-	    String deviceId = deviceUuid.toString();
-	    
-	    this.dmApp = new DMApp(deviceId);
-        
-        this.dmOverlay = new DMOverlay(dmApp,this);        
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		Log.d(DMConstants.TAG, "DMStreetPacmanMap.onCreate");
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.mapview);
+		mapView = (MapView) findViewById(R.id.map);
 
-        List<Overlay> listOfOverlays = mapView.getOverlays();
-        listOfOverlays.clear();
-        listOfOverlays.add(dmOverlay);        
- 
-        locationManager =
-            (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
+		final TelephonyManager tm = (TelephonyManager) getBaseContext()
+				.getSystemService(Context.TELEPHONY_SERVICE);
 
-        mapView.invalidate();
+		final String tmDevice, tmSerial, tmPhone, androidId;
+		tmDevice = "" + tm.getDeviceId();
+		tmSerial = "" + tm.getSimSerialNumber();
+		androidId = ""
+				+ android.provider.Settings.Secure.getString(
+						getContentResolver(),
+						android.provider.Settings.Secure.ANDROID_ID);
 
-    }
+		UUID deviceUuid = new UUID(androidId.hashCode(),
+				((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
+		String deviceId = deviceUuid.toString();
 
-    @Override
-    protected boolean isRouteDisplayed() { return false; }
-    @Override
-    protected boolean isLocationDisplayed() { return true; }
-    
-    @Override
-    protected void onPause() {
-      // Called when activity is going into the background, but has not (yet) been
-      // killed. Shouldn't block longer than approx. 2 seconds.
-      Log.d(DMConstants.TAG, "DM.onPause");
-      unregisterLocationAndSensorListeners();
-      super.onPause();
-    }
-    
-    @Override
-    protected void onResume() {
-      // Called when the current activity is being displayed or re-displayed
-      // to the user.
-      Log.d(DMConstants.TAG, "DM.onResume");
-      super.onResume();
+		this.dmApp = new DMApp(deviceId);
 
-      registerLocationAndSensorListeners();
+		this.dmOverlay = new DMOverlay(dmApp, this);
 
-		try {
-			dmApp.net(DMAPI.update_phone_settings);
-			dmApp.net(DMAPI.find_games);
-			dmApp.dmPhone.game = dmApp.alGames.get(0);
-			dmApp.net(DMAPI.join_game);			
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
+		List<Overlay> listOfOverlays = mapView.getOverlays();
+		listOfOverlays.clear();
+		listOfOverlays.add(dmOverlay);
+
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+		mapView.invalidate();
+
+	}
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		return false;
+	}
+
+	@Override
+	protected boolean isLocationDisplayed() {
+		return true;
+	}
+
+	@Override
+	protected void onPause() {
+		// Called when activity is going into the background, but has not (yet)
+		// been
+		// killed. Shouldn't block longer than approx. 2 seconds.
+		Log.d(DMConstants.TAG, "DM.onPause");
+		unregisterLocationAndSensorListeners();
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		// Called when the current activity is being displayed or re-displayed
+		// to the user.
+		Log.d(DMConstants.TAG, "DM.onResume");
+		super.onResume();
+
+		registerLocationAndSensorListeners();
+
+		dmApp.net(DMAPI.update_phone_settings);
+		//dmApp.net(DMAPI.find_games);
+		//dmApp.dmPhone.game = dmApp.alGames.get(0);
+		//dmApp.net(DMAPI.join_game);
+
 		// zoom and pan
-		showPoints();
-    }
+		//showPoints();
+	}
 
-    /**
-     * Registers to receive location updates from the GPS location provider and
-     * sensor updated from the compass.
-     */
-    void registerLocationAndSensorListeners() {
-      if (locationManager != null) {
-          locationManager.requestLocationUpdates(
-                  LocationManager.GPS_PROVIDER, 
-                  0, 
-                  0, 
-                  locationListener);
-        try {
-          locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-              1000 * 60 * 5 /*minTime*/, 0 /*minDist*/, locationListener);
-        } catch (RuntimeException e) {
-          // If anything at all goes wrong with getting a cell location do not
-          // abort. Cell location is not essential to this app.
-          Log.w(DMConstants.TAG,
-              "Could not register network location listener.");
-        }
-      }
-    }
-    
-    public void alert(String txt) {
-	    Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
-	  }
+	/**
+	 * Registers to receive location updates from the GPS location provider and
+	 * sensor updated from the compass.
+	 */
+	void registerLocationAndSensorListeners() {
+		if (locationManager != null) {
+			locationManager.requestLocationUpdates(
+					LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+			try {
+				locationManager.requestLocationUpdates(
+						LocationManager.NETWORK_PROVIDER,
+						1000 * 60 * 5 /* minTime */, 0 /* minDist */,
+						locationListener);
+			} catch (RuntimeException e) {
+				// If anything at all goes wrong with getting a cell location do
+				// not
+				// abort. Cell location is not essential to this app.
+				Log.w(DMConstants.TAG,
+						"Could not register network location listener.");
+			}
+		}
+	}
 
-    /**
-     * Moves the location pointer to the current location and center the map if
-     * the current location is outside the visible area.
-     */
-    private void showCurrentLocation() {
-	  if (currentLocation == null || dmOverlay == null || mapView == null) {
-	    return;
-	  }
-	  dmOverlay.setMyLocation(currentLocation);
-	  mapView.invalidate();
-	  /*
-		MapController controller = mapView.getController();
-		GeoPoint geoPoint = DMUtils.getGeoPoint(currentLocation);
-		controller.animateTo(geoPoint);
-		*/
-    }
-    
-    private final LocationListener locationListener = new LocationListener(){
-        @Override
-        public void onLocationChanged(Location location) {
-            currentLocation = location;
+	public void alert(String txt) {
+		Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
+	}
 
-            showCurrentLocation();
-            
-            if (location != null) {
-                Toast.makeText(getBaseContext(), 
-                    "Location changed : Lat: " + location.getLatitude() + 
-                    " Lng: " + location.getLongitude(), 
-                    Toast.LENGTH_SHORT).show();
-                try {
-                	dmApp.dmPhone.setLocation(location);
-					dmApp.net(DMAPI.update);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            }
-        }
+	/**
+	 * Moves the location pointer to the current location and center the map if
+	 * the current location is outside the visible area.
+	 */
+	private void showCurrentLocation() {
+		if (currentLocation == null || dmOverlay == null || mapView == null) {
+			return;
+		}
+		dmOverlay.setMyLocation(currentLocation);
+		mapView.invalidate();
+		/*
+		 * MapController controller = mapView.getController(); GeoPoint geoPoint
+		 * = DMUtils.getGeoPoint(currentLocation);
+		 * controller.animateTo(geoPoint);
+		 */
+	}
+
+	private final LocationListener locationListener = new LocationListener() {
+		@Override
+		public void onLocationChanged(Location location) {
+			currentLocation = location;
+
+			showCurrentLocation();
+
+			if (location != null) {
+				Toast.makeText(
+						getBaseContext(),
+						"Location changed : Lat: " + location.getLatitude()
+								+ " Lng: " + location.getLongitude(),
+						Toast.LENGTH_SHORT).show();
+				dmApp.dmPhone.setLocation(location);
+				//dmApp.net(DMAPI.update);
+			}
+		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			// TODO Auto-generated method stub
-			
+
 		}
-    };
-    
+	};
 
-    /**
-     * Unregisters all location and sensor listeners
-     */
-    void unregisterLocationAndSensorListeners() {
-      if (locationManager != null) {
-        Log.d(DMConstants.TAG,
-            "DM: Now unregistering location listeners.");
-        locationManager.removeUpdates(locationListener);
-      }
-      /*
-      if (sensorManager != null) {
-        Log.d(DMConstants.TAG,
-        sensorManager.unregisterListener(sensorListener);
-      }
-      */
-    }
-    
-    public void showPoints() {
-        if (mapView == null) {
-          return;
-        }
+	/**
+	 * Unregisters all location and sensor listeners
+	 */
+	void unregisterLocationAndSensorListeners() {
+		if (locationManager != null) {
+			Log.d(DMConstants.TAG, "DM: Now unregistering location listeners.");
+			locationManager.removeUpdates(locationListener);
+		}
+		/*
+		 * if (sensorManager != null) { Log.d(DMConstants.TAG,
+		 * sensorManager.unregisterListener(sensorListener); }
+		 */
+	}
 
-        int bottom = dmApp.dmMap.getBottom();
-        int left = dmApp.dmMap.getLeft();
-        int latSpanE6 = dmApp.dmMap.getTop() - bottom;
-        int lonSpanE6 = dmApp.dmMap.getRight() - left;
-        if (latSpanE6 > 0
-            && latSpanE6 < 180E6
-            && lonSpanE6 > 0
-            && lonSpanE6 < 360E6) {
-          keepMyLocationVisible = false;
-          GeoPoint center = new GeoPoint(
-              bottom + latSpanE6 / 2,
-              left + lonSpanE6 / 2);
-          if (DMUtils.isValidGeoPoint(center)) {
-            mapView.getController().setCenter(center);
-            mapView.getController().zoomToSpan(latSpanE6, lonSpanE6);
-          }
-        }
-    }
+	public void showPoints() {
+		if (mapView == null) {
+			return;
+		}
+
+		int bottom = dmApp.dmMap.getBottom();
+		int left = dmApp.dmMap.getLeft();
+		int latSpanE6 = dmApp.dmMap.getTop() - bottom;
+		int lonSpanE6 = dmApp.dmMap.getRight() - left;
+		if (latSpanE6 > 0 && latSpanE6 < 180E6 && lonSpanE6 > 0
+				&& lonSpanE6 < 360E6) {
+			keepMyLocationVisible = false;
+			GeoPoint center = new GeoPoint(bottom + latSpanE6 / 2, left
+					+ lonSpanE6 / 2);
+			if (DMUtils.isValidGeoPoint(center)) {
+				mapView.getController().setCenter(center);
+				mapView.getController().setZoom(20);
+				mapView.getController().zoomToSpan(latSpanE6, lonSpanE6);
+			}
+		}
+	}
 }

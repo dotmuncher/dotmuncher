@@ -1,13 +1,9 @@
 package org.streetpacman.store;
 
 public class DMConstants {
-	  /**
-	   * Should be used by all log statements
-	   */
-	  public static final String TAG = "DM";
+	  public static final String TAG = "DMStreetPacman";
 	  
-	  // Events
-	  
+	  // Events	  
 	  public static final int OHHAI_EVENT = 2;
 	  public static final int PHONE_EATEN_EVENT = 6;
 	  public static final int ITEM_EATEN_EVENT = 7;
@@ -16,4 +12,7 @@ public class DMConstants {
 	  // Reasons
 	  public static final int GAMEOVER_PACMAN_WINS = 1;
 	  public static final int GAMEOVER_PACMAN_LOSES = 2;
+	  
+	  // 
+	  public static final int SHOW_GAME = 1;
 }

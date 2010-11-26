@@ -1,54 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="7"
-	android:versionName="0.07"
-    package="org.streetpacman">
+	android:versionCode="7" android:versionName="0.07" package="org.streetpacman">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />    
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
-    <application android:label="@string/app_name"
-            android:icon="@drawable/pacman_on_mac_twitter_logo" >
+	<application android:label="@string/app_name"
+		android:icon="@drawable/pacman_on_mac_twitter_logo">
 
 		<uses-library android:name="com.google.android.maps" />
-		
-		<activity android:name="org.streetpacman.DMAnim" android:label="Animation">
+
+		<activity android:name="org.streetpacman.DMAnim"
+			android:label="Animation">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
+				<category android:name="android.intent.category.SAMPLE_CODE" />
 			</intent-filter>
 		</activity>
-		
-		<activity android:name="org.streetpacman.DMWizard" android:label="Wizard">
+
+		<activity android:name="org.streetpacman.DMWizard"
+			android:label="Wizard">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
+				<category android:name="android.intent.category.SAMPLE_CODE" />
 			</intent-filter>
 		</activity>
-		
-       <activity android:name="org.streetpacman.DMLauncher" android:label="Street Pacman">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER"></category>
-                <action android:name="android.intent.action.MAIN"></action>
-            </intent-filter>
-       </activity>
 
-        <activity android:name="org.streetpacman.DMStreetPacmanMap" android:label="Street Pacman Map">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
+		<activity android:name="org.streetpacman.DMLauncher"
+			android:label="Street Pacman">
+			<intent-filter>
+				<category android:name="android.intent.category.LAUNCHER"></category>
+				<action android:name="android.intent.action.MAIN"></action>
+			</intent-filter>
+		</activity>
 
-        <activity android:name="org.streetpacman.DMStreetPacman" android:label="Street Pacman">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
+		<activity android:name="org.streetpacman.DMStreetPacmanMap"
+			android:label="Street Pacman Map">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.SAMPLE_CODE" />
+			</intent-filter>
+		</activity>
 
-   </application>
-   <uses-sdk android:minSdkVersion="8" />
+		<activity android:name="org.streetpacman.DMStreetPacman"
+			android:label="Street Pacman">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.SAMPLE_CODE" />
+			</intent-filter>
+		</activity>
+
+	</application>
+	<uses-sdk android:minSdkVersion="8" />
 </manifest>
