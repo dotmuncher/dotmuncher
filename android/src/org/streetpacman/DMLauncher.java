@@ -22,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -38,6 +39,7 @@ public class DMLauncher extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         
         setListAdapter(new SimpleAdapter(this, getData(),
                 android.R.layout.simple_list_item_1, new String[] { "title" },

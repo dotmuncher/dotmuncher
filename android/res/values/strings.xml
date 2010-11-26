@@ -15,6 +15,7 @@
 -->
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="activity_sample_code">Street Pacman</string>
+    <string name="app_name">Street Pacman</string>
+<string name="maplist_pick_one">Pick a map.</string>
 </resources>
 

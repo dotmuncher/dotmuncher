@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />    
 
-    <application android:label="@string/activity_sample_code"
+    <application android:label="@string/app_name"
             android:icon="@drawable/pacman_on_mac_twitter_logo" >
 
 		<uses-library android:name="com.google.android.maps" />
@@ -34,6 +34,13 @@
                 <action android:name="android.intent.action.MAIN"></action>
             </intent-filter>
        </activity>
+
+        <activity android:name="org.streetpacman.DMStreetPacmanMap" android:label="Street Pacman Map">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
 
         <activity android:name="org.streetpacman.DMStreetPacman" android:label="Street Pacman">
             <intent-filter>

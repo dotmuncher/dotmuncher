@@ -37,36 +37,40 @@ public final class R {
         public static final int ghost_red1_eyes=0x7f020017;
         public static final int ghost_red2_blank=0x7f020018;
         public static final int ghost_red2_eyes=0x7f020019;
-        public static final int mock_loading=0x7f02001a;
-        public static final int pacman_chomp=0x7f02001b;
-        public static final int pacman_chomp0=0x7f02001c;
-        public static final int pacman_chomp1=0x7f02001d;
-        public static final int pacman_chomp2=0x7f02001e;
-        public static final int pacman_chomp3=0x7f02001f;
-        public static final int pacman_dead=0x7f020020;
-        public static final int pacman_dead0=0x7f020021;
-        public static final int pacman_dead10=0x7f020022;
-        public static final int pacman_dead11=0x7f020023;
-        public static final int pacman_dead2=0x7f020024;
-        public static final int pacman_dead3=0x7f020025;
-        public static final int pacman_dead4=0x7f020026;
-        public static final int pacman_dead5=0x7f020027;
-        public static final int pacman_dead6=0x7f020028;
-        public static final int pacman_dead7=0x7f020029;
-        public static final int pacman_dead8=0x7f02002a;
-        public static final int pacman_dead9=0x7f02002b;
-        public static final int pacman_on_mac_twitter_logo=0x7f02002c;
+        public static final int list_bar=0x7f02001a;
+        public static final int mock_loading=0x7f02001b;
+        public static final int pacman_chomp=0x7f02001c;
+        public static final int pacman_chomp0=0x7f02001d;
+        public static final int pacman_chomp1=0x7f02001e;
+        public static final int pacman_chomp2=0x7f02001f;
+        public static final int pacman_chomp3=0x7f020020;
+        public static final int pacman_dead=0x7f020021;
+        public static final int pacman_dead0=0x7f020022;
+        public static final int pacman_dead10=0x7f020023;
+        public static final int pacman_dead11=0x7f020024;
+        public static final int pacman_dead2=0x7f020025;
+        public static final int pacman_dead3=0x7f020026;
+        public static final int pacman_dead4=0x7f020027;
+        public static final int pacman_dead5=0x7f020028;
+        public static final int pacman_dead6=0x7f020029;
+        public static final int pacman_dead7=0x7f02002a;
+        public static final int pacman_dead8=0x7f02002b;
+        public static final int pacman_dead9=0x7f02002c;
+        public static final int pacman_on_mac_twitter_logo=0x7f02002d;
     }
     public static final class id {
-        public static final int img_anim=0x7f050000;
-        public static final int main=0x7f050001;
-        public static final int map=0x7f050002;
+        public static final int img_anim=0x7f050001;
+        public static final int main=0x7f050002;
+        public static final int map=0x7f050003;
+        public static final int message=0x7f050000;
     }
     public static final class layout {
-        public static final int main=0x7f030000;
-        public static final int mapview=0x7f030001;
+        public static final int dmmaps_list=0x7f030000;
+        public static final int main=0x7f030001;
+        public static final int mapview=0x7f030002;
     }
     public static final class string {
-        public static final int activity_sample_code=0x7f040000;
+        public static final int app_name=0x7f040000;
+        public static final int maplist_pick_one=0x7f040001;
     }
 }

@@ -57,7 +57,7 @@ class DMOverlay extends Overlay{
 		blackStrokePaint.setAlpha(127);
 		blackStrokePaint.setAntiAlias(true);
 		
-		d = context.getResources().getDrawable(R.drawable.pacman_chomp2);
+		d = context.getResources().getDrawable(R.drawable.pacman_chomp);
 		arrowWidth = d.getIntrinsicWidth();
 	    arrowHeight = d.getIntrinsicHeight();
 	    d.setBounds(0, 0, arrowWidth, arrowHeight);
