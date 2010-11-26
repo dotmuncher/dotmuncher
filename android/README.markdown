@@ -1,1 +1,2 @@
-Yi's first Android App
+Yi Wang's first Android App
+
