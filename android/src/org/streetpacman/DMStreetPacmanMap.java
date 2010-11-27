@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.json.JSONException;
-import org.streetpacman.controler.DMAPI;
 import org.streetpacman.controler.DMApp;
 import org.streetpacman.store.DMConstants;
 import org.streetpacman.util.DMUtils;
@@ -115,13 +114,13 @@ public class DMStreetPacmanMap extends MapActivity {
 
 		registerLocationAndSensorListeners();
 
-		dmApp.net(DMAPI.update_phone_settings);
-		//dmApp.net(DMAPI.find_games);
-		//dmApp.dmPhone.game = dmApp.alGames.get(0);
-		//dmApp.net(DMAPI.join_game);
+		dmApp.net(DMConstants.update_phone_settings);
+		// dmApp.net(DMAPI.find_games);
+		// dmApp.dmPhone.game = dmApp.alGames.get(0);
+		// dmApp.net(DMAPI.join_game);
 
 		// zoom and pan
-		//showPoints();
+		// showPoints();
 	}
 
 	/**
@@ -182,7 +181,7 @@ public class DMStreetPacmanMap extends MapActivity {
 								+ " Lng: " + location.getLongitude(),
 						Toast.LENGTH_SHORT).show();
 				dmApp.dmPhone.setLocation(location);
-				//dmApp.net(DMAPI.update);
+				// dmApp.net(DMAPI.update);
 			}
 		}
 

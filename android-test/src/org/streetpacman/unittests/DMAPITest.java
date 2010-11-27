@@ -1,14 +1,14 @@
 package org.streetpacman.unittests;
 
 import org.json.JSONObject;
-import org.streetpacman.controler.DMAPI;
 import org.streetpacman.controler.DMApp;
+import org.streetpacman.store.DMConstants;
 
 import android.util.Log;
 
 import junit.framework.TestCase;
 
-public class DMAPITest extends TestCase {
+public class DMConstantsTest extends TestCase {
 	JSONObject json;
 	DMApp dmApp;
     
@@ -22,7 +22,7 @@ public class DMAPITest extends TestCase {
 		try {
 			dmApp.dmPhone.phone = 5;
 			dmApp.dmPhone.map = 3;
-			dmApp.net(DMAPI.new_game);			
+			dmApp.net(DMConstants.new_game);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -31,7 +31,7 @@ public class DMAPITest extends TestCase {
 		// join_game
 		try {
 			Log.i("DM", "update dmApp.dmPhone.game" + Integer.toString(dmApp.dmPhone.game));
-			dmApp.net(DMAPI.join_game);			
+			dmApp.net(DMConstants.join_game);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -43,7 +43,7 @@ public class DMAPITest extends TestCase {
 			dmApp.dmPhone.acc = 10;
 			dmApp.dmPhone.lat = 40.11111;
 			dmApp.dmPhone.lng = 15.11111;
-			dmApp.net(DMAPI.update);			
+			dmApp.net(DMConstants.update);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -56,7 +56,7 @@ public class DMAPITest extends TestCase {
 		try {
 			dmApp.dmPhone.phone = 5;
 			dmApp.dmPhone.map = 3;
-			dmApp.net(DMAPI.new_game);			
+			dmApp.net(DMConstants.new_game);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -65,7 +65,7 @@ public class DMAPITest extends TestCase {
 		// join_game
 		try {
 			Log.i("DM", "dmApp.dmPhone.game" + Integer.toString(dmApp.dmPhone.game));
-			dmApp.net(DMAPI.join_game);			
+			dmApp.net(DMConstants.join_game);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -77,7 +77,7 @@ public class DMAPITest extends TestCase {
 		try {
 			dmApp.dmPhone.phone = 5;
 			dmApp.dmPhone.map = 3;
-			dmApp.net(DMAPI.new_game);			
+			dmApp.net(DMConstants.new_game);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -87,7 +87,7 @@ public class DMAPITest extends TestCase {
 	
 	public void test_find_games(){
 		try {
-			dmApp.net(DMAPI.find_games);			
+			dmApp.net(DMConstants.find_games);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -97,7 +97,7 @@ public class DMAPITest extends TestCase {
 	
 	public void test_find_maps(){
 		try {
-			dmApp.net(DMAPI.find_maps);			
+			dmApp.net(DMConstants.find_maps);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -107,7 +107,7 @@ public class DMAPITest extends TestCase {
 	
 	public void test_getJSONFor() {
 		try {
-			for(DMAPI api : DMAPI.values()){
+			for(int api = 0; api < 7; api ++){
 				dmApp.dmPhone.getJSONFor(api);
 			}
 		} catch (Exception e) {
@@ -118,7 +118,7 @@ public class DMAPITest extends TestCase {
 	
 	public void test_update_phone_settings(){
 		try {
-			dmApp.net(DMAPI.update_phone_settings);			
+			dmApp.net(DMConstants.update_phone_settings);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();

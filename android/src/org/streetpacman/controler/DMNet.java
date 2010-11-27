@@ -6,6 +6,7 @@ import org.apache.http.client.methods.HttpGet;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONObject;
+import org.streetpacman.store.DMConstants;
 
 import android.util.Log;
 
@@ -20,11 +21,13 @@ import java.net.URI;
 public class DMNet {
 	//*
 	private static String host = "urban.pyxc.org";
+	//private static String host = "75.101.141.245";
 	private static int port = 80;
 	//*/
 	
 	/*
-	private static String host = "s0.dotmuncher.com";
+	//private static String host = "s0.dotmuncher.com";
+	private static String host = "174.143.141.50";
 	private static int port = 8000;
 	//*/
 	
@@ -74,11 +77,11 @@ public class DMNet {
         return data;
     }
 	
-	public static JSONObject callapi(DMAPI api, JSONObject json) {
+	public static JSONObject callapi(final int api, JSONObject json) {
         try{
-            Log.i("DMNet.callapi method", api.name());
+            Log.i("DMNet.callapi method", DMConstants.API[api]);
             Log.i("DMNet.callapi request", "json=" + json.toString(4));
-            InputStream instream = getJSONData("/api/v0/"+ api.name() +".json","json=" + json.toString());            
+            InputStream instream = getJSONData("/api/v0/"+ DMConstants.API[api] +".json","json=" + json.toString());            
             json = new JSONObject(convertStreamToString(instream));
             Log.i("DMNet.callapi response", "json=" + json.toString(4));
             return json;

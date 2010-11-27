@@ -2,7 +2,6 @@ package org.streetpacman.store;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.streetpacman.controler.DMAPI;
 
 import android.location.Location;
 import android.util.Log;
@@ -12,7 +11,7 @@ public class DMPhone {
 	public int game = -1;
 	public int map = -1;
 	public int phone = -1;
-	public String name = "";
+	public String name = "e";
 	public String phoneToken = "";
 	public double lat = -1;
 	public double lng = -1;
@@ -20,33 +19,33 @@ public class DMPhone {
 	public int id__gte = -1;
 	public boolean powerMode = false;
 
-	public JSONObject getJSONFor(DMAPI api) {
+	public JSONObject getJSONFor(int api) {
 		JSONObject json = new JSONObject();
 		try {
 			switch (api) {
-			case update_phone_settings:
+			case DMConstants.update_phone_settings:
 				json.put("phoneToken", phoneToken);
 				json.put("name", name);
 				break;
-			case find_games:
+			case DMConstants.find_games:
 				json.put("lat", Double.toString(lat));
 				json.put("lng", Double.toString(lng));
 				json.put("phoneToken", phoneToken);
 				break;
-			case find_maps:
+			case DMConstants.find_maps:
 				json.put("lat", Double.toString(lat));
 				json.put("lng", Double.toString(lng));
 				json.put("phoneToken", phoneToken);
 				break;
-			case new_game:
+			case DMConstants.new_game:
 				json.put("map", map);
 				json.put("phone", phone);
 				break;
-			case join_game:
+			case DMConstants.join_game:
 				json.put("game", game);
 				json.put("phone", phone);
 				break;
-			case update:
+			case DMConstants.update:
 				json.put("lat", Double.toString(lat));
 				json.put("lng", Double.toString(lng));
 				json.put("hacc", Double.toString(acc));

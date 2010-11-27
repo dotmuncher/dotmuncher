@@ -31,7 +31,7 @@ public class DMApp {
 
 	}
 
-	public void net(final DMAPI api) {
+	public void net(final int api) {
 		Thread t = new Thread() {			
 			public void run() {
 				final JSONObject json = DMNet.callapi(api, dmPhone.getJSONFor(api));
@@ -40,22 +40,22 @@ public class DMApp {
 						try {
 							if (json != null) {
 								switch (api) {
-								case update:
+								case DMConstants.update:
 									update(json);
 									break;
-								case find_games:
+								case DMConstants.find_games:
 									find_games(json);
 									break;
-								case find_maps:
+								case DMConstants.find_maps:
 									find_maps(json);
 									break;
-								case new_game:
+								case DMConstants.new_game:
 									new_game(json);
 									break;
-								case join_game:
+								case DMConstants.join_game:
 									join_game(json);
 									break;
-								case update_phone_settings:
+								case DMConstants.update_phone_settings:
 									update_phone_settings(json);
 									break;
 								}
@@ -72,7 +72,7 @@ public class DMApp {
 		t.start();
 	}
 
-	// API invoke
+	// post API invoke
 	public void update_phone_settings(JSONObject json) throws JSONException {
 		dmPhone.phone = json.getInt("phone");
 	}
