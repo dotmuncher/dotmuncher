@@ -27,8 +27,10 @@ public class DMConstants {
 	// requestCode
 	public static final int SHOW_LOADING = 1;
 	public static final int SHOW_BOARD = 2;
-
+	public static final int SHOW_GAMESLIST = 3;
+	
 	// resultCode
-	public static final int FINISH_NORMAL = 1;
-	public static final int LOADING_TIMEOUT = 2;
+	public static final int LOADING_TIMEOUT = 1;
+	public static final int GAMESLIST_TIMEOUT = 2;
+	
 }

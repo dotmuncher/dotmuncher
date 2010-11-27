@@ -43,7 +43,7 @@ public class DMLoading extends Activity{
 	private Runnable rTrue = new Runnable(){
 		public void run(){
 			Log.i(DMConstants.TAG,"rTrue");
-			callFinish(DMConstants.FINISH_NORMAL);
+			callFinish(RESULT_OK);
 		}
 	};
 	

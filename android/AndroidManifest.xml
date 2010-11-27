@@ -22,14 +22,8 @@
 
 		<activity android:name="org.streetpacman.DMLoading"
 			android:label="Loading" />
-			
-		<activity android:name="org.streetpacman.DMLauncher"
-			android:label="Street Pacman">
-			<intent-filter>
-				<category android:name="android.intent.category.LAUNCHER"></category>
-				<action android:name="android.intent.action.MAIN"></action>
-			</intent-filter>
-		</activity>
+		<activity android:name="org.streetpacman.DMGamesList"
+			android:label="Games List" />
 
 		<activity android:name="org.streetpacman.DMBoard"
 			android:label="Street Pacman Map" />
@@ -37,8 +31,8 @@
 		<activity android:name="org.streetpacman.DMStreetPacman"
 			android:label="Street Pacman">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.SAMPLE_CODE" />
+				<category android:name="android.intent.category.LAUNCHER"></category>
+				<action android:name="android.intent.action.MAIN"></action>
 			</intent-filter>
 		</activity>
 
