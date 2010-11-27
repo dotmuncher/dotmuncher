@@ -21,12 +21,12 @@ import android.widget.TabHost;
 public class DMStreetPacman extends TabActivity implements OnTouchListener {
 	private static DMStreetPacman instance;
 	private DMControls dMControls;
-	private DMCore dmCore;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(DMConstants.TAG, "DMStreetPacmanMap.onCreate");
+		Log.d(DMConstants.TAG, "DMBoard.onCreate");
 		super.onCreate(savedInstanceState);
+		instance = this;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
@@ -45,32 +45,47 @@ public class DMStreetPacman extends TabActivity implements OnTouchListener {
 				((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
 		String deviceId = deviceUuid.toString();
 
-		this.dmCore = new DMCore(deviceId);
+		new DMCore(deviceId, this);
 
-		final Resources res = getResources();
-		final TabHost tabHost = getTabHost();
-		tabHost.addTab(tabHost
-				.newTabSpec("tab2")
-				.setIndicator("Loading",
-						res.getDrawable(android.R.drawable.ic_menu_mapmode))
-				.setContent(new Intent(this, DMLoading.class)));
+		// preload mapview
+		startActivityForResult(new Intent(this, DMBoard.class), 1);
+		// overlap loading screen, waiting for update_phone_settings
+		startActivityForResult(new Intent(this, DMLoading.class), 1);
 
-		tabHost.addTab(tabHost
-				.newTabSpec("tab1")
-				.setIndicator("Map",
-						res.getDrawable(android.R.drawable.ic_menu_mapmode))
-				.setContent(new Intent(this, DMStreetPacmanMap.class)));
-		//tabHost.getTabWidget().setVisibility(View.GONE);
+		// dmApp.net(DMAPI.find_games);
+		// dmApp.dmPhone.game = dmApp.alGames.get(0);
+		// dmApp.net(DMAPI.join_game);
+
+		/*
+		 * final Resources res = getResources(); final TabHost tabHost =
+		 * getTabHost(); tabHost.addTab(tabHost .newTabSpec("tab2")
+		 * .setIndicator("Loading",
+		 * res.getDrawable(android.R.drawable.ic_menu_mapmode)) .setContent(new
+		 * Intent(this, DMLoading.class)));
+		 * 
+		 * tabHost.addTab(tabHost .newTabSpec("tab1") .setIndicator("Board",
+		 * res.getDrawable(android.R.drawable.ic_menu_mapmode)) .setContent(new
+		 * Intent(this, DMBoard.class)));
+		 */
+		// tabHost.getTabWidget().setVisibility(View.GONE);
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode,
 			final Intent results) {
 		switch (requestCode) {
-		case DMConstants.SHOW_GAME:
+		case DMConstants.SHOW_LOADING:
+
+			break;
+		case DMConstants.SHOW_BOARD:
 
 			break;
 		}
+	}
+
+	// @VisibleForTesting
+	public static DMStreetPacman getInstance() {
+		return instance;
 	}
 
 	// @VisibleForTesting

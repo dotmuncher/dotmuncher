@@ -75,13 +75,13 @@ public class DMNet {
         return data;
     }
 	
-	public static JSONObject callapi(final int api, JSONObject json) {
+	public static JSONObject call(final int api, JSONObject json) {
         try{
-            Log.i("DMNet.callapi method", DMConstants.API[api]);
-            Log.i("DMNet.callapi request", "json=" + json.toString(4));
+            Log.i(DMConstants.TAG, "api " + DMConstants.API[api]);
+            Log.i(DMConstants.TAG, "json request =" + json.toString(4));
             InputStream instream = getJSONData("/api/v0/"+ DMConstants.API[api] +".json","json=" + json.toString());            
             json = new JSONObject(convertStreamToString(instream));
-            Log.i("DMNet.callapi response", "json=" + json.toString(4));
+            Log.i(DMConstants.TAG, "json response =" + json.toString(4));
             return json;
         }catch(Exception ex){        	
             ex.printStackTrace();

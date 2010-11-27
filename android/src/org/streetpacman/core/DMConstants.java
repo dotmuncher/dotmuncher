@@ -13,9 +13,6 @@ public class DMConstants {
 	public static final int GAMEOVER_PACMAN_WINS = 1;
 	public static final int GAMEOVER_PACMAN_LOSES = 2;
 
-	// results
-	public static final int SHOW_GAME = 1;
-
 	// API
 	public static final int update_phone_settings = 0;
 	public static final int find_maps = 1;
@@ -26,4 +23,12 @@ public class DMConstants {
 
 	public static final String[] API = { "update_phone_settings", "find_maps",
 			"find_games", "new_game", "join_game", "update" };
+	
+	// requestCode
+	public static final int SHOW_LOADING = 1;
+	public static final int SHOW_BOARD = 2;
+
+	// resultCode
+	public static final int FINISH_NORMAL = 1;
+	public static final int LOADING_TIMEOUT = 2;
 }

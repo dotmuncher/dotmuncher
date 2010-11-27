@@ -16,7 +16,7 @@ public class DMGamesList extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Intent result = new Intent();
 		result.putExtra("trackid", id);
-		setResult(DMConstants.SHOW_GAME, result);
+		setResult(DMConstants.SHOW_BOARD, result);
 		finish();
 	}
 

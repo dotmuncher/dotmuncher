@@ -39,7 +39,7 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 
-public class DMStreetPacmanMap extends MapActivity {
+public class DMBoard extends MapActivity {
 	private DMOverlay dmOverlay;
 	private Location currentLocation;
 	private LocationManager locationManager;
@@ -48,7 +48,7 @@ public class DMStreetPacmanMap extends MapActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(DMConstants.TAG, "DMStreetPacmanMap.onCreate");
+		Log.d(DMConstants.TAG, "DMBoard.onCreate");
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mapview);
@@ -62,7 +62,7 @@ public class DMStreetPacmanMap extends MapActivity {
 
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-		mapView.invalidate();
+		mapView.setBuiltInZoomControls(true);
 
 	}
 
@@ -94,11 +94,6 @@ public class DMStreetPacmanMap extends MapActivity {
 		super.onResume();
 
 		registerLocationAndSensorListeners();
-
-		//dmApp.net(DMConstants.update_phone_settings);
-		// dmApp.net(DMAPI.find_games);
-		// dmApp.dmPhone.game = dmApp.alGames.get(0);
-		// dmApp.net(DMAPI.join_game);
 
 		// zoom and pan
 		// showPoints();

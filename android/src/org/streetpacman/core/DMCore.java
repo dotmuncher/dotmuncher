@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.streetpacman.DMStreetPacman;
 import org.streetpacman.util.DMUtils;
 
 import android.os.Handler;
@@ -20,26 +21,30 @@ public class DMCore {
 	public List<Integer> alMaps;
 	public List<DMPhoneState> dmPhoneStates = new ArrayList<DMPhoneState>();
 
-	public DMCore(String deviceId) {
+	public DMCore(String deviceId, DMStreetPacman ui) {
 		dmPhone = new DMPhone();
 		dmMap = new DMMap();
 		dmPhone.phoneToken = "a_" + deviceId;
 		core = this;
 	}
-	
-	public static DMCore getCore(){
+
+	public static DMCore getCore() {
 		return core;
 	}
 
-	public void net(final int api) {
+	public void net(final int api, final Runnable rTrue, final Runnable rFalse) {
 		Thread t = new Thread() {
 			public void run() {
-				final JSONObject json = DMNet.callapi(api,
+				final JSONObject json = DMNet.call(api,
 						dmPhone.getJSONFor(api));
 				mHandler.post(new Runnable() {
 					public void run() {
 						try {
-							if (json != null) {
+							if (json == null) {
+								Log.i(DMConstants.TAG,
+										"net json == null, network problem? api " + api);
+								rFalse.run();
+							} else {
 								switch (api) {
 								case DMConstants.update:
 									update(json);
@@ -60,12 +65,12 @@ public class DMCore {
 									update_phone_settings(json);
 									break;
 								}
-								
-							} else {
-								Log.i("net", "json == null, network problem?");
+								rTrue.run();
 							}
 						} catch (JSONException e) {
+							Log.i(DMConstants.TAG, "net json!=null, JSONException api " + api);
 							e.printStackTrace();
+							rFalse.run();
 						}
 					}
 				});
