@@ -1,4 +1,4 @@
-package org.streetpacman.store;
+package org.streetpacman.core;
 
 import android.graphics.Color;
 import android.graphics.Paint;

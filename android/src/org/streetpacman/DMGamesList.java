@@ -1,6 +1,6 @@
 package org.streetpacman;
 
-import org.streetpacman.store.DMConstants;
+import org.streetpacman.core.DMConstants;
 
 import android.app.ListActivity;
 import android.content.Intent;

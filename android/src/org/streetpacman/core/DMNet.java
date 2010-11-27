@@ -1,4 +1,4 @@
-package org.streetpacman.controler;
+package org.streetpacman.core;
 
 import org.apache.http.impl.client.DefaultHttpClient;
 
@@ -6,7 +6,6 @@ import org.apache.http.client.methods.HttpGet;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONObject;
-import org.streetpacman.store.DMConstants;
 
 import android.util.Log;
 
@@ -15,17 +14,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.URI;
 
 public class DMNet {
-	//*
+	/*
 	private static String host = "urban.pyxc.org";
 	//private static String host = "75.101.141.245";
 	private static int port = 80;
 	//*/
 	
-	/*
+	//*
 	//private static String host = "s0.dotmuncher.com";
 	private static String host = "174.143.141.50";
 	private static int port = 8000;

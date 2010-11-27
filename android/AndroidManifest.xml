@@ -20,14 +20,9 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name="org.streetpacman.DMWizard"
-			android:label="Wizard">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.SAMPLE_CODE" />
-			</intent-filter>
-		</activity>
-
+		<activity android:name="org.streetpacman.DMLoading"
+			android:label="Loading" />
+			
 		<activity android:name="org.streetpacman.DMLauncher"
 			android:label="Street Pacman">
 			<intent-filter>
@@ -37,12 +32,7 @@
 		</activity>
 
 		<activity android:name="org.streetpacman.DMStreetPacmanMap"
-			android:label="Street Pacman Map">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.SAMPLE_CODE" />
-			</intent-filter>
-		</activity>
+			android:label="Street Pacman Map" />
 
 		<activity android:name="org.streetpacman.DMStreetPacman"
 			android:label="Street Pacman">

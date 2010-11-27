@@ -1,8 +1,8 @@
 package org.streetpacman.unittests;
 
 import org.json.JSONObject;
-import org.streetpacman.controler.DMApp;
-import org.streetpacman.store.DMConstants;
+import org.streetpacman.core.DMCore;
+import org.streetpacman.core.DMConstants;
 
 import android.util.Log;
 
@@ -10,10 +10,10 @@ import junit.framework.TestCase;
 
 public class DMConstantsTest extends TestCase {
 	JSONObject json;
-	DMApp dmApp;
+	DMCore dmApp;
     
 	protected void setUp() {
-		dmApp = new DMApp("test_dmApp");
+		dmApp = new DMCore("test_dmApp");
 		
 	}
    

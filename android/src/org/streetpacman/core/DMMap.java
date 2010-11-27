@@ -1,4 +1,4 @@
-package org.streetpacman.store;
+package org.streetpacman.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;

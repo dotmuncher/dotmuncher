@@ -26,8 +26,8 @@ import java.util.Stack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.streetpacman.store.DMConstants;
-import org.streetpacman.store.DMGeoPoint;
+import org.streetpacman.core.DMConstants;
+import org.streetpacman.core.DMGeoPoint;
 
 /**
  * Utility class for decimating tracks at a given level of precision.

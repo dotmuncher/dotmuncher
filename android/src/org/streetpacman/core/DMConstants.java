@@ -1,4 +1,4 @@
-package org.streetpacman.store;
+package org.streetpacman.core;
 
 public class DMConstants {
 	public static final String TAG = "DMStreetPacman";

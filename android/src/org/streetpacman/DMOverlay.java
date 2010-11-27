@@ -1,10 +1,10 @@
 package org.streetpacman;
 
-import org.streetpacman.controler.DMApp;
-import org.streetpacman.store.DMGeoPoint;
-import org.streetpacman.store.DMMap;
-import org.streetpacman.store.DMPhone;
-import org.streetpacman.store.DMPhoneState;
+import org.streetpacman.core.DMCore;
+import org.streetpacman.core.DMGeoPoint;
+import org.streetpacman.core.DMMap;
+import org.streetpacman.core.DMPhone;
+import org.streetpacman.core.DMPhoneState;
 import org.streetpacman.util.DMUtils;
 
 import android.content.Context;
@@ -24,7 +24,6 @@ class DMOverlay extends Overlay {
 	private final int arrowWidth, arrowHeight;
 	private Location myLocation;
 	private final Context context;
-	private final DMApp dmApp;
 	private final DMMap dmMap;
 	private final DMPhone dmPhone;
 	private final Paint errorCirclePaint;
@@ -32,11 +31,10 @@ class DMOverlay extends Overlay {
 	private final Paint blackStrokePaint;
 	private Drawable d;
 
-	public DMOverlay(DMApp dmApp, Context context) {
+	public DMOverlay(Context context) {
 
-		this.dmApp = dmApp;
-		dmMap = dmApp.dmMap;
-		dmPhone = dmApp.dmPhone;
+		dmMap = DMCore.getCore().dmMap;
+		dmPhone = DMCore.getCore().dmPhone;
 		this.context = context;
 
 		errorCirclePaint = new Paint();
@@ -72,8 +70,8 @@ class DMOverlay extends Overlay {
 		final Projection projection = getMapProjection(mapView);
 		Point screenPts = new Point();
 
-		synchronized (dmApp.dmPhoneStates) {
-			for (DMPhoneState dmPhoneState : dmApp.dmPhoneStates) {
+		synchronized (DMCore.getCore().dmPhoneStates) {
+			for (DMPhoneState dmPhoneState : DMCore.getCore().dmPhoneStates) {
 				// Only draw others
 				if (dmPhoneState.phone != dmPhone.phone) {
 					GeoPoint p = new GeoPoint((int) (dmPhoneState.lat * 1E6),

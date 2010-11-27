@@ -8,7 +8,7 @@ import android.widget.Gallery.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class DMWizard extends Activity{
+public class DMLoading extends Activity{
 	LinearLayout mLinearLayout;
 
 	protected void onCreate(Bundle savedInstanceState) {
