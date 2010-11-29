@@ -45,6 +45,7 @@ public class DMBoard extends MapActivity {
 	private LocationManager locationManager;
 	private boolean keepMyLocationVisible;
 	MapView mapView;
+	//DMAnim animView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,9 @@ public class DMBoard extends MapActivity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mapview);
-		mapView = (MapView) findViewById(R.id.map);		
-
+		mapView = (MapView) findViewById(R.id.map);
+		//animView = (DMAnim) findViewById(R.id.anim);
+		
 		this.dmOverlay = new DMOverlay(this);
 
 		List<Overlay> listOfOverlays = mapView.getOverlays();

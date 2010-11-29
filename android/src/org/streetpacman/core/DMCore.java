@@ -35,14 +35,15 @@ public class DMCore {
 	public void net(final int api, final Runnable rTrue, final Runnable rFalse) {
 		Thread t = new Thread() {
 			public void run() {
-				final JSONObject json = DMNet.call(api,
-						dmPhone.getJSONFor(api));
+				final JSONObject json = DMNet
+						.call(api, dmPhone.getJSONFor(api));
 				mHandler.post(new Runnable() {
 					public void run() {
 						try {
 							if (json == null) {
 								Log.i(DMConstants.TAG,
-										"net json == null, network problem? api " + api);
+										"net json == null, network problem? api "
+												+ api);
 								rFalse.run();
 							} else {
 								switch (api) {
@@ -68,7 +69,8 @@ public class DMCore {
 								rTrue.run();
 							}
 						} catch (JSONException e) {
-							Log.i(DMConstants.TAG, "net json!=null, JSONException api " + api);
+							Log.i(DMConstants.TAG,
+									"net json!=null, JSONException api " + api);
 							e.printStackTrace();
 							rFalse.run();
 						}

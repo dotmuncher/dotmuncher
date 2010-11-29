@@ -1,13 +1,29 @@
 package org.streetpacman;
 
-import android.app.Activity;
-import android.graphics.drawable.AnimationDrawable;
-import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.Window;
-import android.widget.ImageView;
+import org.streetpacman.core.DMConstants;
 
-public class DMAnim extends Activity {
+import android.content.Context;
+import android.graphics.Canvas;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+public class DMAnimView extends TextView {
+
+	public DMAnimView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		// TODO Auto-generated constructor stub
+	}
+	
+/*
+	protected void onDraw (Canvas canvas){
+		
+		super.onDraw(canvas);
+		Log.i(DMConstants.TAG,"DMAnimView.onDraw");
+	}
+	*/
+	/*
 	AnimationDrawable frameAnimation;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,4 +44,5 @@ public class DMAnim extends Activity {
 		}
 		return super.onTouchEvent(event);
 	}
+	*/
 }

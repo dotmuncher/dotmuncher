@@ -30,7 +30,7 @@ public class DMGamesList extends ListActivity {
 		listView = getListView();
 		
 		setResult(RESULT_OK);
-		finish();
+		//finish();
 	}
 
 }

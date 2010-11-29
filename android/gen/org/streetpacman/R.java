@@ -59,10 +59,12 @@ public final class R {
         public static final int pacman_on_mac_twitter_logo=0x7f02002d;
     }
     public static final class id {
+        public static final int animView=0x7f050002;
         public static final int img_anim=0x7f050001;
-        public static final int main=0x7f050002;
-        public static final int map=0x7f050003;
+        public static final int main=0x7f050003;
+        public static final int map=0x7f050004;
         public static final int message=0x7f050000;
+        public static final int note=0x7f050005;
     }
     public static final class layout {
         public static final int dmmaps_list=0x7f030000;

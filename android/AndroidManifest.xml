@@ -12,14 +12,6 @@
 
 		<uses-library android:name="com.google.android.maps" />
 
-		<activity android:name="org.streetpacman.DMAnim"
-			android:label="Animation">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.SAMPLE_CODE" />
-			</intent-filter>
-		</activity>
-
 		<activity android:name="org.streetpacman.DMLoading"
 			android:label="Loading" />
 		<activity android:name="org.streetpacman.DMGamesList"

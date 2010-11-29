@@ -17,13 +17,13 @@ import java.io.InputStreamReader;
 import java.net.URI;
 
 public class DMNet {
-	/*
+	//*
 	private static String host = "urban.pyxc.org";
 	//private static String host = "75.101.141.245";
 	private static int port = 80;
 	//*/
 	
-	//*
+	/*
 	//private static String host = "s0.dotmuncher.com";
 	private static String host = "174.143.141.50";
 	private static int port = 8000;

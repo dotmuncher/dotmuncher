@@ -47,12 +47,11 @@ public class DMStreetPacman extends TabActivity implements OnTouchListener {
 
 		new DMCore(deviceId, this);
 
-		// preload mapview
-		//startActivityForResult(new Intent(this, DMBoard.class),
-		//		DMConstants.SHOW_BOARD);
-		// overlap loading screen, waiting for update_phone_settings
-		startActivityForResult(new Intent(this, DMLoading.class),
-				DMConstants.SHOW_LOADING);
+		startActivityForResult(new Intent(this, DMBoard.class),
+				DMConstants.SHOW_BOARD);
+				
+//		startActivityForResult(new Intent(this, DMLoading.class),
+//				DMConstants.SHOW_LOADING);
 
 		// dmApp.net(DMAPI.find_games);
 		// dmApp.dmPhone.game = dmApp.alGames.get(0);
@@ -80,8 +79,9 @@ public class DMStreetPacman extends TabActivity implements OnTouchListener {
 			if (resultCode == RESULT_OK) {
 				startActivityForResult(new Intent(this, DMGamesList.class),
 						DMConstants.SHOW_GAMESLIST);
-			} else {
-
+			} else if(resultCode == DMConstants.LOADING_TIMEOUT){
+				// net retry fails
+				finish();
 			}
 			break;
 		}
