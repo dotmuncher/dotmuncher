@@ -36,7 +36,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.widget.AbsoluteLayout;
 import android.widget.Toast;
 
 public class DMBoard extends MapActivity {
@@ -45,7 +47,7 @@ public class DMBoard extends MapActivity {
 	private LocationManager locationManager;
 	private boolean keepMyLocationVisible;
 	MapView mapView;
-	//MySurfaceView animView;
+	DMAnimView animView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,8 @@ public class DMBoard extends MapActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mapview);
 		mapView = (MapView) findViewById(R.id.map);
-		//animView = (DMAnim) findViewById(R.id.anim);
+		animView = (DMAnimView) findViewById(R.id.animView);
+		
 		
 		this.dmOverlay = new DMOverlay(this);
 
@@ -65,8 +68,18 @@ public class DMBoard extends MapActivity {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		mapView.setBuiltInZoomControls(true);
-
+		
+		animView.post(new Starter());
 	}
+	
+    class Starter implements Runnable {
+
+        public void run() {
+        	animView.frameAnimation.start();        
+        }
+        
+
+    }
 
 	@Override
 	protected boolean isRouteDisplayed() {

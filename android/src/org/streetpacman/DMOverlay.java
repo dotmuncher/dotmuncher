@@ -112,9 +112,12 @@ class DMOverlay extends Overlay {
 		if (myLocation == null) {
 			return;
 		}
-		Point pt = drawElement(canvas, projection,
-				DMUtils.getGeoPoint(myLocation), d, -(arrowWidth / 2) + 3,
-				-(arrowHeight / 2));
+		Point pt = new Point();
+		projection.toPixels(DMUtils.getGeoPoint(myLocation),pt);
+		((DMBoard) context).animView.setXY(pt.x, pt.y);
+//		Point pt = drawElement(canvas, projection,
+//				DMUtils.getGeoPoint(myLocation), d, -(arrowWidth / 2) + 3,
+//				-(arrowHeight / 2));
 		// Draw the error circle.
 		float radius = projection.metersToEquatorPixels(myLocation
 				.getAccuracy());

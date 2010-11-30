@@ -16,8 +16,11 @@
 		android:text="Street Pacman" />
 
 
-	<org.streetpacman.MySurfaceView android:id="@+id/animView"
-		android:layout_width="fill_parent" android:layout_height="fill_parent" />
+	<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<org.streetpacman.DMAnimView android:id="@+id/animView"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:layout_y="50px" android:layout_x="180px" />
+	</AbsoluteLayout>
 
-		
 </FrameLayout>
