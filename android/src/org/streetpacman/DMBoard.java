@@ -45,7 +45,7 @@ public class DMBoard extends MapActivity {
 	private LocationManager locationManager;
 	private boolean keepMyLocationVisible;
 	MapView mapView;
-	//DMAnim animView;
+	//MySurfaceView animView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

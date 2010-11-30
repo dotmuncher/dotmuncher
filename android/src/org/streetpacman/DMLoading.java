@@ -17,11 +17,11 @@ import android.widget.LinearLayout;
 public class DMLoading extends Activity {
 	LinearLayout mLinearLayout;
 	AnimationDrawable frameAnimation;
-	
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-/*
+
 		// Create a LinearLayout in which to add the ImageView
 		mLinearLayout = new LinearLayout(this);
 
@@ -37,23 +37,9 @@ public class DMLoading extends Activity {
 		// view
 		mLinearLayout.addView(i);
 		setContentView(mLinearLayout);
-*/
-		//DMCore.getCore().net(DMConstants.update_phone_settings, rTrue, rFalse);
 
-		setContentView(R.layout.main);
+		DMCore.getCore().net(DMConstants.update_phone_settings, rTrue, rFalse);
 
-		ImageView pacman_chomp_Image = (ImageView) findViewById(R.id.img_anim);
-		pacman_chomp_Image.setBackgroundResource(R.drawable.pacman_dead);
-		// pacman_chomp_Image.setBackgroundResource(R.drawable.pacman_chomp);
-		frameAnimation = (AnimationDrawable) pacman_chomp_Image.getBackground();
-	}
-
-	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			frameAnimation.start();
-			return true;
-		}
-		return super.onTouchEvent(event);
 	}
 
 	private void callFinish(int resultCode) {
