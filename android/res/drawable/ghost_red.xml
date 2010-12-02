@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- <item android:drawable="@drawable/ghost_red1_blank" android:duration="200" /> -->
+    <item android:drawable="@drawable/ghost_red1_eyes" android:duration="200" />
+    <!-- <item android:drawable="@drawable/ghost_red2_blank" android:duration="200" /> -->
+    <item android:drawable="@drawable/ghost_red2_eyes" android:duration="200" />
+</animation-list>

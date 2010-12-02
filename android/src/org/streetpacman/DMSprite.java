@@ -16,17 +16,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
 
-public class DMSpriteView extends ImageView {
-	public AnimationDrawable frameAnimation;
+public class DMSprite extends ImageView {
+	AnimationDrawable frameAnimation;
 	private int height;
 	private int width;
 	private int heightHalf;
 	private int widthHalf;
 	private static float scaleFactor = 0.2f;
+	private int X;
+	private int Y;
 
-	public DMSpriteView(Context context) {
-		super(context);
-		setImageResource(R.drawable.pacman_chomp);
+	public DMSprite(Context context) {
+		super(context);		
+		setSprite(DMConstants.SPRITE_FRAME_ANIMS[8]);
+	}
+
+	public void setSprite(int resId) {
+		setImageResource(resId);
 		frameAnimation = (AnimationDrawable) this.getDrawable();
 		height = frameAnimation.getIntrinsicHeight();
 		width = frameAnimation.getIntrinsicWidth();
@@ -38,13 +44,18 @@ public class DMSpriteView extends ImageView {
 		matrix.postTranslate(widthHalf, heightHalf);
 		setImageMatrix(matrix);
 		setScaleType(ScaleType.MATRIX);
-		setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
+		setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
 	}
 
 	public void setXY(int x, int y) {
-		LayoutParams lp = new AbsoluteLayout.LayoutParams(-2, -2,
-				x - widthHalf, y - heightHalf);
-		setLayoutParams(lp);
+		if (x != X || y != Y) {
+			X = x;
+			Y = y;
+			LayoutParams lp = new AbsoluteLayout.LayoutParams(-2, -2, x
+					- widthHalf, y - heightHalf);
+			setLayoutParams(lp);
+		}
 	}
 
 }

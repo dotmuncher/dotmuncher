@@ -1,5 +1,7 @@
 package org.streetpacman.core;
 
+import org.streetpacman.R;
+
 public class DMConstants {
 	public static final String TAG = "DMStreetPacman";
 
@@ -23,14 +25,21 @@ public class DMConstants {
 
 	public static final String[] API = { "update_phone_settings", "find_maps",
 			"find_games", "new_game", "join_game", "update" };
-	
+
 	// requestCode
 	public static final int SHOW_LOADING = 1;
 	public static final int SHOW_BOARD = 2;
 	public static final int SHOW_GAMESLIST = 3;
-	
+
 	// resultCode
 	public static final int LOADING_TIMEOUT = 1;
 	public static final int GAMESLIST_TIMEOUT = 2;
-	
+
+	// resId of Sprites
+	public static final int[] SPRITE_FRAME_ANIMS = { R.drawable.pacman_chomp,
+			R.drawable.pacman_dead, R.drawable.ghost_red,
+			R.drawable.ghost_pink, R.drawable.ghost_orange,
+			R.drawable.ghost_green, R.drawable.ghost_blue,
+			R.drawable.ghost_angry_white, R.drawable.ghost_angry_blue };
+
 }

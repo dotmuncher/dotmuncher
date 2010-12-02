@@ -53,7 +53,7 @@ public class DMBoard extends MapActivity {
 	private LocationManager locationManager;
 	private boolean keepMyLocationVisible;
 	MapView mapView;
-	DMSpriteView animView;
+	DMSprite mySprite;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,14 +74,14 @@ public class DMBoard extends MapActivity {
 
 		mapView.setBuiltInZoomControls(true);
 		
-		animView = new DMSpriteView(this);
-		((AbsoluteLayout) findViewById(R.id.spriteOverlay)).addView(animView);
+		mySprite = new DMSprite(this);
+		((AbsoluteLayout) findViewById(R.id.spriteOverlay)).addView(mySprite);
 	}
 	
     class Starter implements Runnable {
 
         public void run() {
-        	animView.frameAnimation.start();
+        	mySprite.frameAnimation.start();
         }
         
 
@@ -118,7 +118,7 @@ public class DMBoard extends MapActivity {
 
 		// zoom and pan
 		// showPoints();
-		animView.post(new Starter());
+		mySprite.post(new Starter());
 	}
 
 	/**
@@ -236,5 +236,9 @@ public class DMBoard extends MapActivity {
 				mapView.getController().zoomToSpan(latSpanE6, lonSpanE6);
 			}
 		}
+	}
+	
+	DMBoard getBoard(){
+		return dmBoard;
 	}
 }
