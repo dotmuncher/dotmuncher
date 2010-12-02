@@ -30,6 +30,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 import android.content.Context;
+import android.graphics.Matrix;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -38,25 +39,30 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsoluteLayout;
+import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
 public class DMBoard extends MapActivity {
+	private DMBoard dmBoard;
 	private DMOverlay dmOverlay;
 	private Location currentLocation;
 	private LocationManager locationManager;
 	private boolean keepMyLocationVisible;
 	MapView mapView;
-	DMAnimView animView;
+	DMSpriteView animView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		this.dmBoard = this;
 		Log.d(DMConstants.TAG, "DMBoard.onCreate");
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mapview);
 		mapView = (MapView) findViewById(R.id.map);
-		animView = (DMAnimView) findViewById(R.id.animView);
+		animView = (DMSpriteView) findViewById(R.id.animView);
 		
 		
 		this.dmOverlay = new DMOverlay(this);
@@ -69,13 +75,12 @@ public class DMBoard extends MapActivity {
 
 		mapView.setBuiltInZoomControls(true);
 		
-		animView.post(new Starter());
 	}
 	
     class Starter implements Runnable {
 
         public void run() {
-        	animView.frameAnimation.start();        
+        	animView.frameAnimation.start();
         }
         
 
@@ -112,6 +117,7 @@ public class DMBoard extends MapActivity {
 
 		// zoom and pan
 		// showPoints();
+		animView.post(new Starter());
 	}
 
 	/**
