@@ -3,6 +3,7 @@
 #### Prereqs:
 
 * [Django 1.2](#TODO), [Redis](#TODO), [redis-py](http://github.com/andymccurdy/redis-py)
+* Optional (so far): NodeJS, node\_redis, node-tyrant
 
 #### Folders:
 
