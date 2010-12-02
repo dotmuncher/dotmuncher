@@ -86,6 +86,7 @@ phone: an integer assigned by the server</pre>
 }
 {
     "game": int id,
+    "gameToken": string
     "mapInfo": {
         "dotPoints": [...],
         "basePoints": [...],

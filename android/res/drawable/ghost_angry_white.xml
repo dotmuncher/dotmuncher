@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ghost_angry_white1" android:duration="200" />
+    <item android:drawable="@drawable/ghost_angry_white2" android:duration="200" />
+</animation-list>

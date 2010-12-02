@@ -1,50 +1,51 @@
-package org.streetpacman.states;
+package org.streetpacman.core;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.streetpacman.controler.DMAPI;
 
 import android.location.Location;
 import android.util.Log;
 
 public class DMPhone {
+	public String gameToken = "";
 	public int game = -1;
-    public int map = -1;
-    public int phone = -1;
-    public String name = "";
+	public int map = -1;
+	public int phone = -1;
+	public String name = "e";
 	public String phoneToken = "";
 	public double lat = -1;
 	public double lng = -1;
 	public float acc = -1;
 	public int id__gte = -1;
-	public Boolean powerMode = false;
-	
-	public JSONObject getJSONFor(DMAPI api) throws JSONException{
+	public boolean powerMode = false;
+
+	public JSONObject getJSONFor(int api) {
 		JSONObject json = new JSONObject();
-		switch(api){
-			case update_phone_settings:
+		try {
+			switch (api) {
+			case DMConstants.update_phone_settings:
 				json.put("phoneToken", phoneToken);
 				json.put("name", name);
 				break;
-			case find_games:
-				json.put("lat", Double.toString(lat));
-				json.put("lng", Double.toString(lng));
-				json.put("phoneToken", phoneToken);		
-				break;
-			case find_maps:
+			case DMConstants.find_games:
 				json.put("lat", Double.toString(lat));
 				json.put("lng", Double.toString(lng));
 				json.put("phoneToken", phoneToken);
 				break;
-			case new_game:
+			case DMConstants.find_maps:
+				json.put("lat", Double.toString(lat));
+				json.put("lng", Double.toString(lng));
+				json.put("phoneToken", phoneToken);
+				break;
+			case DMConstants.new_game:
 				json.put("map", map);
-		    	json.put("phone", phone);
+				json.put("phone", phone);
 				break;
-			case join_game:
+			case DMConstants.join_game:
 				json.put("game", game);
-		    	json.put("phone", phone);
+				json.put("phone", phone);
 				break;
-			case update:
+			case DMConstants.update:
 				json.put("lat", Double.toString(lat));
 				json.put("lng", Double.toString(lng));
 				json.put("hacc", Double.toString(acc));
@@ -55,19 +56,21 @@ public class DMPhone {
 				break;
 			default:
 				json = null;
-			
+			}
+		} catch (JSONException e) {
+			json = null;
 		}
 		return json;
 	}
-	
-	public JSONObject getJSONFor_update_phone_settings() throws JSONException{
+
+	public JSONObject getJSONFor_update_phone_settings() throws JSONException {
 		JSONObject json = new JSONObject();
 		json.put("phoneToken", phoneToken);
 		json.put("name", name);
 		return json;
 	}
-	
-	public JSONObject getJSONFor_find() throws JSONException{
+
+	public JSONObject getJSONFor_find() throws JSONException {
 		JSONObject json = new JSONObject();
 		json.put("lat", Double.toString(lat));
 		json.put("lng", Double.toString(lng));
@@ -75,7 +78,7 @@ public class DMPhone {
 		return json;
 	}
 
-	public JSONObject getJSONFor_update() throws JSONException{
+	public JSONObject getJSONFor_update() throws JSONException {
 		JSONObject json = new JSONObject();
 		json.put("lat", Double.toString(lat));
 		json.put("lng", Double.toString(lng));
@@ -86,23 +89,24 @@ public class DMPhone {
 		json.put("id__gte", id__gte);
 		return json;
 	}
-    public JSONObject getJSONFor_new_game() throws JSONException{
-    	JSONObject json = new JSONObject();
-    	json.put("map", map);
-    	json.put("phone", phone);
-		return json;    	
-    }
-    
-    public JSONObject getJSONFor_join_game() throws JSONException{
-    	JSONObject json = new JSONObject();
-    	json.put("game", game);
-    	json.put("phone", phone);
-		return json;    	
-    }
-    
-    public void setLocation(Location location){
-    	lat = location.getLatitude();
-    	lng = location.getLongitude();
-    	acc = location.getAccuracy();
-    }
-}            
+
+	public JSONObject getJSONFor_new_game() throws JSONException {
+		JSONObject json = new JSONObject();
+		json.put("map", map);
+		json.put("phone", phone);
+		return json;
+	}
+
+	public JSONObject getJSONFor_join_game() throws JSONException {
+		JSONObject json = new JSONObject();
+		json.put("game", game);
+		json.put("phone", phone);
+		return json;
+	}
+
+	public void setLocation(Location location) {
+		lat = location.getLatitude();
+		lng = location.getLongitude();
+		acc = location.getAccuracy();
+	}
+}

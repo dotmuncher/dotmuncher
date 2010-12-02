@@ -26,27 +26,28 @@ import java.util.Stack;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.streetpacman.states.DMConstants;
+import org.streetpacman.core.DMConstants;
+import org.streetpacman.core.DMGeoPoint;
 
 /**
  * Utility class for decimating tracks at a given level of precision.
  * 
- * @author Leif Hendrik Wilden
+ * @author Leif Hendrik Wilden, Modified by Yi Wang
  */
 public class DMUtils {
 	
-	public static List<GeoPoint> JSONArray2GeoPoints(JSONArray jsonArray) throws JSONException{
-		List<GeoPoint> ptList = new ArrayList<GeoPoint>();
+	public static List<DMGeoPoint> JSONArray2GeoPoints(JSONArray jsonArray) throws JSONException{
+		List<DMGeoPoint> ptList = new ArrayList<DMGeoPoint>();
 		for(int i=0;i<jsonArray.length();i++){
 			JSONArray jsonPoint = jsonArray.getJSONArray(i);
 			int x = (int) (new Double(jsonPoint.getString(0)) * 1E6);
 			int y = (int) (new Double(jsonPoint.getString(1)) * 1E6);
-			ptList.add(new GeoPoint(x,y));
+			ptList.add(new DMGeoPoint(x,y));
 		}
 		return ptList;
 	}
 	
-	public static JSONArray GeoPoints2JSONArray(List<GeoPoint> ptList){
+	public static JSONArray GeoPoints2JSONArray(List<DMGeoPoint> ptList){
 		JSONArray jsonArray = new JSONArray();
 		//TODO
 		return jsonArray;
