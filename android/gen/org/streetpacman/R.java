@@ -74,8 +74,8 @@ public final class R {
         public static final int main=0x7f060002;
         public static final int map=0x7f060003;
         public static final int message=0x7f060000;
-        public static final int note=0x7f060004;
-        public static final int spriteOverlay=0x7f060005;
+        public static final int note=0x7f060005;
+        public static final int spriteOverlay=0x7f060004;
     }
     public static final class layout {
         public static final int dmmaps_list=0x7f030000;

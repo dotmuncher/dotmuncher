@@ -23,12 +23,14 @@ public class DMSprite extends ImageView {
 	private int heightHalf;
 	private int widthHalf;
 	private static float scaleFactor = 0.2f;
-	private int X;
-	private int Y;
+	private int _x;
+	private int _y;
+	private float _heading = 0;
+	private boolean isPacman = true;
 
 	public DMSprite(Context context) {
 		super(context);		
-		setSprite(DMConstants.SPRITE_FRAME_ANIMS[8]);
+		setSprite(DMConstants.SPRITE_FRAME_ANIMS[0]);
 	}
 
 	public void setSprite(int resId) {
@@ -37,24 +39,39 @@ public class DMSprite extends ImageView {
 		height = frameAnimation.getIntrinsicHeight();
 		width = frameAnimation.getIntrinsicWidth();
 		heightHalf = height / 2;
-		widthHalf = width / 2 + 3;
-		Matrix matrix = getImageMatrix();
+		widthHalf = width / 2 + 3;		
+		setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		setScaleType(ScaleType.MATRIX);
+		applyMatrix();
+	}
+
+	private void applyMatrix(){
+		Matrix matrix = new Matrix();
 		matrix.preTranslate(-widthHalf, -heightHalf);
+		if(isPacman){
+			matrix.postRotate(-90);
+		}
+		matrix.postRotate(_heading);
 		matrix.postScale(scaleFactor, scaleFactor);
 		matrix.postTranslate(widthHalf, heightHalf);
 		setImageMatrix(matrix);
-		setScaleType(ScaleType.MATRIX);
-		setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
 	}
-
+	
 	public void setXY(int x, int y) {
-		if (x != X || y != Y) {
-			X = x;
-			Y = y;
+		if (x != _x || y != _y) {
+			_x = x;
+			_y = y;
 			LayoutParams lp = new AbsoluteLayout.LayoutParams(-2, -2, x
 					- widthHalf, y - heightHalf);
 			setLayoutParams(lp);
+		}
+	}
+
+	public void setHeading(float heading) {
+		if(_heading != heading){
+			_heading = heading;
+			applyMatrix();	
 		}
 	}
 

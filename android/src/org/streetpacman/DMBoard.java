@@ -31,6 +31,10 @@ import com.google.android.maps.Overlay;
 
 import android.content.Context;
 import android.graphics.Matrix;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -51,6 +55,7 @@ public class DMBoard extends MapActivity {
 	private DMOverlay dmOverlay;
 	private Location currentLocation;
 	private LocationManager locationManager;
+	private SensorManager sensorManager;
 	private boolean keepMyLocationVisible;
 	MapView mapView;
 	DMSprite mySprite;
@@ -63,29 +68,28 @@ public class DMBoard extends MapActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mapview);
 		mapView = (MapView) findViewById(R.id.map);
-		
+
 		this.dmOverlay = new DMOverlay(this);
 
 		List<Overlay> listOfOverlays = mapView.getOverlays();
 		listOfOverlays.clear();
 		listOfOverlays.add(dmOverlay);
-
+		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		mapView.setBuiltInZoomControls(true);
-		
+
 		mySprite = new DMSprite(this);
 		((AbsoluteLayout) findViewById(R.id.spriteOverlay)).addView(mySprite);
 	}
-	
-    class Starter implements Runnable {
 
-        public void run() {
-        	mySprite.frameAnimation.start();
-        }
-        
+	class Starter implements Runnable {
 
-    }
+		public void run() {
+			mySprite.frameAnimation.start();
+		}
+
+	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -142,6 +146,17 @@ public class DMBoard extends MapActivity {
 						"Could not register network location listener.");
 			}
 		}
+		if (sensorManager == null) {
+			return;
+		}
+		Sensor compass = sensorManager
+				.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+		if (compass == null) {
+			return;
+		}
+		Log.d(DMConstants.TAG, "DM: Now registering sensor listeners.");
+		sensorManager.registerListener(sensorListener, compass,
+				SensorManager.SENSOR_DELAY_UI);
 	}
 
 	public void alert(String txt) {
@@ -210,10 +225,13 @@ public class DMBoard extends MapActivity {
 			Log.d(DMConstants.TAG, "DM: Now unregistering location listeners.");
 			locationManager.removeUpdates(locationListener);
 		}
-		/*
-		 * if (sensorManager != null) { Log.d(DMConstants.TAG,
-		 * sensorManager.unregisterListener(sensorListener); }
-		 */
+
+		if (sensorManager != null) {
+			Log.d(DMConstants.TAG,
+					"DM: Now unregistering sensor listeners.");
+			sensorManager.unregisterListener(sensorListener);
+		}
+
 	}
 
 	public void showPoints() {
@@ -237,8 +255,23 @@ public class DMBoard extends MapActivity {
 			}
 		}
 	}
-	
-	DMBoard getBoard(){
+
+	private final SensorEventListener sensorListener = new SensorEventListener() {
+		@Override
+		public void onSensorChanged(SensorEvent se) {
+			synchronized (this) {
+				float magneticHeading = se.values[0];
+				mySprite.setHeading(magneticHeading);
+			}
+		}
+
+		@Override
+		public void onAccuracyChanged(Sensor s, int accuracy) {
+			// do nothing
+		}
+	};
+
+	DMBoard getBoard() {
 		return dmBoard;
 	}
 }
