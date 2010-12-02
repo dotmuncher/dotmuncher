@@ -51,18 +51,17 @@ import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
 public class DMBoard extends MapActivity {
-	private DMBoard dmBoard;
+	private static DMBoard instance;
 	private DMOverlay dmOverlay;
 	private Location currentLocation;
 	private LocationManager locationManager;
 	private SensorManager sensorManager;
 	private boolean keepMyLocationVisible;
 	MapView mapView;
-	DMSprite mySprite;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		this.dmBoard = this;
+		this.instance = this;
 		Log.d(DMConstants.TAG, "DMBoard.onCreate");
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -78,16 +77,8 @@ public class DMBoard extends MapActivity {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		mapView.setBuiltInZoomControls(true);
-
-		mySprite = new DMSprite(this);
-		((AbsoluteLayout) findViewById(R.id.spriteOverlay)).addView(mySprite);
-	}
-
-	class Starter implements Runnable {
-
-		public void run() {
-			mySprite.frameAnimation.start();
-		}
+		DMCore.getCore().net(DMConstants.update_phone_settings,
+				r_update_phone_settings, rEmpty);
 
 	}
 
@@ -122,7 +113,10 @@ public class DMBoard extends MapActivity {
 
 		// zoom and pan
 		// showPoints();
-		mySprite.post(new Starter());
+	}
+
+	public void addSprite(DMSprite dmSprite) {
+		((AbsoluteLayout) findViewById(R.id.spriteOverlay)).addView(dmSprite);
 	}
 
 	/**
@@ -180,6 +174,44 @@ public class DMBoard extends MapActivity {
 		 */
 	}
 
+	private Runnable r_update_phone_settings = new Runnable() {
+
+		@Override
+		public void run() {
+			DMCore.getCore().net(DMConstants.find_games, r_find_games, rEmpty);
+
+		}
+
+	};
+
+	private Runnable r_find_games = new Runnable() {
+
+		@Override
+		public void run() {
+			DMCore.getCore().dmPhone.game = DMCore.getCore().alGames.get(0);
+			DMCore.getCore().net(DMConstants.join_game, r_join_game, rEmpty);
+		}
+
+	};
+	private Runnable r_join_game = new Runnable() {
+
+		@Override
+		public void run() {
+			// zoom and pan
+			showPoints();
+
+		}
+
+	};
+	private Runnable rEmpty = new Runnable() {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+
+		}
+
+	};
 	private final LocationListener locationListener = new LocationListener() {
 		@Override
 		public void onLocationChanged(Location location) {
@@ -194,7 +226,7 @@ public class DMBoard extends MapActivity {
 								+ " Lng: " + location.getLongitude(),
 						Toast.LENGTH_SHORT).show();
 				DMCore.getCore().dmPhone.setLocation(location);
-				// dmApp.net(DMAPI.update);
+				DMCore.getCore().net(DMConstants.update, rEmpty, rEmpty);
 			}
 		}
 
@@ -227,8 +259,7 @@ public class DMBoard extends MapActivity {
 		}
 
 		if (sensorManager != null) {
-			Log.d(DMConstants.TAG,
-					"DM: Now unregistering sensor listeners.");
+			Log.d(DMConstants.TAG, "DM: Now unregistering sensor listeners.");
 			sensorManager.unregisterListener(sensorListener);
 		}
 
@@ -261,7 +292,8 @@ public class DMBoard extends MapActivity {
 		public void onSensorChanged(SensorEvent se) {
 			synchronized (this) {
 				float magneticHeading = se.values[0];
-				mySprite.setHeading(magneticHeading);
+				DMSprite.getFactory().getSprite(DMCore.getCore().myPhoneIndex)
+						.setHeading(magneticHeading);
 			}
 		}
 
@@ -271,7 +303,7 @@ public class DMBoard extends MapActivity {
 		}
 	};
 
-	DMBoard getBoard() {
-		return dmBoard;
+	public static DMBoard getInstance() {
+		return instance;
 	}
 }

@@ -18,7 +18,7 @@
 			android:label="Games List" />
 
 		<activity android:name="org.streetpacman.DMBoard"
-			android:label="Street Pacman Map" />
+			android:screenOrientation="nosensor" android:label="Street Pacman Map" />
 
 		<activity android:name="org.streetpacman.DMStreetPacman"
 			android:label="Street Pacman">

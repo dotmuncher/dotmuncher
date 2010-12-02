@@ -37,9 +37,10 @@ public class DMConstants {
 
 	// resId of Sprites
 	public static final int[] SPRITE_FRAME_ANIMS = { R.drawable.pacman_chomp,
-			R.drawable.pacman_dead, R.drawable.ghost_red,
-			R.drawable.ghost_pink, R.drawable.ghost_orange,
-			R.drawable.ghost_green, R.drawable.ghost_blue,
-			R.drawable.ghost_angry_white, R.drawable.ghost_angry_blue };
+			R.drawable.ghost_red, R.drawable.ghost_pink,
+			R.drawable.ghost_orange, R.drawable.ghost_green,
+			R.drawable.ghost_blue, R.drawable.ghost_eye,
+			R.drawable.ghost_angry_white, R.drawable.ghost_angry_blue,
+			R.drawable.pacman_dead, };
 
 }

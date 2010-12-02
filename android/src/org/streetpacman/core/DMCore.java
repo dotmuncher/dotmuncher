@@ -20,6 +20,7 @@ public class DMCore {
 	public List<Integer> alGames;
 	public List<Integer> alMaps;
 	public List<DMPhoneState> dmPhoneStates = new ArrayList<DMPhoneState>();
+	public int myPhoneIndex = 0;
 
 	public DMCore(String deviceId, DMStreetPacman ui) {
 		dmPhone = new DMPhone();
@@ -142,6 +143,9 @@ public class DMCore {
 				dmPhoneState.idle = json.getInt("idle");
 				dmPhoneState.alive = json.getBoolean("alive");
 				dmPhoneStates.add(dmPhoneState);
+				if(dmPhoneState.phone == dmPhone.phone){
+					myPhoneIndex = i;
+				}
 			}
 		}
 	}

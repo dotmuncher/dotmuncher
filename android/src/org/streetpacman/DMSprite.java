@@ -17,20 +17,33 @@ import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
 
 public class DMSprite extends ImageView {
-	AnimationDrawable frameAnimation;
+	private static DMSpriteFactory dmSpriteFactory = new DMSpriteFactory();
+	private AnimationDrawable frameAnimation;
 	private int height;
 	private int width;
 	private int heightHalf;
 	private int widthHalf;
 	private static float scaleFactor = 0.2f;
+	public Runnable rAnimate = new Runnable() {
+		@Override
+		public void run() {
+			frameAnimation.start();
+
+		}
+	};
 	private int _x;
 	private int _y;
 	private float _heading = 0;
-	private boolean isPacman = true;
+	private boolean isPacman;
 
-	public DMSprite(Context context) {
-		super(context);		
-		setSprite(DMConstants.SPRITE_FRAME_ANIMS[0]);
+	public DMSprite(Context context, int animIndex) {
+		super(context);
+		setSprite(DMConstants.SPRITE_FRAME_ANIMS[animIndex]);
+		if (animIndex == 0 || animIndex == 1) {
+			isPacman = true;
+		} else {
+			isPacman = false;
+		}
 	}
 
 	public void setSprite(int resId) {
@@ -39,17 +52,17 @@ public class DMSprite extends ImageView {
 		height = frameAnimation.getIntrinsicHeight();
 		width = frameAnimation.getIntrinsicWidth();
 		heightHalf = height / 2;
-		widthHalf = width / 2 + 3;		
+		widthHalf = width / 2 + 3;
 		setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
 		setScaleType(ScaleType.MATRIX);
 		applyMatrix();
 	}
 
-	private void applyMatrix(){
+	private void applyMatrix() {
 		Matrix matrix = new Matrix();
 		matrix.preTranslate(-widthHalf, -heightHalf);
-		if(isPacman){
+		if (isPacman) {
 			matrix.postRotate(-90);
 		}
 		matrix.postRotate(_heading);
@@ -57,7 +70,7 @@ public class DMSprite extends ImageView {
 		matrix.postTranslate(widthHalf, heightHalf);
 		setImageMatrix(matrix);
 	}
-	
+
 	public void setXY(int x, int y) {
 		if (x != _x || y != _y) {
 			_x = x;
@@ -69,10 +82,14 @@ public class DMSprite extends ImageView {
 	}
 
 	public void setHeading(float heading) {
-		if(_heading != heading){
+		if (_heading != heading) {
 			_heading = heading;
-			applyMatrix();	
+			applyMatrix();
 		}
+	}
+	
+	public static DMSpriteFactory getFactory(){
+		return dmSpriteFactory; 
 	}
 
 }

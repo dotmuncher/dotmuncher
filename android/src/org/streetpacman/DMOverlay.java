@@ -21,7 +21,6 @@ import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
 
 class DMOverlay extends Overlay {
-	private final int arrowWidth, arrowHeight;
 	private Location myLocation;
 	private final Context context;
 	private final DMMap dmMap;
@@ -29,7 +28,6 @@ class DMOverlay extends Overlay {
 	private final Paint errorCirclePaint;
 	private final Paint whiteFillPaint;
 	private final Paint blackStrokePaint;
-	private Drawable d;
 
 	public DMOverlay(Context context) {
 
@@ -55,10 +53,6 @@ class DMOverlay extends Overlay {
 		blackStrokePaint.setAlpha(127);
 		blackStrokePaint.setAntiAlias(true);
 
-		d = context.getResources().getDrawable(R.drawable.pacman_chomp);
-		arrowWidth = d.getIntrinsicWidth();
-		arrowHeight = d.getIntrinsicHeight();
-		d.setBounds(0, 0, arrowWidth, arrowHeight);
 	}
 
 	@Override
@@ -71,21 +65,24 @@ class DMOverlay extends Overlay {
 		Point screenPts = new Point();
 
 		synchronized (DMCore.getCore().dmPhoneStates) {
-			for (DMPhoneState dmPhoneState : DMCore.getCore().dmPhoneStates) {
+			for (int i = 0; i < DMCore.getCore().dmPhoneStates.size(); i++) {
+				DMPhoneState dmPhoneState = DMCore.getCore().dmPhoneStates.get(i);
 				// Only draw others
 				if (dmPhoneState.phone != dmPhone.phone) {
 					GeoPoint p = new GeoPoint((int) (dmPhoneState.lat * 1E6),
 							(int) (dmPhoneState.lng * 1E6));
 					projection.toPixels(p, screenPts);
-					//
+					DMSprite.getFactory().getSprite(i).setXY(screenPts.x, screenPts.y);
+					
+					/*
 					if (dmPhoneState.beenEaten) {
 						canvas.drawCircle(screenPts.x, screenPts.y, 20,
 								blackStrokePaint);
 					} else {
-						drawElement(canvas, projection,
-								DMUtils.getGeoPoint(myLocation), d,
-								-(arrowWidth / 2) + 3, -(arrowHeight / 2));
+						canvas.drawCircle(screenPts.x, screenPts.y, 20,
+								blackStrokePaint);
 					}
+					*/
 				}
 			}
 		}
@@ -114,7 +111,8 @@ class DMOverlay extends Overlay {
 		}
 		Point pt = new Point();
 		projection.toPixels(DMUtils.getGeoPoint(myLocation), pt);
-		((DMBoard) context).mySprite.setXY(pt.x, pt.y);
+		DMSprite.getFactory().getSprite(DMCore.getCore().myPhoneIndex)
+				.setXY(pt.x, pt.y);
 
 		// Point pt = drawElement(canvas, projection,
 		// DMUtils.getGeoPoint(myLocation), d, -(arrowWidth / 2) + 3,
