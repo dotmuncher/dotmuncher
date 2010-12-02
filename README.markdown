@@ -30,7 +30,7 @@
 
 <pre>GET /api/v0/..name....json?json=...input... ---> JSON response</pre>
 
-<pre>phoneToken: ("i_" + UDID) if iOS, ("a_" +  Android phone id) if Android
+<pre>phoneToken: ("i_" + UDID) if iOS, ("a_" + UUID) if Android
 phone: an integer assigned by the server</pre>
 
 
