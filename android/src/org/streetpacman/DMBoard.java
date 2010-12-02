@@ -42,6 +42,7 @@ import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsoluteLayout;
+import android.widget.FrameLayout;
 import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
@@ -62,8 +63,6 @@ public class DMBoard extends MapActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mapview);
 		mapView = (MapView) findViewById(R.id.map);
-		animView = (DMSpriteView) findViewById(R.id.animView);
-		
 		
 		this.dmOverlay = new DMOverlay(this);
 
@@ -75,6 +74,8 @@ public class DMBoard extends MapActivity {
 
 		mapView.setBuiltInZoomControls(true);
 		
+		animView = new DMSpriteView(this);
+		((AbsoluteLayout) findViewById(R.id.spriteOverlay)).addView(animView);
 	}
 	
     class Starter implements Runnable {

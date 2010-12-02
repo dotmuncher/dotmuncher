@@ -24,8 +24,8 @@ public class DMSpriteView extends ImageView {
 	private int widthHalf;
 	private static float scaleFactor = 0.2f;
 
-	public DMSpriteView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+	public DMSpriteView(Context context) {
+		super(context);
 		setImageResource(R.drawable.pacman_chomp);
 		frameAnimation = (AnimationDrawable) this.getDrawable();
 		height = frameAnimation.getIntrinsicHeight();
@@ -37,6 +37,8 @@ public class DMSpriteView extends ImageView {
 		matrix.postScale(scaleFactor, scaleFactor);
 		matrix.postTranslate(widthHalf, heightHalf);
 		setImageMatrix(matrix);
+		setScaleType(ScaleType.MATRIX);
+		setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
 	}
 
 	public void setXY(int x, int y) {
