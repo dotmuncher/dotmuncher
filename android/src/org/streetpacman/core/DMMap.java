@@ -11,7 +11,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 public class DMMap {
-	public int map = -1;
+	public volatile int map = -1;
 
 	public List<DMGeoPoint> dotPoints;
 	public List<DMGeoPoint> basePoints;

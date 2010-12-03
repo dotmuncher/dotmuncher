@@ -33,8 +33,8 @@ class DMOverlay extends Overlay {
 
 	public DMOverlay(Context context) {
 
-		dmMap = DMCore.getCore().dmMap;
-		dmPhone = DMCore.getCore().dmPhone;
+		dmMap = DMCore.self().dmMap;
+		dmPhone = DMCore.self().myPhone;
 		this.context = context;
 
 		errorCirclePaint = new Paint();
@@ -70,9 +70,9 @@ class DMOverlay extends Overlay {
 		final Projection projection = getMapProjection(mapView);
 		Point screenPts = new Point();
 
-		synchronized (DMCore.getCore().dmPhoneStates) {
-			for (int i = 0; i < DMCore.getCore().dmPhoneStates.size(); i++) {
-				DMPhoneState dmPhoneState = DMCore.getCore().dmPhoneStates
+		synchronized (DMCore.self().dmPhoneStates) {
+			for (int i = 0; i < DMCore.self().dmPhoneStates.size(); i++) {
+				DMPhoneState dmPhoneState = DMCore.self().dmPhoneStates
 						.get(i);
 				// Only draw others
 				if (dmPhoneState.phone != dmPhone.phone) {
@@ -125,7 +125,7 @@ class DMOverlay extends Overlay {
 		}
 		Point pt = new Point();
 		projection.toPixels(DMUtils.getGeoPoint(myLocation), pt);
-		DMSprite.get(DMCore.getCore().myPhoneIndex).setXY(pt.x, pt.y);
+		DMSprite.get(DMCore.self().myPhoneIndex).setXY(pt.x, pt.y);
 
 		// Point pt = drawElement(canvas, projection,
 		// DMUtils.getGeoPoint(myLocation), d, -(arrowWidth / 2) + 3,

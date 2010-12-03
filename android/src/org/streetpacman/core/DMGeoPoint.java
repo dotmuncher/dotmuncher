@@ -5,7 +5,7 @@ import com.google.android.maps.GeoPoint;
 public class DMGeoPoint extends GeoPoint {
 	public Boolean visible;
 	public float radius;
-	public int status;
+	public volatile int status;
 	
 	public DMGeoPoint(int latitudeE6, int longitudeE6) {
 		super(latitudeE6, longitudeE6);

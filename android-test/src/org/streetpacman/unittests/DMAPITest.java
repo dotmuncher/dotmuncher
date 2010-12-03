@@ -20,8 +20,8 @@ public class DMConstantsTest extends TestCase {
 	public void test_update(){
 		// new_game
 		try {
-			dmApp.dmPhone.phone = 5;
-			dmApp.dmPhone.map = 3;
+			dmApp.myPhone.phone = 5;
+			dmApp.myPhone.map = 3;
 			dmApp.net(DMConstants.new_game);			
 		} catch (Exception e) {
 			assertTrue(false);
@@ -30,7 +30,7 @@ public class DMConstantsTest extends TestCase {
 		assertTrue(dmApp.dmMap.dotPoints.size() > 0);
 		// join_game
 		try {
-			Log.i("DM", "update dmApp.dmPhone.game" + Integer.toString(dmApp.dmPhone.game));
+			Log.i("DM", "update dmApp.dmPhone.game" + Integer.toString(dmApp.myPhone.game));
 			dmApp.net(DMConstants.join_game);			
 		} catch (Exception e) {
 			assertTrue(false);
@@ -39,10 +39,10 @@ public class DMConstantsTest extends TestCase {
 		assertTrue(dmApp.dmMap.dotPoints.size() > 0);
 		// update
 		try {
-			dmApp.dmPhone.id__gte = 0;
-			dmApp.dmPhone.acc = 10;
-			dmApp.dmPhone.lat = 40.11111;
-			dmApp.dmPhone.lng = 15.11111;
+			dmApp.myPhone.id__gte = 0;
+			dmApp.myPhone.acc = 10;
+			dmApp.myPhone.lat = 40.11111;
+			dmApp.myPhone.lng = 15.11111;
 			dmApp.net(DMConstants.update);			
 		} catch (Exception e) {
 			assertTrue(false);
@@ -54,8 +54,8 @@ public class DMConstantsTest extends TestCase {
 	public void test_join_game(){
 		// new_game
 		try {
-			dmApp.dmPhone.phone = 5;
-			dmApp.dmPhone.map = 3;
+			dmApp.myPhone.phone = 5;
+			dmApp.myPhone.map = 3;
 			dmApp.net(DMConstants.new_game);			
 		} catch (Exception e) {
 			assertTrue(false);
@@ -64,7 +64,7 @@ public class DMConstantsTest extends TestCase {
 		assertTrue(dmApp.dmMap.dotPoints.size() > 0);
 		// join_game
 		try {
-			Log.i("DM", "dmApp.dmPhone.game" + Integer.toString(dmApp.dmPhone.game));
+			Log.i("DM", "dmApp.dmPhone.game" + Integer.toString(dmApp.myPhone.game));
 			dmApp.net(DMConstants.join_game);			
 		} catch (Exception e) {
 			assertTrue(false);
@@ -75,8 +75,8 @@ public class DMConstantsTest extends TestCase {
 	
 	public void test_new_game(){
 		try {
-			dmApp.dmPhone.phone = 5;
-			dmApp.dmPhone.map = 3;
+			dmApp.myPhone.phone = 5;
+			dmApp.myPhone.map = 3;
 			dmApp.net(DMConstants.new_game);			
 		} catch (Exception e) {
 			assertTrue(false);
@@ -108,7 +108,7 @@ public class DMConstantsTest extends TestCase {
 	public void test_getJSONFor() {
 		try {
 			for(int api = 0; api < 7; api ++){
-				dmApp.dmPhone.getJSONFor(api);
+				dmApp.myPhone.getJSONFor(api);
 			}
 		} catch (Exception e) {
 			assertTrue(false);
@@ -123,6 +123,6 @@ public class DMConstantsTest extends TestCase {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-		assertTrue(dmApp.dmPhone.phone > 0); // -1
+		assertTrue(dmApp.myPhone.phone > 0); // -1
 	}
 }

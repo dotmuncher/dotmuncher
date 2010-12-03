@@ -77,7 +77,7 @@ public class DMBoard extends MapActivity {
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		mapView.setBuiltInZoomControls(true);
-		DMCore.getCore().net(DMConstants.update_phone_settings,
+		DMCore.self().net(DMConstants.update_phone_settings,
 				r_update_phone_settings, rEmpty);
 
 	}
@@ -178,7 +178,7 @@ public class DMBoard extends MapActivity {
 
 		@Override
 		public void run() {
-			DMCore.getCore().net(DMConstants.find_games, r_find_games, rEmpty);
+			DMCore.self().net(DMConstants.find_games, r_find_games, rEmpty);
 
 		}
 
@@ -188,8 +188,8 @@ public class DMBoard extends MapActivity {
 
 		@Override
 		public void run() {
-			DMCore.getCore().dmPhone.game = DMCore.getCore().alGames.get(0);
-			DMCore.getCore().net(DMConstants.join_game, r_join_game, rEmpty);
+			DMCore.self().myPhone.game = DMCore.self().alGames.get(0);
+			DMCore.self().net(DMConstants.join_game, r_join_game, rEmpty);
 		}
 
 	};
@@ -225,8 +225,8 @@ public class DMBoard extends MapActivity {
 						"Location changed : Lat: " + location.getLatitude()
 								+ " Lng: " + location.getLongitude(),
 						Toast.LENGTH_SHORT).show();
-				DMCore.getCore().dmPhone.setLocation(location);
-				DMCore.getCore().net(DMConstants.update, rEmpty, rEmpty);
+				DMCore.self().myPhone.setLocation(location);
+				DMCore.self().net(DMConstants.update, rEmpty, rEmpty);
 			}
 		}
 
@@ -270,10 +270,10 @@ public class DMBoard extends MapActivity {
 			return;
 		}
 
-		int bottom = DMCore.getCore().dmMap.getBottom();
-		int left = DMCore.getCore().dmMap.getLeft();
-		int latSpanE6 = DMCore.getCore().dmMap.getTop() - bottom;
-		int lonSpanE6 = DMCore.getCore().dmMap.getRight() - left;
+		int bottom = DMCore.self().dmMap.getBottom();
+		int left = DMCore.self().dmMap.getLeft();
+		int latSpanE6 = DMCore.self().dmMap.getTop() - bottom;
+		int lonSpanE6 = DMCore.self().dmMap.getRight() - left;
 		if (latSpanE6 > 0 && latSpanE6 < 180E6 && lonSpanE6 > 0
 				&& lonSpanE6 < 360E6) {
 			keepMyLocationVisible = false;
@@ -292,7 +292,7 @@ public class DMBoard extends MapActivity {
 		public void onSensorChanged(SensorEvent se) {
 			synchronized (this) {
 				float magneticHeading = se.values[0];
-				DMSprite.get(DMCore.getCore().myPhoneIndex).setHeading(
+				DMSprite.get(DMCore.self().myPhoneIndex).setHeading(
 						magneticHeading);
 			}
 		}

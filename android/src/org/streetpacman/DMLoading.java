@@ -38,7 +38,7 @@ public class DMLoading extends Activity {
 		mLinearLayout.addView(i);
 		setContentView(mLinearLayout);
 
-		DMCore.getCore().net(DMConstants.update_phone_settings, rTrue, rFalse);
+		DMCore.self().net(DMConstants.update_phone_settings, rTrue, rFalse);
 
 	}
 
@@ -61,7 +61,7 @@ public class DMLoading extends Activity {
 			// retry
 			if (retryLimit > 0) {
 				retryLimit--;
-				DMCore.getCore().net(DMConstants.update_phone_settings, rTrue,
+				DMCore.self().net(DMConstants.update_phone_settings, rTrue,
 						rFalse);
 			} else {
 				callFinish(DMConstants.LOADING_TIMEOUT);

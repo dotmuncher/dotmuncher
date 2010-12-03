@@ -41,9 +41,23 @@ public class DMConstants {
 			R.drawable.ghost_orange, R.drawable.ghost_green,
 			R.drawable.ghost_blue, R.drawable.ghost_eye,
 			R.drawable.ghost_angry_white, R.drawable.ghost_angry_blue,
-			R.drawable.pacman_dead, };
+			R.drawable.pacman_dead };
 
 	// DMGeoPoint status
 	public static final int POINT_INIT = 0;
 	public static final int POINT_KILLED = 1;
+
+	// DMPhone status
+	public static final int PHONE_INIT = 0;
+	public static final int PHONE_KILLED = 1;
+
+	// role
+	public static final int ROLE_INIT = -1;
+	public static final int ROLE_PACMAN = 0;
+	public static final int ROLE_GHOST_RED = 1;
+	public static final int ROLE_GHOST_PINK = 2;
+	public static final int ROLE_GHOST_ORANGE = 3;
+	public static final int ROLE_GHOST_GREEN = 4;
+	public static final int ROLE_GHOST_BLUE = 5;
+
 }

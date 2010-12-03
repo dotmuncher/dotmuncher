@@ -17,7 +17,6 @@ public class DMPhone {
 	public double lng = -1;
 	public float acc = -1;
 	public int id__gte = -1;
-	public boolean powerMode = false;
 
 	public JSONObject getJSONFor(int api) {
 		JSONObject json = new JSONObject();

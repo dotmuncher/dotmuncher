@@ -1,7 +1,9 @@
 package org.streetpacman.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,24 +14,27 @@ import org.streetpacman.util.DMUtils;
 import android.os.Handler;
 import android.util.Log;
 
-public class DMCore {
-	private static DMCore core;
+public final class DMCore {
+	public  static  DMCore core;
 	final Handler mHandler = new Handler();
-	public DMPhone dmPhone;
 	public DMMap dmMap;
 	public List<Integer> alGames;
 	public List<Integer> alMaps;
 	public List<DMPhoneState> dmPhoneStates = new ArrayList<DMPhoneState>();
-	public int myPhoneIndex = 0;
+	public Map<Integer, DMPhoneState> dmPhoneStatesMap = new HashMap<Integer, DMPhoneState>();
+	
+	public final DMPhone myPhone;
+	public DMPhoneState myPhoneState;
+	public volatile int myPhoneIndex = 0; // in dmPhoneStates
 
 	public DMCore(String deviceId, DMStreetPacman ui) {
-		dmPhone = new DMPhone();
+		myPhone = new DMPhone();
 		dmMap = new DMMap();
-		dmPhone.phoneToken = "a_" + deviceId;
-		core = this;
+		myPhone.phoneToken = "a_" + deviceId;
+		this.core = this;
 	}
-
-	public static DMCore getCore() {
+	
+	public static DMCore self(){
 		return core;
 	}
 
@@ -37,7 +42,7 @@ public class DMCore {
 		Thread t = new Thread() {
 			public void run() {
 				final JSONObject json = DMNet
-						.call(api, dmPhone.getJSONFor(api));
+						.call(api, myPhone.getJSONFor(api));
 				mHandler.post(new Runnable() {
 					public void run() {
 						try {
@@ -82,9 +87,9 @@ public class DMCore {
 		t.start();
 	}
 
-	// post API invoke
+	// post API invoke before rTrue
 	public void update_phone_settings(JSONObject json) throws JSONException {
-		dmPhone.phone = json.getInt("phone");
+		myPhone.phone = json.getInt("phone");
 	}
 
 	public void find_games(JSONObject json) throws JSONException {
@@ -115,8 +120,8 @@ public class DMCore {
 	}
 
 	public void new_game(JSONObject json) throws JSONException {
-		dmPhone.game = json.getInt("game");
-		dmPhone.gameToken = json.getString("gameToken");
+		myPhone.game = json.getInt("game");
+		myPhone.gameToken = json.getString("gameToken");
 		initGame(json);
 	}
 
@@ -125,7 +130,7 @@ public class DMCore {
 	}
 
 	public void update(JSONObject json) throws JSONException {
-		dmPhone.powerMode = json.getBoolean("powerMode");
+		myPhoneState.powerMode = json.getBoolean("powerMode");
 		updatePhoneStates(json.getJSONArray("phoneStates"));
 		updateEvents(json.getJSONArray("events"));
 	}
@@ -143,9 +148,11 @@ public class DMCore {
 				dmPhoneState.idle = json.getInt("idle");
 				dmPhoneState.alive = json.getBoolean("alive");
 				dmPhoneStates.add(dmPhoneState);
-				if(dmPhoneState.phone == dmPhone.phone){
+				if(dmPhoneState.phone == myPhone.phone){
 					myPhoneIndex = i;
 				}
+				// dmPhoneStatesMap
+				dmPhoneStatesMap.put(dmPhoneState.phone, dmPhoneState);
 			}
 		}
 	}
@@ -161,7 +168,7 @@ public class DMCore {
 			case DMConstants.PHONE_EATEN_EVENT:
 				int eater = json.getInt("eater");
 				int eatee = json.getInt("eatee");
-
+				killPhone(eatee);
 				break;
 			case DMConstants.ITEM_EATEN_EVENT:
 				JSONArray kArray = json.getJSONArray("k");
@@ -170,7 +177,7 @@ public class DMCore {
 				int y = (int) (new Double(kArray.getString(2)) * 1E6);
 				if (kType == "p") {
 					dmMap.killPowerPellet(x, y);
-					dmPhone.powerMode = true;
+					myPhoneState.powerMode = true;
 				}
 				if (kType == "d") {
 					dmMap.killDot(x, y);
@@ -185,10 +192,15 @@ public class DMCore {
 
 				}
 			}
-			dmPhone.id__gte = json.getInt("i");
+			myPhone.id__gte = json.getInt("i");
 			int t = json.getInt("t");
 		}
 
+	}
+
+	private void killPhone(int phone) {
+		dmPhoneStatesMap.get(phone).status = DMConstants.PHONE_KILLED;
+		
 	}
 
 }
