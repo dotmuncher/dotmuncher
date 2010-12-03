@@ -292,8 +292,8 @@ public class DMBoard extends MapActivity {
 		public void onSensorChanged(SensorEvent se) {
 			synchronized (this) {
 				float magneticHeading = se.values[0];
-				DMSprite.getFactory().getSprite(DMCore.getCore().myPhoneIndex)
-						.setHeading(magneticHeading);
+				DMSprite.get(DMCore.getCore().myPhoneIndex).setHeading(
+						magneticHeading);
 			}
 		}
 

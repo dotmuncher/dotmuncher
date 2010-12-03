@@ -53,9 +53,7 @@ public class DMStreetPacman extends TabActivity implements OnTouchListener {
 //		startActivityForResult(new Intent(this, DMLoading.class),
 //				DMConstants.SHOW_LOADING);
 
-		// dmApp.net(DMAPI.find_games);
-		// dmApp.dmPhone.game = dmApp.alGames.get(0);
-		// dmApp.net(DMAPI.join_game);
+
 
 		/*
 		 * final Resources res = getResources(); final TabHost tabHost =

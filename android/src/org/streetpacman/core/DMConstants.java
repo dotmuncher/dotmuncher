@@ -43,4 +43,7 @@ public class DMConstants {
 			R.drawable.ghost_angry_white, R.drawable.ghost_angry_blue,
 			R.drawable.pacman_dead, };
 
+	// DMGeoPoint status
+	public static final int POINT_INIT = 0;
+	public static final int POINT_KILLED = 1;
 }

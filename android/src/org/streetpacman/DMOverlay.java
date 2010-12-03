@@ -1,5 +1,6 @@
 package org.streetpacman;
 
+import org.streetpacman.core.DMConstants;
 import org.streetpacman.core.DMCore;
 import org.streetpacman.core.DMGeoPoint;
 import org.streetpacman.core.DMMap;
@@ -27,6 +28,7 @@ class DMOverlay extends Overlay {
 	private final DMPhone dmPhone;
 	private final Paint errorCirclePaint;
 	private final Paint whiteFillPaint;
+	private final Paint whiteFillPaint2;
 	private final Paint blackStrokePaint;
 
 	public DMOverlay(Context context) {
@@ -45,6 +47,10 @@ class DMOverlay extends Overlay {
 		whiteFillPaint = new Paint();
 		whiteFillPaint.setColor(Color.WHITE);
 		whiteFillPaint.setAlpha(127);
+
+		whiteFillPaint2 = new Paint();
+		whiteFillPaint2.setColor(Color.WHITE);
+		whiteFillPaint2.setAlpha(64);
 
 		blackStrokePaint = new Paint();
 		blackStrokePaint.setColor(Color.BLACK);
@@ -66,23 +72,22 @@ class DMOverlay extends Overlay {
 
 		synchronized (DMCore.getCore().dmPhoneStates) {
 			for (int i = 0; i < DMCore.getCore().dmPhoneStates.size(); i++) {
-				DMPhoneState dmPhoneState = DMCore.getCore().dmPhoneStates.get(i);
+				DMPhoneState dmPhoneState = DMCore.getCore().dmPhoneStates
+						.get(i);
 				// Only draw others
 				if (dmPhoneState.phone != dmPhone.phone) {
 					GeoPoint p = new GeoPoint((int) (dmPhoneState.lat * 1E6),
 							(int) (dmPhoneState.lng * 1E6));
 					projection.toPixels(p, screenPts);
-					DMSprite.getFactory().getSprite(i).setXY(screenPts.x, screenPts.y);
-					
+					DMSprite.get(i).setXY(screenPts.x, screenPts.y);
+
 					/*
-					if (dmPhoneState.beenEaten) {
-						canvas.drawCircle(screenPts.x, screenPts.y, 20,
-								blackStrokePaint);
-					} else {
-						canvas.drawCircle(screenPts.x, screenPts.y, 20,
-								blackStrokePaint);
-					}
-					*/
+					 * if (dmPhoneState.beenEaten) {
+					 * canvas.drawCircle(screenPts.x, screenPts.y, 20,
+					 * blackStrokePaint); } else {
+					 * canvas.drawCircle(screenPts.x, screenPts.y, 20,
+					 * blackStrokePaint); }
+					 */
 				}
 			}
 		}
@@ -90,8 +95,17 @@ class DMOverlay extends Overlay {
 		for (DMGeoPoint p : dmMap.allPoints) {
 			if (p.visible) {
 				projection.toPixels(p, screenPts);
-				canvas.drawCircle(screenPts.x, screenPts.y, p.radius,
-						whiteFillPaint);
+				switch (p.status) {
+				case DMConstants.POINT_INIT:
+					canvas.drawCircle(screenPts.x, screenPts.y, p.radius,
+							whiteFillPaint);
+					break;
+				case DMConstants.POINT_KILLED:
+					canvas.drawCircle(screenPts.x, screenPts.y, p.radius,
+							whiteFillPaint2);
+					break;
+				}
+
 				canvas.drawCircle(screenPts.x, screenPts.y, p.radius,
 						blackStrokePaint);
 			}
@@ -111,8 +125,7 @@ class DMOverlay extends Overlay {
 		}
 		Point pt = new Point();
 		projection.toPixels(DMUtils.getGeoPoint(myLocation), pt);
-		DMSprite.getFactory().getSprite(DMCore.getCore().myPhoneIndex)
-				.setXY(pt.x, pt.y);
+		DMSprite.get(DMCore.getCore().myPhoneIndex).setXY(pt.x, pt.y);
 
 		// Point pt = drawElement(canvas, projection,
 		// DMUtils.getGeoPoint(myLocation), d, -(arrowWidth / 2) + 3,

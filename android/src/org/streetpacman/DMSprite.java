@@ -88,8 +88,7 @@ public class DMSprite extends ImageView {
 		}
 	}
 	
-	public static DMSpriteFactory getFactory(){
-		return dmSpriteFactory; 
+	public static DMSprite get(int animIndex){
+		return dmSpriteFactory.getSprite(animIndex);
 	}
-
 }

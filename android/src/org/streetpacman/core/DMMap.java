@@ -56,11 +56,11 @@ public class DMMap {
 	}
 
 	public void killPowerPellet(int x, int y) {
-		powerPelletPointsMap.get(x + "," + y).visible = false;
+		powerPelletPointsMap.get(x + "," + y).status = DMConstants.POINT_KILLED;
 	}
 
 	public void killDot(int x, int y) {
-		dotPointsMap.get(x + "," + y).visible = false;
+		dotPointsMap.get(x + "," + y).status = DMConstants.POINT_KILLED;
 	}
 
 	// position helper
