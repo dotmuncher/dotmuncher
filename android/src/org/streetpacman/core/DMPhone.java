@@ -9,7 +9,7 @@ import android.util.Log;
 public class DMPhone {
 	public String gameToken = "";
 	public int game = -1;
-	public int map = -1;
+	public int map = 10;
 	public int phone = -1;
 	public String name = "e";
 	public String phoneToken = "";

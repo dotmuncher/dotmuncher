@@ -47,11 +47,11 @@ public class DMStreetPacman extends TabActivity implements OnTouchListener {
 
 		new DMCore(deviceId, this);
 
-		startActivityForResult(new Intent(this, DMBoard.class),
-				DMConstants.SHOW_BOARD);
+//		startActivityForResult(new Intent(this, DMBoard.class),
+//				DMConstants.SHOW_BOARD);
 				
-//		startActivityForResult(new Intent(this, DMLoading.class),
-//				DMConstants.SHOW_LOADING);
+		startActivityForResult(new Intent(this, DMLoading.class),
+				DMConstants.SHOW_LOADING);
 
 
 
@@ -74,13 +74,16 @@ public class DMStreetPacman extends TabActivity implements OnTouchListener {
 			final Intent results) {
 		switch (requestCode) {
 		case DMConstants.SHOW_LOADING: {
-			if (resultCode == RESULT_OK) {
-				startActivityForResult(new Intent(this, DMGamesList.class),
-						DMConstants.SHOW_GAMESLIST);
-			} else if(resultCode == DMConstants.LOADING_TIMEOUT){
-				// net retry fails
-				finish();
-			}
+			startActivityForResult(new Intent(this, DMBoard.class),
+					DMConstants.SHOW_BOARD);
+			
+//			if (resultCode == RESULT_OK) {
+//				startActivityForResult(new Intent(this, DMGamesList.class),
+//						DMConstants.SHOW_GAMESLIST);
+//			} else if(resultCode == DMConstants.LOADING_TIMEOUT){
+//				// net retry fails
+//				finish();
+//			}
 			break;
 		}
 		case DMConstants.SHOW_GAMESLIST: {

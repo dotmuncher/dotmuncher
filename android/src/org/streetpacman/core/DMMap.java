@@ -31,7 +31,7 @@ public class DMMap {
 		latitudeExtremities.reset();
 		longitudeExtremities.reset();
 		for (DMGeoPoint p : dotPoints) {
-			dotPointsMap.put(p.getLatitudeE6() + "," + p.getLongitudeE6(), p);
+			dotPointsMap.put(p.getLatitudeE6() + ":" + p.getLongitudeE6(), p);
 			latitudeExtremities.update(p.getLatitudeE6());
 			longitudeExtremities.update(p.getLongitudeE6());
 			p.radius = 10;
@@ -39,14 +39,14 @@ public class DMMap {
 		// base
 		basePointsMap = new HashMap<String, DMGeoPoint>();
 		for (DMGeoPoint p : basePoints) {
-			basePointsMap.put(p.getLatitudeE6() + "," + p.getLongitudeE6(), p);
+			basePointsMap.put(p.getLatitudeE6() + ":" + p.getLongitudeE6(), p);
 			p.radius = 15;
 		}
 		// powerPellet
 		powerPelletPointsMap = new HashMap<String, DMGeoPoint>();
 		for (DMGeoPoint p : powerPelletPoints) {
 			powerPelletPointsMap.put(
-					p.getLatitudeE6() + "," + p.getLongitudeE6(), p);
+					p.getLatitudeE6() + ":" + p.getLongitudeE6(), p);
 			p.radius = 20;
 		}
 		// construct allPoints
@@ -60,11 +60,11 @@ public class DMMap {
 	}
 
 	public void killPowerPellet(int x, int y) {
-		powerPelletPointsMap.get(x + "," + y).status = DMConstants.POINT_KILLED;
+		powerPelletPointsMap.get(x + ":" + y).status = DMConstants.POINT_KILLED;
 	}
 
 	public void killDot(int x, int y) {
-		dotPointsMap.get(x + "," + y).status = DMConstants.POINT_KILLED;
+		dotPointsMap.get(x + ":" + y).status = DMConstants.POINT_KILLED;
 	}
 
 	// position helper

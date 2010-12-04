@@ -28,7 +28,6 @@ class DMOverlay extends Overlay {
 	private final DMPhone dmPhone;
 	private final Paint errorCirclePaint;
 	private final Paint whiteFillPaint;
-	private final Paint whiteFillPaint2;
 	private final Paint blackStrokePaint;
 
 	public DMOverlay(Context context) {
@@ -47,10 +46,6 @@ class DMOverlay extends Overlay {
 		whiteFillPaint = new Paint();
 		whiteFillPaint.setColor(Color.WHITE);
 		whiteFillPaint.setAlpha(127);
-
-		whiteFillPaint2 = new Paint();
-		whiteFillPaint2.setColor(Color.WHITE);
-		whiteFillPaint2.setAlpha(127);
 
 		blackStrokePaint = new Paint();
 		blackStrokePaint.setColor(Color.BLACK);
@@ -104,7 +99,7 @@ class DMOverlay extends Overlay {
 					break;
 				case DMConstants.POINT_KILLED:
 					canvas.drawCircle(screenPts.x, screenPts.y, p.radius,
-							whiteFillPaint2);
+							whiteFillPaint);
 					break;
 				}
 			}
@@ -124,7 +119,7 @@ class DMOverlay extends Overlay {
 		}
 		Point pt = new Point();
 		projection.toPixels(DMUtils.getGeoPoint(myLocation), pt);
-		DMSprite.get(DMCore.self().myPhoneIndex).setXY(pt.x, pt.y);
+		DMSprite.get(DMCore.self().getMySpriteIndex()).setXY(pt.x, pt.y);
 
 		// Point pt = drawElement(canvas, projection,
 		// DMUtils.getGeoPoint(myLocation), d, -(arrowWidth / 2) + 3,

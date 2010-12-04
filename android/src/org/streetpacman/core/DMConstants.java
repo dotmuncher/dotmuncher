@@ -36,12 +36,22 @@ public class DMConstants {
 	public static final int GAMESLIST_TIMEOUT = 2;
 
 	// resId of Sprites
-	public static final int[] SPRITE_FRAME_ANIMS = { R.drawable.pacman_chomp,
-			R.drawable.ghost_red, R.drawable.ghost_pink,
-			R.drawable.ghost_orange, R.drawable.ghost_green,
-			R.drawable.ghost_blue, R.drawable.ghost_eye,
-			R.drawable.ghost_angry_white, R.drawable.ghost_angry_blue,
-			R.drawable.pacman_dead };
+	public static final int[] SPRITES = { R.drawable.pacman_chomp, // 0
+			R.drawable.ghost_red, // 1
+			R.drawable.ghost_pink, // 2
+			R.drawable.ghost_orange, // 3
+			R.drawable.ghost_green, // 4
+			R.drawable.ghost_blue, // 5
+			R.drawable.ghost_eye, // 6
+			R.drawable.ghost_angry_blue, // 7
+			R.drawable.ghost_angry_white, // 8
+			R.drawable.pacman_dead // 9
+	};
+
+	public static final int[] POWERMODE = { 0, 7, 7, 7, 7, 7 };
+
+	// power mode map
+	public static final int[] POWERMODE_END = { 0, 8, 8, 8, 8, 8 };
 
 	// DMGeoPoint status
 	public static final int POINT_INIT = 0;
@@ -52,12 +62,12 @@ public class DMConstants {
 	public static final int PHONE_KILLED = 1;
 
 	// role
-	public static final int ROLE_INIT = -1;
-	public static final int ROLE_PACMAN = 0;
-	public static final int ROLE_GHOST_RED = 1;
-	public static final int ROLE_GHOST_PINK = 2;
-	public static final int ROLE_GHOST_ORANGE = 3;
-	public static final int ROLE_GHOST_GREEN = 4;
-	public static final int ROLE_GHOST_BLUE = 5;
+	// public static final int ROLE_INIT = -1;
+	// public static final int ROLE_PACMAN = 0;
+	// public static final int ROLE_GHOST_RED = 1;
+	// public static final int ROLE_GHOST_PINK = 2;
+	// public static final int ROLE_GHOST_ORANGE = 3;
+	// public static final int ROLE_GHOST_GREEN = 4;
+	// public static final int ROLE_GHOST_BLUE = 5;
 
 }

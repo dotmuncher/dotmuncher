@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
 
 public class DMSprite extends ImageView {
-	private static DMSpriteFactory dmSpriteFactory = new DMSpriteFactory();
+	private static DMSpriteFactory factory = new DMSpriteFactory();
 	private AnimationDrawable frameAnimation;
 	private int height;
 	private int width;
@@ -38,8 +38,8 @@ public class DMSprite extends ImageView {
 
 	public DMSprite(Context context, int animIndex) {
 		super(context);
-		setSprite(DMConstants.SPRITE_FRAME_ANIMS[animIndex]);
-		if (animIndex == 0 || animIndex == 1) {
+		setSprite(DMConstants.SPRITES[animIndex]);
+		if (animIndex == 0 || animIndex == 9) {
 			isPacman = true;
 		} else {
 			isPacman = false;
@@ -87,8 +87,16 @@ public class DMSprite extends ImageView {
 			applyMatrix();
 		}
 	}
+
+	public static DMSprite get(int ctx){
+		return get(factory.getAnimIndex(ctx), ctx);
+	}
 	
-	public static DMSprite get(int animIndex){
-		return dmSpriteFactory.getSprite(animIndex);
+	public static DMSprite get(int animIndex, int ctx) {
+		return factory.getSprite(animIndex, ctx);
+	}
+
+	public static void setXY(int x, int y, int ctx) {
+		get(factory.getAnimIndex(ctx), ctx).setXY(x, y);
 	}
 }

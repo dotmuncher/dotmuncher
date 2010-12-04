@@ -5,7 +5,7 @@
 	<com.google.android.maps.MapView
 		android:id="@+id/map" android:layout_width="match_parent"
 		android:layout_height="match_parent" android:enabled="true"
-		android:clickable="true" android:apiKey="0GS6dsJhZCslhYOALIpP8MOWYlJzo_5HlXXaX0Q" />
+		android:clickable="true" android:apiKey="0GS6dsJhZCsmMbF1b4aXpMkwX3bT9MT4J3_BUWg" />
 
 	<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/spriteOverlay" android:layout_width="fill_parent"
@@ -18,4 +18,40 @@
 		android:background="#AA000000" android:textColor="#ffffffff"
 		android:text="Street Pacman" />
 
+	<TextView android:id="@+id/menu" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right|bottom"
+		android:padding="12dip" android:background="#AA000000"
+		android:textColor="#ffffffff" android:text="MENU" />
+
+	<!-- v1 - v5 -->
+
+	<TextView android:id="@+id/v1" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="left|top"
+		android:padding="12dip" android:background="#AA000000"
+		android:textColor="#ffffffff" android:text="v1" />
+
+	<TextView android:id="@+id/v2" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right|top"
+		android:padding="12dip" android:background="#AA000000"
+		android:textColor="#ffffffff" android:text="v2" />
+
+	<TextView android:id="@+id/v3" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="left|center_vertical"
+		android:padding="12dip" android:background="#AA000000"
+		android:textColor="#ffffffff" android:text="v3" />
+
+	<TextView android:id="@+id/v4" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="right|center_vertical"
+		android:padding="12dip" android:background="#AA000000"
+		android:textColor="#ffffffff" android:text="v4" />
+
+	<TextView android:id="@+id/v5" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="left|bottom"
+		android:padding="12dip" android:background="#AA000000"
+		android:textColor="#ffffffff" android:text="v5" />
+
+	<TextView android:id="@+id/v6" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_gravity="center_horizontal|bottom"
+		android:padding="12dip" android:background="#AA000000"
+		android:textColor="#ffffffff" android:text="v6" />
 </FrameLayout>

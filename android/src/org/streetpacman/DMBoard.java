@@ -23,9 +23,11 @@ import org.json.JSONException;
 import org.streetpacman.core.DMCore;
 import org.streetpacman.core.DMConstants;
 import org.streetpacman.util.DMUtils;
+import org.streetpacman.util.GeoRect;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
@@ -41,16 +43,21 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.ViewGroup.LayoutParams;
+import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsoluteLayout;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView.ScaleType;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class DMBoard extends MapActivity {
+public class DMBoard extends MapActivity implements View.OnTouchListener,
+		View.OnClickListener {
 	private static DMBoard instance;
 	private DMOverlay dmOverlay;
 	private Location currentLocation;
@@ -58,6 +65,9 @@ public class DMBoard extends MapActivity {
 	private SensorManager sensorManager;
 	private boolean keepMyLocationVisible;
 	MapView mapView;
+	TextView noteView, menuView;
+
+	TextView v1, v2, v3, v4, v5, v6;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +77,25 @@ public class DMBoard extends MapActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.mapview);
 		mapView = (MapView) findViewById(R.id.map);
+		noteView = (TextView) findViewById(R.id.note);
+		noteView.setOnClickListener(this);
+
+		menuView = (TextView) findViewById(R.id.menu);
+		menuView.setOnClickListener(this);
+
+		v1 = (TextView) findViewById(R.id.v1);
+		v1.setOnClickListener(this);
+		v2 = (TextView) findViewById(R.id.v2);
+		v2.setOnClickListener(this);
+		v3 = (TextView) findViewById(R.id.v3);
+		v3.setOnClickListener(this);
+		v4 = (TextView) findViewById(R.id.v4);
+		v4.setOnClickListener(this);
+		v5 = (TextView) findViewById(R.id.v5);
+		v5.setOnClickListener(this);
+		v6 = (TextView) findViewById(R.id.v6);
+		v6.setOnClickListener(this);
+		toggle();
 
 		this.dmOverlay = new DMOverlay(this);
 
@@ -167,19 +196,55 @@ public class DMBoard extends MapActivity {
 		}
 		dmOverlay.setMyLocation(currentLocation);
 		mapView.invalidate();
-		/*
-		 * MapController controller = mapView.getController(); GeoPoint geoPoint
-		 * = DMUtils.getGeoPoint(currentLocation);
-		 * controller.animateTo(geoPoint);
-		 */
+
+		if (keepMyLocationVisible && !locationIsVisible(currentLocation)) {
+			MapController controller = mapView.getController();
+			GeoPoint geoPoint = DMUtils.getGeoPoint(currentLocation);
+			controller.animateTo(geoPoint);
+		}
+	}
+
+	private boolean locationIsVisible(Location location) {
+		if (location == null || mapView == null) {
+			return false;
+		}
+		GeoPoint center = mapView.getMapCenter();
+		int latSpan = mapView.getLatitudeSpan();
+		int lonSpan = mapView.getLongitudeSpan();
+
+		// Bottom of map view is obscured by zoom controls/buttons.
+		// Subtract a margin from the visible area:
+		GeoPoint marginBottom = mapView.getProjection().fromPixels(0,
+				mapView.getHeight());
+		GeoPoint marginTop = mapView.getProjection().fromPixels(
+				0,
+				mapView.getHeight()
+						- mapView.getZoomButtonsController().getZoomControls()
+								.getHeight());
+		int margin = Math.abs(marginTop.getLatitudeE6()
+				- marginBottom.getLatitudeE6());
+		GeoRect r = new GeoRect(center, latSpan, lonSpan);
+		r.top += margin;
+
+		GeoPoint geoPoint = DMUtils.getGeoPoint(location);
+		return r.contains(geoPoint);
 	}
 
 	private Runnable r_update_phone_settings = new Runnable() {
 
 		@Override
 		public void run() {
-			DMCore.self().net(DMConstants.find_games, r_find_games, rEmpty);
+			note("phone: " + DMCore.self().myPhone.phone);
+		}
 
+	};
+
+	private Runnable r_new_game = new Runnable() {
+
+		@Override
+		public void run() {
+			note("New Game " + DMCore.self().myPhone.game);
+			// DMCore.self().net(DMConstants.find_games, r_find_games, rEmpty);
 		}
 
 	};
@@ -190,6 +255,7 @@ public class DMBoard extends MapActivity {
 		public void run() {
 			DMCore.self().myPhone.game = DMCore.self().alGames.get(0);
 			DMCore.self().net(DMConstants.join_game, r_join_game, rEmpty);
+			note("Join Game " + DMCore.self().myPhone.game);
 		}
 
 	};
@@ -222,9 +288,11 @@ public class DMBoard extends MapActivity {
 			if (location != null) {
 				Toast.makeText(
 						getBaseContext(),
-						"Location changed : Lat: " + location.getLatitude()
-								+ " Lng: " + location.getLongitude(),
-						Toast.LENGTH_SHORT).show();
+						"Lat: " + location.getLatitude() + "\nLng: "
+								+ location.getLongitude(), Toast.LENGTH_SHORT)
+						.show();
+				// note("Lat: " + location.getLatitude() + "\nLng: "
+				// + location.getLongitude());
 				DMCore.self().myPhone.setLocation(location);
 				DMCore.self().net(DMConstants.update, rEmpty, rEmpty);
 			}
@@ -305,5 +373,72 @@ public class DMBoard extends MapActivity {
 
 	public static DMBoard getInstance() {
 		return instance;
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (v == noteView) {
+			keepMyLocationVisible = true;
+			showCurrentLocation();
+		}
+		if (v == menuView) {
+			toggle();
+		}
+		if (v == v1) {
+			DMCore.self().myPhoneIndex = (DMCore.self().myPhoneIndex + 1) % 6; 
+		}
+		if (v == v2) {
+			DMCore.self().powerMode = !DMCore.self().powerMode;
+		}
+		if (v == v3) {
+			DMCore.self().allowUpdate = !DMCore.self().allowUpdate;
+		}
+		if (v == v4) {
+			DMCore.self().myPhoneState.alive = !DMCore.self().myPhoneState.alive;
+		}
+		if (v == v5) {
+			DMCore.self().net(DMConstants.find_games, r_find_games, rEmpty);
+		}
+		if (v == v6) {
+			DMCore.self().net(DMConstants.new_game, r_new_game, rEmpty);
+		}
+		v1.setText("role\n" + DMCore.self().myPhoneIndex);
+		v2.setText("powerMode\n" + DMCore.self().powerMode);
+		v3.setText("update\n" + DMCore.self().allowUpdate);
+		v4.setText("alive\n" + DMCore.self().myPhoneState.alive);
+		v5.setText("join_game");
+		v6.setText("new_game");
+
+	}
+
+	private void toggle() {
+		if (v1.getVisibility() == View.GONE) {
+			v1.setVisibility(View.VISIBLE);
+			v2.setVisibility(View.VISIBLE);
+			v3.setVisibility(View.VISIBLE);
+			v4.setVisibility(View.VISIBLE);
+			v5.setVisibility(View.VISIBLE);
+			v6.setVisibility(View.VISIBLE);
+			return;
+		}
+		if (v1.getVisibility() == View.VISIBLE) {
+			v1.setVisibility(View.GONE);
+			v2.setVisibility(View.GONE);
+			v3.setVisibility(View.GONE);
+			v4.setVisibility(View.GONE);
+			v5.setVisibility(View.GONE);
+			v6.setVisibility(View.GONE);
+		}
+
+	}
+
+	public void note(String txt) {
+		noteView.setText("Street Pacman\n\n" + txt);
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

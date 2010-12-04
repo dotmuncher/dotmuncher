@@ -15,17 +15,19 @@ import android.os.Handler;
 import android.util.Log;
 
 public final class DMCore {
-	public  static  DMCore core;
+	public static DMCore core;
 	final Handler mHandler = new Handler();
 	public DMMap dmMap;
 	public List<Integer> alGames;
 	public List<Integer> alMaps;
 	public List<DMPhoneState> dmPhoneStates = new ArrayList<DMPhoneState>();
 	public Map<Integer, DMPhoneState> dmPhoneStatesMap = new HashMap<Integer, DMPhoneState>();
-	
+
 	public final DMPhone myPhone;
 	public DMPhoneState myPhoneState = new DMPhoneState();
 	public volatile int myPhoneIndex = 0; // in dmPhoneStates
+	public volatile boolean powerMode = false;
+	public volatile boolean allowUpdate = true;
 
 	public DMCore(String deviceId, DMStreetPacman ui) {
 		myPhone = new DMPhone();
@@ -33,8 +35,8 @@ public final class DMCore {
 		myPhone.phoneToken = "a_" + deviceId;
 		this.core = this;
 	}
-	
-	public static DMCore self(){
+
+	public static DMCore self() {
 		return core;
 	}
 
@@ -54,7 +56,9 @@ public final class DMCore {
 							} else {
 								switch (api) {
 								case DMConstants.update:
-									update(json);
+									if (allowUpdate) {
+										update(json);
+									}
 									break;
 								case DMConstants.find_games:
 									find_games(json);
@@ -130,7 +134,7 @@ public final class DMCore {
 	}
 
 	public void update(JSONObject json) throws JSONException {
-		myPhoneState.powerMode = json.getBoolean("powerMode");
+		powerMode = json.getBoolean("powerMode");
 		updatePhoneStates(json.getJSONArray("phoneStates"));
 		updateEvents(json.getJSONArray("events"));
 	}
@@ -148,7 +152,7 @@ public final class DMCore {
 				dmPhoneState.idle = json.getInt("idle");
 				dmPhoneState.alive = json.getBoolean("alive");
 				dmPhoneStates.add(dmPhoneState);
-				if(dmPhoneState.phone == myPhone.phone){
+				if (dmPhoneState.phone == myPhone.phone) {
 					myPhoneIndex = i;
 					myPhoneState = dmPhoneState;
 				}
@@ -178,7 +182,7 @@ public final class DMCore {
 				int y = (int) (new Double(kArray.getString(2)) * 1E6);
 				if (kType == "p") {
 					dmMap.killPowerPellet(x, y);
-					myPhoneState.powerMode = true;
+					powerMode = true;
 				}
 				if (kType == "d") {
 					dmMap.killDot(x, y);
@@ -201,7 +205,13 @@ public final class DMCore {
 
 	private void killPhone(int phone) {
 		dmPhoneStatesMap.get(phone).status = DMConstants.PHONE_KILLED;
-		
+	}
+
+	public int getMySpriteIndex() {
+		if (powerMode) {
+			return DMConstants.POWERMODE[myPhoneIndex];
+		}
+		return myPhoneIndex;
 	}
 
 }
