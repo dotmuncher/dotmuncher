@@ -53,6 +53,10 @@ public class DMMap {
 		allPoints.addAll(dotPoints);
 		allPoints.addAll(powerPelletPoints);
 		allPoints.addAll(basePoints);
+		
+//		killPowerPellet(powerPelletPoints.get(0).getLatitudeE6(),powerPelletPoints.get(0).getLongitudeE6());
+//		killDot(dotPoints.get(5).getLatitudeE6(),dotPoints.get(5).getLongitudeE6());
+//		killDot(dotPoints.get(6).getLatitudeE6(),dotPoints.get(6).getLongitudeE6());
 	}
 
 	public void killPowerPellet(int x, int y) {

@@ -50,7 +50,7 @@ class DMOverlay extends Overlay {
 
 		whiteFillPaint2 = new Paint();
 		whiteFillPaint2.setColor(Color.WHITE);
-		whiteFillPaint2.setAlpha(64);
+		whiteFillPaint2.setAlpha(127);
 
 		blackStrokePaint = new Paint();
 		blackStrokePaint.setColor(Color.BLACK);
@@ -99,15 +99,14 @@ class DMOverlay extends Overlay {
 				case DMConstants.POINT_INIT:
 					canvas.drawCircle(screenPts.x, screenPts.y, p.radius,
 							whiteFillPaint);
+					canvas.drawCircle(screenPts.x, screenPts.y, p.radius,
+							blackStrokePaint);
 					break;
 				case DMConstants.POINT_KILLED:
 					canvas.drawCircle(screenPts.x, screenPts.y, p.radius,
 							whiteFillPaint2);
 					break;
 				}
-
-				canvas.drawCircle(screenPts.x, screenPts.y, p.radius,
-						blackStrokePaint);
 			}
 		}
 

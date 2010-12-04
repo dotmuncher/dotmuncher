@@ -24,7 +24,7 @@ public final class DMCore {
 	public Map<Integer, DMPhoneState> dmPhoneStatesMap = new HashMap<Integer, DMPhoneState>();
 	
 	public final DMPhone myPhone;
-	public DMPhoneState myPhoneState;
+	public DMPhoneState myPhoneState = new DMPhoneState();
 	public volatile int myPhoneIndex = 0; // in dmPhoneStates
 
 	public DMCore(String deviceId, DMStreetPacman ui) {
@@ -150,6 +150,7 @@ public final class DMCore {
 				dmPhoneStates.add(dmPhoneState);
 				if(dmPhoneState.phone == myPhone.phone){
 					myPhoneIndex = i;
+					myPhoneState = dmPhoneState;
 				}
 				// dmPhoneStatesMap
 				dmPhoneStatesMap.put(dmPhoneState.phone, dmPhoneState);
