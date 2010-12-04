@@ -286,11 +286,11 @@ public class DMBoard extends MapActivity implements View.OnTouchListener,
 			showCurrentLocation();
 
 			if (location != null) {
-				Toast.makeText(
-						getBaseContext(),
-						"Lat: " + location.getLatitude() + "\nLng: "
-								+ location.getLongitude(), Toast.LENGTH_SHORT)
-						.show();
+				// Toast.makeText(
+				// getBaseContext(),
+				// "Lat: " + location.getLatitude() + "\nLng: "
+				// + location.getLongitude(), Toast.LENGTH_SHORT)
+				// .show();
 				// note("Lat: " + location.getLatitude() + "\nLng: "
 				// + location.getLongitude());
 				DMCore.self().myPhone.setLocation(location);
@@ -375,17 +375,20 @@ public class DMBoard extends MapActivity implements View.OnTouchListener,
 		return instance;
 	}
 
+	private int noteID = 0;
 	@Override
 	public void onClick(View v) {
 		if (v == noteView) {
 			keepMyLocationVisible = true;
 			showCurrentLocation();
+			note(DMConstants.NOTES[noteID]);
+			noteID = (noteID + 1) % DMConstants.NOTES.length;
 		}
 		if (v == menuView) {
 			toggle();
 		}
 		if (v == v1) {
-			DMCore.self().myPhoneIndex = (DMCore.self().myPhoneIndex + 1) % 6; 
+			DMCore.self().myPhoneIndex = (DMCore.self().myPhoneIndex + 1) % 7; 
 		}
 		if (v == v2) {
 			DMCore.self().powerMode = !DMCore.self().powerMode;

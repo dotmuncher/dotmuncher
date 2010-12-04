@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	android:versionCode="8" android:versionName="0.0.8" package="org.streetpacman">
+	android:versionCode="9" android:versionName="0.0.9" package="org.streetpacman">
 
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -13,7 +13,7 @@
 		<uses-library android:name="com.google.android.maps" />
 
 		<activity android:name="org.streetpacman.DMLoading"
-			android:label="Loading" />
+			android:screenOrientation="nosensor" android:label="Loading" />
 		<activity android:name="org.streetpacman.DMGamesList"
 			android:label="Games List" />
 

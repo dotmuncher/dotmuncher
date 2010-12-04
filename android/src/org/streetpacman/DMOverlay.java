@@ -119,7 +119,7 @@ class DMOverlay extends Overlay {
 		}
 		Point pt = new Point();
 		projection.toPixels(DMUtils.getGeoPoint(myLocation), pt);
-		DMSprite.get(DMCore.self().getMySpriteIndex()).setXY(pt.x, pt.y);
+		DMSprite.get(DMCore.self().getAnimIndex(DMCore.self().myPhoneIndex),DMCore.self().myPhoneIndex).setXY(pt.x, pt.y);
 
 		// Point pt = drawElement(canvas, projection,
 		// DMUtils.getGeoPoint(myLocation), d, -(arrowWidth / 2) + 3,

@@ -42,16 +42,16 @@ public class DMConstants {
 			R.drawable.ghost_orange, // 3
 			R.drawable.ghost_green, // 4
 			R.drawable.ghost_blue, // 5
-			R.drawable.ghost_eye, // 6
-			R.drawable.ghost_angry_blue, // 7
-			R.drawable.ghost_angry_white, // 8
-			R.drawable.pacman_dead // 9
+			R.drawable.fruit, // 6
+			R.drawable.ghost_eye, // 7
+			R.drawable.ghost_angry_blue, // 8
+			R.drawable.ghost_angry_white, // 9
+			R.drawable.pacman_dead // 10
 	};
 
-	public static final int[] POWERMODE = { 0, 7, 7, 7, 7, 7 };
-
-	// power mode map
-	public static final int[] POWERMODE_END = { 0, 8, 8, 8, 8, 8 };
+	public static final int[] POWERMODE = { 0, 8, 8, 8, 8, 8 };
+	public static final int[] POWERMODE_END = { 0, 9, 9, 9, 9, 9 };
+	public static final int[] DEAD = { 10, 7, 7, 7, 7, 7 };
 
 	// DMGeoPoint status
 	public static final int POINT_INIT = 0;
@@ -70,4 +70,14 @@ public class DMConstants {
 	// public static final int ROLE_GHOST_GREEN = 4;
 	// public static final int ROLE_GHOST_BLUE = 5;
 
+	public static final String[] NOTES = {
+		"YOU WIN!",
+		"YOU LOSE!",
+		"GAME Washing Square Park",
+		"POWER MODE!",
+		"+ 999",
+		"+ 10",
+		"DANGER!",
+		"+ 50"
+	};
 }

@@ -207,11 +207,14 @@ public final class DMCore {
 		dmPhoneStatesMap.get(phone).status = DMConstants.PHONE_KILLED;
 	}
 
-	public int getMySpriteIndex() {
+	public int getAnimIndex(int ctx) {
 		if (powerMode) {
-			return DMConstants.POWERMODE[myPhoneIndex];
+			return DMConstants.POWERMODE[ctx];
 		}
-		return myPhoneIndex;
+		if (!myPhoneState.alive){
+			return DMConstants.DEAD[ctx];
+		}
+		return ctx;
 	}
 
 }
