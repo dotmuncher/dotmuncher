@@ -33,7 +33,7 @@ public final class DMCore {
 		myPhone = new DMPhone();
 		dmMap = new DMMap();
 		myPhone.phoneToken = "a_" + deviceId;
-		this.core = this;
+		DMCore.core = this;
 	}
 
 	public static DMCore self() {
@@ -207,12 +207,12 @@ public final class DMCore {
 		dmPhoneStatesMap.get(phone).status = DMConstants.PHONE_KILLED;
 	}
 
-	public int getAnimIndex(int ctx) {
-		if (powerMode) {
-			return DMConstants.POWERMODE[ctx];
-		}
+	public int getAnimIndex(int ctx) {		
 		if (!myPhoneState.alive){
 			return DMConstants.DEAD[ctx];
+		}
+		if (powerMode) {
+			return DMConstants.POWERMODE[ctx];
 		}
 		return ctx;
 	}

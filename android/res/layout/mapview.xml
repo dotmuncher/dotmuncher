@@ -5,12 +5,15 @@
 	<com.google.android.maps.MapView
 		android:id="@+id/map" android:layout_width="match_parent"
 		android:layout_height="match_parent" android:enabled="true"
-		android:clickable="true" android:apiKey="" />
+		android:clickable="true" android:apiKey="0GS6dsJhZCsmMbF1b4aXpMkwX3bT9MT4J3_BUWg" />
 
 	<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:id="@+id/spriteOverlay" android:layout_width="fill_parent"
 		android:layout_height="fill_parent">
 	</AbsoluteLayout>
+
+	<android.opengl.GLSurfaceView android:id="@+id/glview"
+		android:layout_width="fill_parent" android:layout_height="fill_parent" />
 
 	<TextView android:id="@+id/note" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_marginBottom="20dip"

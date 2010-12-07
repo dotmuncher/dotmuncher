@@ -26,7 +26,7 @@ public class DMStreetPacman extends TabActivity implements OnTouchListener {
 	public void onCreate(Bundle savedInstanceState) {
 		Log.d(DMConstants.TAG, "DMBoard.onCreate");
 		super.onCreate(savedInstanceState);
-		instance = this;
+		DMStreetPacman.instance = this;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id
@@ -47,11 +47,11 @@ public class DMStreetPacman extends TabActivity implements OnTouchListener {
 
 		new DMCore(deviceId, this);
 
-//		startActivityForResult(new Intent(this, DMBoard.class),
-//				DMConstants.SHOW_BOARD);
+		startActivityForResult(new Intent(this, DMBoard.class),
+				DMConstants.SHOW_BOARD);
 				
-		startActivityForResult(new Intent(this, DMLoading.class),
-				DMConstants.SHOW_LOADING);
+//		startActivityForResult(new Intent(this, DMLoading.class),
+//				DMConstants.SHOW_LOADING);
 
 
 

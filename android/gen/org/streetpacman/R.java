@@ -73,19 +73,20 @@ public final class R {
         public static final int pacman_on_mac_twitter_logo=0x7f020038;
     }
     public static final class id {
+        public static final int glview=0x7f060005;
         public static final int img_anim=0x7f060001;
         public static final int main=0x7f060002;
         public static final int map=0x7f060003;
-        public static final int menu=0x7f060006;
+        public static final int menu=0x7f060007;
         public static final int message=0x7f060000;
-        public static final int note=0x7f060005;
+        public static final int note=0x7f060006;
         public static final int spriteOverlay=0x7f060004;
-        public static final int v1=0x7f060007;
-        public static final int v2=0x7f060008;
-        public static final int v3=0x7f060009;
-        public static final int v4=0x7f06000a;
-        public static final int v5=0x7f06000b;
-        public static final int v6=0x7f06000c;
+        public static final int v1=0x7f060008;
+        public static final int v2=0x7f060009;
+        public static final int v3=0x7f06000a;
+        public static final int v4=0x7f06000b;
+        public static final int v5=0x7f06000c;
+        public static final int v6=0x7f06000d;
     }
     public static final class layout {
         public static final int dmmaps_list=0x7f030000;

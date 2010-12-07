@@ -33,6 +33,7 @@ import com.google.android.maps.Overlay;
 
 import android.content.Context;
 import android.graphics.Matrix;
+import android.graphics.PixelFormat;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -40,6 +41,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -69,9 +71,11 @@ public class DMBoard extends MapActivity implements View.OnTouchListener,
 
 	TextView v1, v2, v3, v4, v5, v6;
 
+	private GLSurfaceView mGLSurfaceView;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		this.instance = this;
+		DMBoard.instance = this;
 		Log.d(DMConstants.TAG, "DMBoard.onCreate");
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -106,9 +110,26 @@ public class DMBoard extends MapActivity implements View.OnTouchListener,
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		mapView.setBuiltInZoomControls(true);
+		
+		// api update_phone_settings
 		DMCore.self().net(DMConstants.update_phone_settings,
 				r_update_phone_settings, rEmpty);
+		
 
+		
+        // Create our Preview view and set it as the content of our
+        // Activity
+        mGLSurfaceView = (GLSurfaceView) findViewById(R.id.glview);
+        // We want an 8888 pixel format because that's required for
+        // a translucent window.
+        // And we want a depth buffer.
+        mGLSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+        // Tell the cube renderer that we want to render a translucent version
+        // of the cube:
+        mGLSurfaceView.setRenderer(new CubeRenderer(true));
+        // Use a surface format with an Alpha channel:
+        mGLSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        mGLSurfaceView.setZOrderOnTop(true);
 	}
 
 	@Override
@@ -441,6 +462,7 @@ public class DMBoard extends MapActivity implements View.OnTouchListener,
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
+		//toggle();
 		// TODO Auto-generated method stub
 		return false;
 	}
