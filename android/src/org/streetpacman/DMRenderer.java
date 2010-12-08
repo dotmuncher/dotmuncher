@@ -5,8 +5,8 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.opengl.GLSurfaceView;
 
-class CubeRenderer implements GLSurfaceView.Renderer {
-    public CubeRenderer(boolean useTranslucentBackground) {
+public class DMRenderer implements GLSurfaceView.Renderer {
+    public DMRenderer(boolean useTranslucentBackground) {
         mTranslucentBackground = useTranslucentBackground;
         mCube = new Cube();
     }

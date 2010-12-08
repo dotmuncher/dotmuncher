@@ -23,7 +23,7 @@ public class DMSprite extends ImageView {
 	private int width;
 	private int heightHalf;
 	private int widthHalf;
-	private static float scaleFactor = 0.2f;
+	//private static float scaleFactor = 0.2f;
 	public Runnable rAnimate = new Runnable() {
 		@Override
 		public void run() {
@@ -66,7 +66,7 @@ public class DMSprite extends ImageView {
 			matrix.postRotate(-90);
 		}
 		matrix.postRotate(_heading);
-		matrix.postScale(scaleFactor, scaleFactor);
+		//matrix.postScale(scaleFactor, scaleFactor);
 		matrix.postTranslate(widthHalf, heightHalf);
 		setImageMatrix(matrix);
 	}
