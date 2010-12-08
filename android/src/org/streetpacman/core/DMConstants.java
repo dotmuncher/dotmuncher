@@ -49,9 +49,9 @@ public class DMConstants {
 			R.drawable.pacman_dead // 10
 	};
 
-	public static final int[] POWERMODE = { 0, 8, 8, 8, 8, 8 };
-	public static final int[] POWERMODE_END = { 0, 9, 9, 9, 9, 9 };
-	public static final int[] DEAD = { 10, 7, 7, 7, 7, 7 };
+	public static final int[] POWERMODE = { 0, 8, 8, 8, 8, 8, 6 };
+	public static final int[] POWERMODE_END = { 0, 9, 9, 9, 9, 9, 6 };
+	public static final int[] DEAD = { 10, 7, 7, 7, 7, 7, 6 };
 
 	// DMGeoPoint status
 	public static final int POINT_INIT = 0;
@@ -70,14 +70,7 @@ public class DMConstants {
 	// public static final int ROLE_GHOST_GREEN = 4;
 	// public static final int ROLE_GHOST_BLUE = 5;
 
-	public static final String[] NOTES = {
-		"YOU WIN!",
-		"YOU LOSE!",
-		"Washing Square Park",
-		"POWER MODE!",
-		"+ 999!",
-		"+ 10",
-		"DANGER!",
-		"+ 50"
-	};
+	public static final String[] NOTES = { "YOU WIN!", "YOU LOSE!",
+			"Washing Square Park", "POWER MODE!", "+ 999!", "+ 10", "DANGER!",
+			"+ 50" };
 }
