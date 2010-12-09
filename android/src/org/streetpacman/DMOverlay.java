@@ -24,16 +24,12 @@ import com.google.android.maps.Projection;
 class DMOverlay extends Overlay {
 	private Location myLocation;
 	private final Context context;
-	private final DMMap dmMap;
-	private final DMPhone dmPhone;
 	private final Paint errorCirclePaint;
 	private final Paint whiteFillPaint;
 	private final Paint blackStrokePaint;
 
 	public DMOverlay(Context context) {
 
-		dmMap = DMCore.self().dmMap;
-		dmPhone = DMCore.self().myPhone;
 		this.context = context;
 
 		errorCirclePaint = new Paint();
@@ -65,12 +61,16 @@ class DMOverlay extends Overlay {
 		final Projection projection = getMapProjection(mapView);
 		Point screenPts = new Point();
 
-		synchronized (DMCore.self().dmPhoneStates) {
-			for (int i = 0; i < DMCore.self().dmPhoneStates.size(); i++) {
-				DMPhoneState dmPhoneState = DMCore.self().dmPhoneStates
-						.get(i);
-				// Only draw others
-				if (dmPhoneState.phone != dmPhone.phone) {
+		synchronized (DMCore.phoneStates) {
+			for (int i = 0; i < DMCore.phoneStates.size(); i++) {
+				DMPhoneState dmPhoneState = DMCore.phoneStates.get(i);
+
+				// Only draw others, and ignore phone = 0
+				if (dmPhoneState.phone != DMCore.myPhone.phone
+						&& DMCore.myPhone.phone > 0) {
+					// calculate visibility
+
+					//
 					GeoPoint p = new GeoPoint((int) (dmPhoneState.lat * 1E6),
 							(int) (dmPhoneState.lng * 1E6));
 					projection.toPixels(p, screenPts);
@@ -87,7 +87,7 @@ class DMOverlay extends Overlay {
 			}
 		}
 
-		for (DMGeoPoint p : dmMap.allPoints) {
+		for (DMGeoPoint p : DMCore.map.allPoints) {
 			if (p.visible) {
 				projection.toPixels(p, screenPts);
 				switch (p.status) {
@@ -119,7 +119,8 @@ class DMOverlay extends Overlay {
 		}
 		Point pt = new Point();
 		projection.toPixels(DMUtils.getGeoPoint(myLocation), pt);
-		DMSprite.get(DMCore.self().getAnimIndex(DMCore.self().myPhoneIndex),DMCore.self().myPhoneIndex).setXY(pt.x, pt.y);
+		DMSprite.get(DMCore.self().getAnimIndex(DMCore.self().myPhoneIndex),
+				DMCore.self().myPhoneIndex).setXY(pt.x, pt.y);
 
 		// Point pt = drawElement(canvas, projection,
 		// DMUtils.getGeoPoint(myLocation), d, -(arrowWidth / 2) + 3,

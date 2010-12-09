@@ -27,7 +27,7 @@ public class DMConstantsTest extends TestCase {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-		assertTrue(dmApp.dmMap.dotPoints.size() > 0);
+		assertTrue(dmApp.map.dotPoints.size() > 0);
 		// join_game
 		try {
 			Log.i("DM", "update dmApp.dmPhone.game" + Integer.toString(dmApp.myPhone.game));
@@ -36,7 +36,7 @@ public class DMConstantsTest extends TestCase {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-		assertTrue(dmApp.dmMap.dotPoints.size() > 0);
+		assertTrue(dmApp.map.dotPoints.size() > 0);
 		// update
 		try {
 			dmApp.myPhone.id__gte = 0;
@@ -48,7 +48,7 @@ public class DMConstantsTest extends TestCase {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-		assertTrue(dmApp.dmPhoneStates.size() > 0);
+		assertTrue(dmApp.phoneStates.size() > 0);
 	}
 	
 	public void test_join_game(){
@@ -61,7 +61,7 @@ public class DMConstantsTest extends TestCase {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-		assertTrue(dmApp.dmMap.dotPoints.size() > 0);
+		assertTrue(dmApp.map.dotPoints.size() > 0);
 		// join_game
 		try {
 			Log.i("DM", "dmApp.dmPhone.game" + Integer.toString(dmApp.myPhone.game));
@@ -70,7 +70,7 @@ public class DMConstantsTest extends TestCase {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-		assertTrue(dmApp.dmMap.dotPoints.size() > 0);
+		assertTrue(dmApp.map.dotPoints.size() > 0);
 	}
 	
 	public void test_new_game(){
@@ -82,7 +82,7 @@ public class DMConstantsTest extends TestCase {
 			assertTrue(false);
 			e.printStackTrace();
 		}
-		assertTrue(dmApp.dmMap.dotPoints.size() > 0);
+		assertTrue(dmApp.map.dotPoints.size() > 0);
 	}
 	
 	public void test_find_games(){

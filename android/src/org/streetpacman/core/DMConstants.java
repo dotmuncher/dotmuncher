@@ -73,4 +73,6 @@ public class DMConstants {
 	public static final String[] NOTES = { "YOU WIN!", "YOU LOSE!",
 			"Washing Square Park", "POWER MODE!", "+ 999!", "+ 10", "DANGER!",
 			"+ 50" };
+	
+	public static final double VISIBILITY_RANGE = 0.01;
 }

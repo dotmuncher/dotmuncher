@@ -357,10 +357,10 @@ public class DMBoard extends MapActivity implements View.OnTouchListener,
 			return;
 		}
 
-		int bottom = DMCore.self().dmMap.getBottom();
-		int left = DMCore.self().dmMap.getLeft();
-		int latSpanE6 = DMCore.self().dmMap.getTop() - bottom;
-		int lonSpanE6 = DMCore.self().dmMap.getRight() - left;
+		int bottom = DMCore.self().map.getBottom();
+		int left = DMCore.self().map.getLeft();
+		int latSpanE6 = DMCore.self().map.getTop() - bottom;
+		int lonSpanE6 = DMCore.self().map.getRight() - left;
 		if (latSpanE6 > 0 && latSpanE6 < 180E6 && lonSpanE6 > 0
 				&& lonSpanE6 < 360E6) {
 			keepMyLocationVisible = false;

@@ -17,23 +17,23 @@ import android.util.Log;
 public final class DMCore {
 	public static DMCore core;
 	final Handler mHandler = new Handler();
-	public DMMap dmMap;
 	public List<Integer> alGames;
 	public List<Integer> alMaps;
-	public List<DMPhoneState> dmPhoneStates = new ArrayList<DMPhoneState>();
-	public Map<Integer, DMPhoneState> dmPhoneStatesMap = new HashMap<Integer, DMPhoneState>();
+	public static List<DMPhoneState> phoneStates = new ArrayList<DMPhoneState>();
+	public static Map<Integer, DMPhoneState> phoneStatesMap = new HashMap<Integer, DMPhoneState>();
 
-	public final DMPhone myPhone;
-	public DMPhoneState myPhoneState = new DMPhoneState();
-	public volatile int myPhoneIndex = 0; // in dmPhoneStates
+	public static DMMap map;
+	public static DMPhone myPhone;
+	public static DMPhoneState myPhoneState = new DMPhoneState();
+	public volatile int myPhoneIndex = 0; // in phoneStates
 	public volatile boolean powerMode = false;
 	public volatile boolean allowUpdate = true;
 
 	public DMCore(String deviceId, DMStreetPacman ui) {
 		myPhone = new DMPhone();
-		dmMap = new DMMap();
+		map = new DMMap();
 		myPhone.phoneToken = "a_" + deviceId;
-		DMCore.core = this;
+		core = this;
 	}
 
 	public static DMCore self() {
@@ -114,13 +114,13 @@ public final class DMCore {
 
 	private void initGame(JSONObject json) throws JSONException {
 		JSONObject mapInfo = json.getJSONObject("mapInfo");
-		dmMap.dotPoints = DMUtils.JSONArray2GeoPoints(mapInfo
+		map.dotPoints = DMUtils.JSONArray2GeoPoints(mapInfo
 				.getJSONArray("dotPoints"));
-		dmMap.basePoints = DMUtils.JSONArray2GeoPoints(mapInfo
+		map.basePoints = DMUtils.JSONArray2GeoPoints(mapInfo
 				.getJSONArray("basePoints"));
-		dmMap.powerPelletPoints = DMUtils.JSONArray2GeoPoints(mapInfo
+		map.powerPelletPoints = DMUtils.JSONArray2GeoPoints(mapInfo
 				.getJSONArray("powerPelletPoints"));
-		dmMap.buildPoints();
+		map.buildPoints();
 	}
 
 	public void new_game(JSONObject json) throws JSONException {
@@ -141,8 +141,8 @@ public final class DMCore {
 
 	// Events
 	public void updatePhoneStates(JSONArray jsonArray) throws JSONException {
-		synchronized (dmPhoneStates) {
-			dmPhoneStates.clear();
+		synchronized (phoneStates) {
+			phoneStates.clear();
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject json = jsonArray.getJSONObject(i);
 				DMPhoneState dmPhoneState = new DMPhoneState();
@@ -151,13 +151,13 @@ public final class DMCore {
 				dmPhoneState.lng = new Double(json.getString("lng"));
 				dmPhoneState.idle = json.getInt("idle");
 				dmPhoneState.alive = json.getBoolean("alive");
-				dmPhoneStates.add(dmPhoneState);
+				phoneStates.add(dmPhoneState);
 				if (dmPhoneState.phone == myPhone.phone) {
 					myPhoneIndex = i;
 					myPhoneState = dmPhoneState;
 				}
-				// dmPhoneStatesMap
-				dmPhoneStatesMap.put(dmPhoneState.phone, dmPhoneState);
+				// phoneStatesMap
+				phoneStatesMap.put(dmPhoneState.phone, dmPhoneState);
 			}
 		}
 	}
@@ -181,11 +181,11 @@ public final class DMCore {
 				int x = (int) (new Double(kArray.getString(1)) * 1E6);
 				int y = (int) (new Double(kArray.getString(2)) * 1E6);
 				if (kType == "p") {
-					dmMap.killPowerPellet(x, y);
+					map.killPowerPellet(x, y);
 					powerMode = true;
 				}
 				if (kType == "d") {
-					dmMap.killDot(x, y);
+					map.killDot(x, y);
 				}
 				break;
 			case DMConstants.GAME_OVER:
@@ -204,7 +204,7 @@ public final class DMCore {
 	}
 
 	private void killPhone(int phone) {
-		dmPhoneStatesMap.get(phone).status = DMConstants.PHONE_KILLED;
+		phoneStatesMap.get(phone).status = DMConstants.PHONE_KILLED;
 	}
 
 	public int getAnimIndex(int ctx) {		
