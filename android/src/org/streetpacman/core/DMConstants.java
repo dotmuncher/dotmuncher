@@ -74,5 +74,5 @@ public class DMConstants {
 			"Washing Square Park", "POWER MODE!", "+ 999!", "+ 10", "DANGER!",
 			"+ 50" };
 	
-	public static final double VISIBILITY_RANGE = 0.01;
+	public static final double VISIBILITY_RANGE = 30; //in meter
 }

@@ -70,12 +70,25 @@ class DMOverlay extends Overlay {
 						&& DMCore.myPhone.phone > 0) {
 					// calculate visibility
 
-					//
-					GeoPoint p = new GeoPoint((int) (dmPhoneState.lat * 1E6),
-							(int) (dmPhoneState.lng * 1E6));
-					projection.toPixels(p, screenPts);
-					DMSprite.get(i).setXY(screenPts.x, screenPts.y);
+					Location sa = new Location("");
+					sa.setLatitude(dmPhoneState.lat);
+					sa.setLongitude(dmPhoneState.lng);
 
+					Location sb = new Location("");
+					sb.setLatitude(DMCore.myPhone.lat);
+					sb.setLongitude(DMCore.myPhone.lng);
+
+					float dist = sa.distanceTo(sb);
+
+					if (dist < DMConstants.VISIBILITY_RANGE
+							|| dmPhoneState.phone == 0) {
+						GeoPoint p = new GeoPoint(
+								(int) (dmPhoneState.lat * 1E6),
+								(int) (dmPhoneState.lng * 1E6));
+						projection.toPixels(p, screenPts);
+						DMSprite.get(i).setXY(screenPts.x, screenPts.y);
+					}
+					
 					/*
 					 * if (dmPhoneState.beenEaten) {
 					 * canvas.drawCircle(screenPts.x, screenPts.y, 20,
