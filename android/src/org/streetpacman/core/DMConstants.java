@@ -35,7 +35,7 @@ public class DMConstants {
 	public static final int LOADING_TIMEOUT = 1;
 	public static final int GAMESLIST_TIMEOUT = 2;
 
-	// resId of Sprites
+	// resId of Sprites, animIndex
 	public static final int[] SPRITES = { R.drawable.pacman_chomp, // 0
 			R.drawable.ghost_red, // 1
 			R.drawable.ghost_pink, // 2

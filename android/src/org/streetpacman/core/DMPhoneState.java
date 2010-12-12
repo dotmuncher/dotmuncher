@@ -10,4 +10,7 @@ public class DMPhoneState {
 	public volatile boolean alive = true;
 
 	public volatile boolean visible = true;
+	
+	public DMStatus dmStatus = new DMStatus();
+	
 }
