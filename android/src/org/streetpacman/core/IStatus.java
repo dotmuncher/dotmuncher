@@ -5,14 +5,16 @@ public interface IStatus {
 	// xxx - dependent group
 	// R - reserved
 	// mode group
-	// 0000 0000 0000 0000 0000 0000 0000 Rxxx
+	// 0000 0000 0000 0000 0000 0000 0000 xxxx
 	public static final int MODE_SOLO = 0x00000000;
 	public static final int MODE_GAME = 0x00000001;
 	public static final int MODE_MACRO = 0x00000002;
 	public static final int MODE_OBSERVER = 0x00000003;
 	public static final int MODE_SOLO_GAME = 0x00000004;
-	public static final int MODE_ERROR = 0x00000005;
-	public static final int MODE_DEBUG = 0x00000006;
+	public static final int MODE_TEAM = 0x00000005;
+	public static final int MODE_SOLO_TEAM = 0x00000006;
+	public static final int MODE_ERROR = 0x0000000e;
+	public static final int MODE_DEBUG = 0x0000000f;
 
 	// phase, game progression
 	// 0000 0000 0000 0000 0000 0000 RRxx 0000
@@ -22,7 +24,7 @@ public interface IStatus {
 
 
 	
-	// y - independent bit, composable, only 1,2,4,8 in 0x
+	// y - independent bit, so only 1,2,4,8 in 0x
 	// visibility
 	// RRRR yyyy 0000 0000 0000 0000 0000 0000
 	public static final int VISIBLE_TO_PEER = 0x01000000;
