@@ -15,10 +15,10 @@ public interface IStatus {
 	public static final int MASK_MODE = 0x0000000F;
 	// 0000 0000 0000 0000 0000 0000 0000 xxxx
 	public static final int MODE_SOLO = 0x00000000;
-	public static final int MODE_GAME = 0x00000001;
+	public static final int MODE_FIGHT = 0x00000001;
 	public static final int MODE_MACRO = 0x00000002;
 	public static final int MODE_OBSERVER = 0x00000003;
-	public static final int MODE_SOLO_GAME = 0x00000004;
+	public static final int MODE_SOLO_FIGHT = 0x00000004;
 	public static final int MODE_TEAM = 0x00000005;
 	public static final int MODE_SOLO_TEAM = 0x00000006;
 	public static final int MODE_ERROR = 0x0000000e;

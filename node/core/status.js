@@ -4,10 +4,10 @@
 var MASK_MODE = 0x0000000F;
 // 0000 0000 0000 0000 0000 0000 0000 xxxx
 var MODE_SOLO = 0x00000000;
-var MODE_GAME = 0x00000001;
+var MODE_FIGHT = 0x00000001;
 var MODE_MACRO = 0x00000002;
 var MODE_OBSERVER = 0x00000003;
-var MODE_SOLO_GAME = 0x00000004;
+var MODE_SOLO_FIGHT = 0x00000004;
 var MODE_TEAM = 0x00000005;
 var MODE_SOLO_TEAM = 0x00000006;
 var MODE_ERROR = 0x0000000e;
@@ -81,20 +81,20 @@ Status.prototype.set = function(v){
 Status.prototype.unset = function(v){
 	this.status = this.status & ~v;
 }
-// assuming mask contains single bit of 1
 Status.prototype.is = function(v){
+	// assuming mask contains single bit of 1
 	return (this.status & v) != 0;
 }
 var	s = new Status(0x0);
 
 s.set(VISIBLE_HIDE_GLOBAL);
-s.is(VISIBLE_HIDE_GLOBAL);
+console.log(s.is(VISIBLE_HIDE_GLOBAL));
 
 s.unset(VISIBLE_HIDE_GLOBAL);
-s.is(VISIBLE_HIDE_GLOBAL);
+console.log(s.is(VISIBLE_HIDE_GLOBAL));
 
 s.setMode(MODE_ERROR);
-s.isMode(MODE_ERROR);
+console.log(s.isMode(MODE_ERROR));
 
 s.setPhase(PHASE_PLAYING);
-s.isPhase(PHASE_PLAYING);
+console.log(s.isPhase(PHASE_PLAYING));
