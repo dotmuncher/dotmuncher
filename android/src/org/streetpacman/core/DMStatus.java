@@ -3,21 +3,25 @@ package org.streetpacman.core;
 public class DMStatus implements IStatus {
 	private volatile int status;
 
+	public DMStatus(int value){
+		this.status = value;
+	}
+	
 	// xxx
 	public boolean isMode(int mode) {
-		return isMask(MASK_MODE, mode);
+		return _isMask(MASK_MODE, mode);
 	}
 
 	public void setMode(int mode) {
-		setMask(MASK_MODE, mode);
+		_setMask(MASK_MODE, mode);
 	}
 
 	public boolean isPhase(int phase) {
-		return isMask(MASK_PHASE, phase);
+		return _isMask(MASK_PHASE, phase);
 	}
 
 	public void setPhase(int phase) {
-		setMask(MASK_PHASE, phase);
+		_setMask(MASK_PHASE, phase);
 	}
 
 	// y
@@ -26,7 +30,7 @@ public class DMStatus implements IStatus {
 	}
 
 	public void unset(int v) {
-		status = status | ~v;
+		status = status & ~v;
 	}
 
 	public boolean is(int v) {
@@ -35,11 +39,11 @@ public class DMStatus implements IStatus {
 	}
 
 	// internal helper
-	private boolean isMask(int _mask, int value) {
+	private boolean _isMask(int _mask, int value) {
 		return (status & _mask) == value;
 	}
 
-	private void setMask(int _mask, int value) {
+	private void _setMask(int _mask, int value) {
 		status = (status & ~_mask) & value;
 	}
 }

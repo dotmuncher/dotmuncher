@@ -1,7 +1,12 @@
 package org.streetpacman.core;
 
 public interface IStatus {
-
+	public boolean isMode(int mode);
+	public void setMode(int mode);
+	public boolean isPhase(int phase);
+	public void setPhase(int phase);
+	public void unset(int v);
+	public void set(int v);
 	// xxx - dependent group
 	// R - reserved
 	// mode group

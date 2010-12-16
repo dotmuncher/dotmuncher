@@ -11,6 +11,6 @@ public class DMPhoneState {
 
 	public volatile boolean visible = true;
 	
-	public DMStatus dmStatus = new DMStatus();
+	public DMStatus dmStatus = new DMStatus(0x0);
 	
 }
