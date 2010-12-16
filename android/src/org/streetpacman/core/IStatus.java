@@ -5,6 +5,7 @@ public interface IStatus {
 	// xxx - dependent group
 	// R - reserved
 	// mode group
+	public static final int MASK_MODE = 0x0000000F;
 	// 0000 0000 0000 0000 0000 0000 0000 xxxx
 	public static final int MODE_SOLO = 0x00000000;
 	public static final int MODE_GAME = 0x00000001;
@@ -16,11 +17,12 @@ public interface IStatus {
 	public static final int MODE_ERROR = 0x0000000e;
 	public static final int MODE_DEBUG = 0x0000000f;
 
-	// phase, game progression
+	// phase, game progression state
+	public static final int MASK_PHASE = 0x000000F0;
 	// 0000 0000 0000 0000 0000 0000 RRxx 0000
-	public static final int GAME_READY = 0x00000000;
-	public static final int GAME_PLAYING = 0x00000010;
-	public static final int GAME_END = 0x00000020;
+	public static final int PHASE_READY = 0x00000000;
+	public static final int PHASE_PLAYING = 0x00000010;
+	public static final int PHASE_END = 0x00000020;
 
 
 	
