@@ -8,7 +8,7 @@ import android.util.Log;
 
 import junit.framework.TestCase;
 
-public class DMConstantsTest extends TestCase {
+public class DMAPITest extends TestCase {
 	JSONObject json;
 	DMCore dmApp;
     
@@ -22,7 +22,7 @@ public class DMConstantsTest extends TestCase {
 		try {
 			dmApp.myPhone.phone = 5;
 			dmApp.myPhone.map = 3;
-			dmApp.net(DMConstants.new_game);			
+			dmApp.net(DMConstants.new_game, null, null);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -31,7 +31,7 @@ public class DMConstantsTest extends TestCase {
 		// join_game
 		try {
 			Log.i("DM", "update dmApp.dmPhone.game" + Integer.toString(dmApp.myPhone.game));
-			dmApp.net(DMConstants.join_game);			
+			dmApp.net(DMConstants.join_game, null, null);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -43,7 +43,7 @@ public class DMConstantsTest extends TestCase {
 			dmApp.myPhone.acc = 10;
 			dmApp.myPhone.lat = 40.11111;
 			dmApp.myPhone.lng = 15.11111;
-			dmApp.net(DMConstants.update);			
+			dmApp.net(DMConstants.update, null, null);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -56,7 +56,7 @@ public class DMConstantsTest extends TestCase {
 		try {
 			dmApp.myPhone.phone = 5;
 			dmApp.myPhone.map = 3;
-			dmApp.net(DMConstants.new_game);			
+			dmApp.net(DMConstants.new_game, null, null);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -65,7 +65,7 @@ public class DMConstantsTest extends TestCase {
 		// join_game
 		try {
 			Log.i("DM", "dmApp.dmPhone.game" + Integer.toString(dmApp.myPhone.game));
-			dmApp.net(DMConstants.join_game);			
+			dmApp.net(DMConstants.join_game, null, null);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -77,7 +77,7 @@ public class DMConstantsTest extends TestCase {
 		try {
 			dmApp.myPhone.phone = 5;
 			dmApp.myPhone.map = 3;
-			dmApp.net(DMConstants.new_game);			
+			dmApp.net(DMConstants.new_game, null, null);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -87,7 +87,7 @@ public class DMConstantsTest extends TestCase {
 	
 	public void test_find_games(){
 		try {
-			dmApp.net(DMConstants.find_games);			
+			dmApp.net(DMConstants.find_games, null, null);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -97,7 +97,7 @@ public class DMConstantsTest extends TestCase {
 	
 	public void test_find_maps(){
 		try {
-			dmApp.net(DMConstants.find_maps);			
+			dmApp.net(DMConstants.find_maps, null, null);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();
@@ -118,7 +118,7 @@ public class DMConstantsTest extends TestCase {
 	
 	public void test_update_phone_settings(){
 		try {
-			dmApp.net(DMConstants.update_phone_settings);			
+			dmApp.net(DMConstants.update_phone_settings, null, null);			
 		} catch (Exception e) {
 			assertTrue(false);
 			e.printStackTrace();

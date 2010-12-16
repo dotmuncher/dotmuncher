@@ -5,8 +5,10 @@ public interface IStatus {
 	public void setMode(int mode);
 	public boolean isPhase(int phase);
 	public void setPhase(int phase);
-	public void unset(int v);
+	
 	public void set(int v);
+	public void unset(int v);	
+	public boolean is(int v);
 	// xxx - dependent group
 	// R - reserved
 	// mode group

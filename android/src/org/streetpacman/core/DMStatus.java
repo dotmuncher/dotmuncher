@@ -44,6 +44,6 @@ public class DMStatus implements IStatus {
 	}
 
 	private void _setMask(int _mask, int value) {
-		status = (status & ~_mask) & value;
+		status = (status & ~_mask) | value;
 	}
 }

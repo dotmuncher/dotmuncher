@@ -29,7 +29,7 @@ public final class DMCore {
 	public volatile boolean powerMode = false;
 	public volatile boolean allowUpdate = true;
 
-	public DMCore(String deviceId, DMStreetPacman ui) {
+	public DMCore(String deviceId) {
 		myPhone = new DMPhone();
 		map = new DMMap();
 		myPhone.phoneToken = "a_" + deviceId;

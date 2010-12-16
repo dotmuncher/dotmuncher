@@ -60,7 +60,7 @@ Status.prototype._isMask = function(_mask, value) {
 	return (this.status & _mask) == value;
 }
 Status.prototype._setMask = function(_mask, value) {
-	this.status = (this.status & ~_mask) & value;
+	this.status = (this.status & ~_mask) | value;
 }
 
 Status.prototype.isMode = function(mode){
@@ -81,10 +81,20 @@ Status.prototype.set = function(v){
 Status.prototype.unset = function(v){
 	this.status = this.status & ~v;
 }
+// assuming mask contains single bit of 1
 Status.prototype.is = function(v){
-	// assuming mask contains single bit of 1
 	return (this.status & v) != 0;
 }
 var	s = new Status(0x0);
-s.set(STAGE_POWER_SELF);
-s.is(STAGE_POWER_SELF);
+
+s.set(VISIBLE_HIDE_GLOBAL);
+s.is(VISIBLE_HIDE_GLOBAL);
+
+s.unset(VISIBLE_HIDE_GLOBAL);
+s.is(VISIBLE_HIDE_GLOBAL);
+
+s.setMode(MODE_ERROR);
+s.isMode(MODE_ERROR);
+
+s.setPhase(PHASE_PLAYING);
+s.isPhase(PHASE_PLAYING);

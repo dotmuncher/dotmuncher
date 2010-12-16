@@ -45,7 +45,7 @@ public class DMStreetPacman extends TabActivity implements OnTouchListener {
 				((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
 		String deviceId = deviceUuid.toString();
 
-		new DMCore(deviceId, this);
+		new DMCore(deviceId);
 
 		startActivityForResult(new Intent(this, DMBoard.class),
 				DMConstants.SHOW_BOARD);
