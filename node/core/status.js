@@ -52,39 +52,41 @@ var ZONE_VISIBLE_TO_ADV = 0x00002000;
 var PLAYER_ALIVE = 0x00000100;
 var PLAYER_FROZEN = 0x00000200;
 
-function Status(value){
+var Status = function(value){
 	this.status = value;
-}
+};
 
-Status.prototype._isMask = function(_mask, value) {
-	return (this.status & _mask) == value;
-}
-Status.prototype._setMask = function(_mask, value) {
-	this.status = (this.status & ~_mask) | value;
-}
+Status.prototype = {
+	_isMask: function(_mask, value) {
+		return (this.status & _mask) == value;
+	},
+	_setMask: function(_mask, value) {
+		this.status = (this.status & ~_mask) | value;
+	},
+	isMode: function(mode){
+		return this._isMask(MASK_MODE, mode);
+	},
+	setMode: function(mode){
+		this._setMask(MASK_MODE, mode);
+	},
+	isPhase: function(phase){
+		return this._isMask(MASK_PHASE, phase);
+	},
+	setPhase: function(phase){
+		this._setMask(MASK_PHASE, phase);
+	},
+	set: function(v){
+		this.status = this.status | v;
+	},
+	unset: function(v){
+		this.status = this.status & ~v;
+	},
+	is: function(v){
+		// assuming mask contains single bit of 1
+		return (this.status & v) != 0;
+	}
+};
 
-Status.prototype.isMode = function(mode){
-	return this._isMask(MASK_MODE, mode);
-}
-Status.prototype.setMode = function(mode){
-	this._setMask(MASK_MODE, mode);
-}
-Status.prototype.isPhase = function(phase){
-	return this._isMask(MASK_PHASE, phase);
-}
-Status.prototype.setPhase = function(phase){
-	this._setMask(MASK_PHASE, phase);
-}
-Status.prototype.set = function(v){
-	this.status = this.status | v;
-}
-Status.prototype.unset = function(v){
-	this.status = this.status & ~v;
-}
-Status.prototype.is = function(v){
-	// assuming mask contains single bit of 1
-	return (this.status & v) != 0;
-}
 var	s = new Status(0x0);
 
 s.set(VISIBLE_HIDE_GLOBAL);
