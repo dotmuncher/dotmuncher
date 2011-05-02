@@ -359,7 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Estes (9NY7Y2B8BC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -367,7 +367,6 @@
 				GCC_PREFIX_HEADER = iosmuncher_Prefix.pch;
 				INFOPLIST_FILE = "iosmuncher-Info.plist";
 				PRODUCT_NAME = iosmuncher;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E1A56210-6DE6-46DA-9078-7AF37A926F20";
 			};
 			name = Debug;
 		};
@@ -388,13 +387,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Estes (9NY7Y2B8BC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E1A56210-6DE6-46DA-9078-7AF37A926F20";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;

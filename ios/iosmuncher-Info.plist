@@ -23,15 +23,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>gps</string>
-	</array>
+	<array/>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>UIBackgroundModes</key>
-	<array>
-		<string>location</string>
-	</array>
+	<array/>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>

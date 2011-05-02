@@ -4,6 +4,9 @@ android/bin/*
 android-test/bin/*
 *.log
 ios/build/**
+*.pbxuser
+*.mode1v3
+*.mode2v3
 *.class
 *~
 .*
